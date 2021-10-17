@@ -2,31 +2,31 @@
 package org.SpecikMan.Entity;
 
 public class Role {
-    private String id;
-    private String roleName;
-
-    public String getId() {
-        return id;
+    private String idRole;
+    private String nameRole;
+    //region get-set
+    public String getIdRole() {
+        return idRole;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdRole(String idRole) {
+        this.idRole = idRole;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getNameRole() {
+        return nameRole;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setNameRole(String nameRole) {
+        this.nameRole = nameRole;
     }
-
+    //endregion
+    //region Constructor
     public Role() {
     }
 
-    public Role(String id, String roleName) {
-        this.id = id;
-        this.roleName = roleName;
-    }
-    
+    public Role(String idRole, String nameRole) {
+        this.idRole = idRole;
+        this.nameRole = nameRole;
+    }//endregion
 }
