@@ -5,73 +5,71 @@
  */
 package org.SpecikMan.Controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
 public class Login_RegisterController implements Initializable {
-    
     @FXML
     private VBox movedVbox;
-    
     private Parent fxml;
-    
+
     @FXML
-    public void open_signup(ActionEvent event){
-         TranslateTransition t = new TranslateTransition(Duration.seconds(1),movedVbox);
+    public void open_signup() {
+        TranslateTransition t = new TranslateTransition(Duration.seconds(1), movedVbox);
         t.setToX(0);
         t.play();
-        t.setOnFinished(e->{
+        t.setOnFinished(e -> {
             try {
                 fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignUp.fxml")));
                 movedVbox.getChildren().removeAll();
                 movedVbox.getChildren().setAll(fxml);
-            } catch (IOException ex) {
+            } catch (IOException ignored) {
             }
         });
     }
+
     @FXML
-    public void open_signin(ActionEvent event){
-        TranslateTransition t = new TranslateTransition(Duration.seconds(1),movedVbox);
-        t.setToX(movedVbox.getLayoutX() *21);
+    public void open_signin() {
+        TranslateTransition t = new TranslateTransition(Duration.seconds(1), movedVbox);
+        t.setToX(movedVbox.getLayoutX() * 21);
         t.play();
-        t.setOnFinished(e->{
+        t.setOnFinished(e -> {
             try {
                 fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignIn.fxml")));
                 movedVbox.getChildren().removeAll();
                 movedVbox.getChildren().setAll(fxml);
-            } catch (IOException ex) {
+            } catch (IOException ignored) {
             }
         });
     }
+
     @FXML
-    public void close(MouseEvent event){
+    public void close() {
         System.exit(0);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TranslateTransition t = new TranslateTransition(Duration.seconds(1),movedVbox);
-        t.setToX(movedVbox.getLayoutX() *21);
+        TranslateTransition t = new TranslateTransition(Duration.seconds(1), movedVbox);
+        t.setToX(movedVbox.getLayoutX() * 21);
         t.play();
-        t.setOnFinished(e->{
+        t.setOnFinished(e -> {
             try {
                 fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignIn.fxml")));
                 movedVbox.getChildren().removeAll();
                 movedVbox.getChildren().setAll(fxml);
-            } catch (IOException ex) {
+            } catch (IOException ignored) {
             }
         });
     }
-    
-    
 }

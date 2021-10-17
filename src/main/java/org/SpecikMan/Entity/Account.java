@@ -3,29 +3,29 @@ package org.SpecikMan.Entity;
 
 import java.sql.Date;
 
-public class Account extends Role{
-    private String id;
-    private String email;
-    private String user;
+public class Account extends Role {
+    private String idAccount;
+    private String username;
     private String password;
-    private String name;
-    private Boolean gender;
+    private String email;
+    private String fullName;
     private Date dob;
+    //region get-set
 
-    public String getEmail() {
-        return email;
+    public String getIdAccount() {
+        return idAccount;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setIdAccount(String idAccount) {
+        this.idAccount = idAccount;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -36,20 +36,20 @@ public class Account extends Role{
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Boolean getGender() {
-        return gender;
+    public String getFullname() {
+        return fullName;
     }
 
-    public void setGender(Boolean gender) {
-        this.gender = gender;
+    public void setFullname(String fullname) {
+        this.fullName = fullname;
     }
 
     public Date getDob() {
@@ -59,19 +59,20 @@ public class Account extends Role{
     public void setDob(Date dob) {
         this.dob = dob;
     }
+    //endregion
+    //region Constructor
 
     public Account() {
     }
 
-    public Account(String id, String email, String user, String password, String name, Boolean gender, Date dob, String idRole) {
-        this.id = id;
-        this.email = email;
-        this.user = user;
+    public Account(String idAccount, String username, String password, String email, String fullName, Date dob, String idRole, String nameRole) {
+        super(idRole, nameRole);
+        this.idAccount = idAccount;
+        this.username = username;
         this.password = password;
-        this.name = name;
-        this.gender = gender;
+        this.email = email;
+        this.fullName = fullName;
         this.dob = dob;
     }
-
-    
+    //endregion
 }
