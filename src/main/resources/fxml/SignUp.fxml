@@ -23,7 +23,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
             <TextField fx:id="txtUsername" promptText="Username" styleClass="tf_box" HBox.hgrow="ALWAYS" />
-            <FontAwesomeIconView fill="WHITE" glyphName="USER" size="1.3em" />
+            <FontAwesomeIconView glyphName="USER" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="15.0" />
@@ -36,7 +36,7 @@
                   <Insets />
                </HBox.margin>
             </TextField>
-            <FontAwesomeIconView fill="WHITE" glyphName="ENVELOPE" size="1.3em" />
+            <FontAwesomeIconView glyphName="ENVELOPE" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />
@@ -45,7 +45,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
             <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="436.0" promptText="Password" styleClass="tf_box" />
-            <FontAwesomeIconView fill="WHITE" glyphName="LOCK" size="1.3em" />
+            <FontAwesomeIconView glyphName="LOCK" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />
@@ -54,7 +54,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
             <PasswordField fx:id="txtConfirmPassword" prefHeight="26.0" prefWidth="436.0" promptText="Confirm Password" styleClass="tf_box" />
-            <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="1.3em" />
+            <FontAwesomeIconView glyphName="CHECK" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />

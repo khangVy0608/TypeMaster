@@ -20,7 +20,6 @@ public class GenerateID {
             List<Integer> nums = new ArrayList<>();
             accounts.forEach(element -> nums.add(Integer.valueOf(element.getIdAccount().replaceAll("[^0-9]", ""))));
             Collections.sort(nums);
-            nums.forEach(System.out::println);
             return "AC"+(nums.get(nums.size()-1)+1);
         }
     }

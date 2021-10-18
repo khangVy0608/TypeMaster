@@ -2,20 +2,24 @@ package org.SpecikMan.Controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Tools.GenerateRandomNumbers;
+import org.SpecikMan.Tools.LoadForm;
+import org.SpecikMan.Tools.MailSender;
 import org.SpecikMan.Tools.ShowAlert;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SignInController {
     //endregion
     //region Controller Declares
     private final AccountDao accountDao = new AccountDao();
+    private final LoadForm lf = new LoadForm();
     //region FXML Declares
     @FXML
     private Button btnSignIn;
@@ -23,6 +27,8 @@ public class SignInController {
     private PasswordField txtPassword;
     @FXML
     private TextField txtUsername;
+    @FXML
+    private Hyperlink hlForgetPassword;
     //endregion
 
     //region FXML Class
@@ -35,6 +41,11 @@ public class SignInController {
         } else {
             ShowAlert.ShowAlert("Warning!","Sign In Failed");
         }
+    }
+    @FXML
+    public void onHlForgetPasswordClicked(MouseEvent e) {
+        lf.LoadForm("/fxml/ForgotPassword.fxml");
+
     }
 
     //endregion

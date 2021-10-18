@@ -33,7 +33,8 @@ public class Login_RegisterController implements Initializable {
                 fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignUp.fxml")));
                 movedVbox.getChildren().removeAll();
                 movedVbox.getChildren().setAll(fxml);
-            } catch (IOException ignored) {
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
@@ -48,7 +49,8 @@ public class Login_RegisterController implements Initializable {
                 fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignIn.fxml")));
                 movedVbox.getChildren().removeAll();
                 movedVbox.getChildren().setAll(fxml);
-            } catch (IOException ignored) {
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
@@ -68,7 +70,8 @@ public class Login_RegisterController implements Initializable {
                 fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignIn.fxml")));
                 movedVbox.getChildren().removeAll();
                 movedVbox.getChildren().setAll(fxml);
-            } catch (IOException ignored) {
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
