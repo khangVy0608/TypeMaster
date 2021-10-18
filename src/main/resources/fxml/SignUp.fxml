@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="480.0" styleClass="blue-panel" stylesheets="@../css/Login_Register.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="480.0" styleClass="blue-panel" stylesheets="@../css/Login_Register.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.SignUpController">
    <children>
       <Label text="Sign up" textFill="#215963">
          <font>
@@ -22,8 +22,8 @@
       </Label>
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
-            <TextField promptText="Username" styleClass="tf_box" HBox.hgrow="ALWAYS" />
-            <FontAwesomeIconView fill="WHITE" glyphName="USER" size="1.3em" />
+            <TextField fx:id="txtUsername" promptText="Username" styleClass="tf_box" HBox.hgrow="ALWAYS" />
+            <FontAwesomeIconView glyphName="USER" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="15.0" />
@@ -31,12 +31,12 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
-            <TextField promptText="Email" styleClass="tf_box" HBox.hgrow="ALWAYS">
+            <TextField fx:id="txtEmail" promptText="Email" styleClass="tf_box" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextField>
-            <FontAwesomeIconView fill="WHITE" glyphName="ENVELOPE" size="1.3em" />
+            <FontAwesomeIconView glyphName="ENVELOPE" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />
@@ -44,8 +44,8 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
-            <PasswordField prefHeight="26.0" prefWidth="436.0" promptText="Password" styleClass="tf_box" />
-            <FontAwesomeIconView fill="WHITE" glyphName="LOCK" size="1.3em" />
+            <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="436.0" promptText="Password" styleClass="tf_box" />
+            <FontAwesomeIconView glyphName="LOCK" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />
@@ -53,14 +53,14 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
          <children>
-            <PasswordField prefHeight="26.0" prefWidth="436.0" promptText="Confirm Password" styleClass="tf_box" />
-            <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="1.3em" />
+            <PasswordField fx:id="txtConfirmPassword" prefHeight="26.0" prefWidth="436.0" promptText="Confirm Password" styleClass="tf_box" />
+            <FontAwesomeIconView glyphName="CHECK" size="1.3em" />
          </children>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />
          </VBox.margin>
       </HBox>
-      <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="447.0" styleClass="blue-btn" text="Sign Up" VBox.vgrow="ALWAYS">
+      <Button fx:id="btnSignUp" mnemonicParsing="false" onMouseClicked="#onBtnSignUpClicked" prefHeight="38.0" prefWidth="447.0" styleClass="blue-btn" text="Sign Up" VBox.vgrow="ALWAYS">
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="20.0" />
          </VBox.margin>

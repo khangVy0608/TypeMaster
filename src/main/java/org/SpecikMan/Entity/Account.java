@@ -10,6 +10,8 @@ public class Account extends Role {
     private String email;
     private String fullName;
     private Date dob;
+    private String verificationCode;
+    private String uud;
     //region get-set
 
     public String getIdAccount() {
@@ -59,13 +61,29 @@ public class Account extends Role {
     public void setDob(Date dob) {
         this.dob = dob;
     }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public String getUud() {
+        return uud;
+    }
+
+    public void setUud(String uud) {
+        this.uud = uud;
+    }
     //endregion
     //region Constructor
 
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, String fullName, Date dob, String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -73,6 +91,9 @@ public class Account extends Role {
         this.email = email;
         this.fullName = fullName;
         this.dob = dob;
+        this.verificationCode = verificationCode;
+        this.uud = uud;
     }
+
     //endregion
 }
