@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.mindrot.jbcrypt.BCrypt;
+
+import javax.swing.*;
 
 public class AccountDao implements Dao<Account> {
     private final Connection connection = DBConnection.getConnection();
@@ -59,6 +62,18 @@ public class AccountDao implements Dao<Account> {
     }
 
     public void add(Account account) {
+        try {
+            String query = "insert into account values (?,?,?,?,null,null,?)"; //Full name - Dob null
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setString(1,account.getIdAccount());
+            prepareStatement.setString(2,account.getUsername());
+            prepareStatement.setString(3,BCrypt.hashpw(account.getPassword(),BCrypt.gensalt()));
+            prepareStatement.setString(4,account.getEmail());
+            prepareStatement.setString(5,account.getIdRole());
+            prepareStatement.executeQuery();
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void update(Account account) {
