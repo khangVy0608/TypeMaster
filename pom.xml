@@ -36,12 +36,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.26</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+        <!-- https://mvnrepository.com/artifact/at.favre.lib/bcrypt -->
         <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.4</version>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.9.0</version>
         </dependency>
+
 
 
     </dependencies>
