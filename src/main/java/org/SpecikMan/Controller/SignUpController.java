@@ -11,8 +11,6 @@ import org.SpecikMan.Tools.ShowAlert;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.SpecikMan.Tools.GenerateID;
 
-import javax.swing.*;
-
 public class SignUpController {
     //region FXML Declares
     @FXML
@@ -37,15 +35,15 @@ public class SignUpController {
     @FXML
     public void onBtnSignUpClicked(MouseEvent event) {
         if (txtUsername.getText() == null || txtUsername.getText().isEmpty()){
-            ShowAlert.ShowAlert("Warning!","Please write username correctly");
+            ShowAlert.show("Warning!","Please write username correctly");
         } else if(txtPassword.getText() == null || txtPassword.getText().isEmpty()) {
-            ShowAlert.ShowAlert("Warning!","Please write password correctly");
+            ShowAlert.show("Warning!","Please write password correctly");
         } else if(txtConfirmPassword.getText() == null || txtConfirmPassword.getText().isEmpty()){
-            ShowAlert.ShowAlert("Warning!","Please write confirm password correctly");
+            ShowAlert.show("Warning!","Please write confirm password correctly");
         } else if(txtEmail.getText() == null || txtEmail.getText().isEmpty()||!txtEmail.getText().contains("@")){
-            ShowAlert.ShowAlert("Warning!","Please write email correctly");
+            ShowAlert.show("Warning!","Please write email correctly");
         } else if(!txtPassword.getText().equals(txtConfirmPassword.getText())){
-            ShowAlert.ShowAlert("Warning!","2 passwords are not match");
+            ShowAlert.show("Warning!","2 passwords are not match");
         } else {
             Account acc = new Account();
             acc.setIdAccount(GenerateID.genAccount());
@@ -54,7 +52,7 @@ public class SignUpController {
             acc.setEmail(txtEmail.getText());
             acc.setIdRole("RL02");
             accountDao.add(acc);
-            ShowAlert.ShowAlert("Notice","Sign Up successfully");
+            ShowAlert.show("Notice","Sign Up successfully");
         }
     }
     //endregion
