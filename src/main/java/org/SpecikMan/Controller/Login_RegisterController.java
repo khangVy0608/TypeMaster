@@ -75,4 +75,18 @@ public class Login_RegisterController implements Initializable {
             }
         });
     }
+    public void LoadData(String fxmlPath){
+        TranslateTransition t = new TranslateTransition(Duration.seconds(1), movedVbox);
+        t.setToX(movedVbox.getLayoutX() * 21);
+        t.play();
+        t.setOnFinished(e -> {
+            try {
+                fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
+                movedVbox.getChildren().removeAll();
+                movedVbox.getChildren().setAll(fxml);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
 }

@@ -1,6 +1,5 @@
 package org.SpecikMan.DAL;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.SpecikMan.DB.DBConnection;
 import org.SpecikMan.Entity.Account;
 
