@@ -41,9 +41,11 @@ public class ChangeInformationController {
 
     private final AccountDao accountDao = new AccountDao();
     private final List<Account> accounts = accountDao.getAll();
+    /* Đường dẫn đến file ForgotPassword_id.txt để nhận dữ liệu được truyền từ form ForgotPassword*/
     private static final String FORGOT_ID_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\ForgotPassword_id.txt";
     @FXML
     void onBtnConfirmClicked(MouseEvent event) {
+        /* Kiểm tra nhập*/
         if (txtUsername.getText() == null || txtUsername.getText().isEmpty()){
             ShowAlert.show("Warning!","Please write username correctly");
         } else if(txtEmail.getText() == null || txtEmail.getText().isEmpty()||!txtEmail.getText().contains("@")) {
@@ -57,36 +59,37 @@ public class ChangeInformationController {
         } else {
             Account account = null;
             for (Account i : accounts) {
-                if (i.getIdAccount().equals(FileRW.Read(FORGOT_ID_PATH))) {
+                if (i.getIdAccount().equals(FileRW.Read(FORGOT_ID_PATH))) { //Duyệt list accounts, nếu account có id = id truyền từ form trước thì account sẽ bằng account i
                     account = i;
                 }
             }
-            assert account != null;
+            assert account != null; //Loại trừ trường hợp account = null
+            /*Hiển thị account đã duyệt được*/
             account.setUsername(txtUsername.getText());
             account.setEmail(txtEmail.getText());
             account.setPassword(BCrypt.withDefaults().hashToString(12, txtNewPassword.getText().toCharArray()));
-            accountDao.update(account);
+            accountDao.update(account); // Update account
             ShowAlert.show("Change Information","Change success! Please log in again!");
-            DisposeForm.Dispose(txtConfirmPassword);//Throw any controls to get it's stage
+            DisposeForm.Dispose(txtConfirmPassword);//Throw any controls to get it's stage // Xóa form hiện tại (=dispose() bên netbeans)
         }
     }
 
     @FXML
     void onHlChangeEmailClicked(MouseEvent event) {
-        if(hlChangeEmail.getText().equals("Change")){
+        if(hlChangeEmail.getText().equals("Change")){ //HyperLink là change nhấn vào -> Revert
             txtEmail.setDisable(false);
             hlChangeEmail.setText("Revert");
         } else {
-            txtEmail.setDisable(true);
+            txtEmail.setDisable(true);//HyperLink là revert nhấn vào -> Change
             hlChangeEmail.setText("Change");
             Account acc = null;
             for (Account i : accounts) {
-                if (i.getIdAccount().equals(FileRW.Read(FORGOT_ID_PATH))) {
+                if (i.getIdAccount().equals(FileRW.Read(FORGOT_ID_PATH))) {//Duyệt ra account có id giống với id truyền từ ForgotPassword để tự động hiển thị email của nó
                     acc = i;
                 }
             }
             assert acc != null;
-            txtEmail.setText(acc.getEmail());
+            txtEmail.setText(acc.getEmail());//Hiển thị email
         }
     }
 
@@ -106,10 +109,10 @@ public class ChangeInformationController {
                 }
             }
             assert acc != null;
-            txtUsername.setText(acc.getUsername());
+            txtUsername.setText(acc.getUsername());//Hiển thị username
         }
     }
-    public void initialize(){
+    public void initialize(){//Chạy form sẽ thực hiện code trong init này trước
         Account acc = null;
         for (Account i : accounts) {
             if (i.getIdAccount().equals(FileRW.Read(FORGOT_ID_PATH))) {

@@ -14,7 +14,7 @@
    <children>
       <Label text="Sign up" textFill="#215963">
          <font>
-            <Font size="20.0" />
+            <Font size="30.0" />
          </font>
          <VBox.margin>
             <Insets left="20.0" />
