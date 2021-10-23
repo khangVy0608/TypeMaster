@@ -1,19 +1,31 @@
 package org.SpecikMan.DB;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:mysql://localhost/typemaster";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
-
     public static Connection getConnection(){
-        try {
-            return DriverManager.getConnection(URL,USER,PASSWORD);
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error connecting to the database", ex);
+        SQLServerDataSource ds = new SQLServerDataSource();
+        String user = "sa";
+        String server = "MSI\\SQLEXPRESS";
+        String password = "0359292183";
+        String db = "TypeMaster";
+        int port = 1433;
+        ds.setUser(user);
+        ds.setPassword(password);
+        ds.setDatabaseName(db);
+        ds.setServerName(server);
+        ds.setPortNumber(port);
+        Connection conn = null;
+        try{
+            conn = ds.getConnection();
+        } catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
         }
+        return conn;
     }
 }

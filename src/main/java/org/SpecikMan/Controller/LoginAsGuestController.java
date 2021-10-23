@@ -28,9 +28,9 @@ public class LoginAsGuestController {
     @FXML
     private TextField txtUsername;
 
-    private final AccountDao accountDao = new AccountDao();
     @FXML
     void onBtnConfirmClicked(MouseEvent event) {
+        AccountDao accountDao = new AccountDao();
         if (txtUsername.getText() == null || txtUsername.getText().isEmpty()) {
             ShowAlert.show("Warning!", "Please write username correctly");
         } else {
@@ -39,9 +39,9 @@ public class LoginAsGuestController {
             acc.setIdAccount(GenerateID.genAccount());
             acc.setUsername(txtUsername.getText());
             acc.setUud(BCrypt.withDefaults().hashToString(12,txtUUD.getText().toCharArray()));
-            acc.setIdRole("RL03"); //RL03 = Guest
+            acc.setIdRole("RL3"); //RL03 = Guest
             accountDao.add(acc);
-            ShowAlert.show("Notice","Login Success");
+            ShowAlert.show("Notice","Signed up success");
             DisposeForm.Dispose(txtUsername);//Throw any control to get it's stage
         }
     }

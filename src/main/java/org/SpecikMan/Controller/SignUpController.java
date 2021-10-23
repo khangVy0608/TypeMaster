@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Tools.DisposeForm;
+import org.SpecikMan.Tools.LoadForm;
 import org.SpecikMan.Tools.ShowAlert;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.SpecikMan.Tools.GenerateID;
@@ -29,11 +31,11 @@ public class SignUpController {
     private TextField txtUsername;
     //endregion
     //region Controller Declares
-    private final AccountDao accountDao = new AccountDao();
     //endregion
     //region FXMl Classes
     @FXML
     public void onBtnSignUpClicked(MouseEvent event) {
+        AccountDao accountDao = new AccountDao();
         if (txtUsername.getText() == null || txtUsername.getText().isEmpty()){
             ShowAlert.show("Warning!","Please write username correctly");
         } else if(txtPassword.getText() == null || txtPassword.getText().isEmpty()) {
@@ -50,9 +52,11 @@ public class SignUpController {
             acc.setUsername(txtUsername.getText());
             acc.setPassword(BCrypt.withDefaults().hashToString(12, txtPassword.getText().toCharArray()));
             acc.setEmail(txtEmail.getText());
-            acc.setIdRole("RL02");
+            acc.setIdRole("RL2");
             accountDao.add(acc);
             ShowAlert.show("Notice","Sign Up successfully");
+            LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
+            DisposeForm.Dispose(txtUsername);
         }
     }
     //endregion

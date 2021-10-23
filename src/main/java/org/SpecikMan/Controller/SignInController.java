@@ -9,18 +9,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.GetUUD;
 import org.SpecikMan.Tools.LoadForm;
 import org.SpecikMan.Tools.ShowAlert;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SignInController {
     //endregion
     //region Controller Declares
-    private final AccountDao accountDao = new AccountDao();
-    private final List<Account> accounts = accountDao.getAll();
     //region FXML Declares
     @FXML
     private Button btnSignIn;
@@ -44,6 +44,8 @@ public class SignInController {
             String password = txtPassword.getText();
             if (signIn(username, password)) {
                 ShowAlert.show("Warning!", "Sign In Success");
+                LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
+                DisposeForm.Dispose(txtUsername);
             } else {
                 ShowAlert.show("Warning!", "Sign In Failed");
             }
@@ -52,11 +54,13 @@ public class SignInController {
 
     @FXML
     public void onHlForgetPasswordClicked(MouseEvent e) throws IOException {
-        LoadForm.load("/fxml/ForgotPassword.fxml", "Forgot Password");
+        LoadForm.load("/fxml/ForgotPassword.fxml", "Forgot Password",false);
     }
 
     @FXML
     public void onHlLoginGuestClicked(MouseEvent mouseEvent) {
+        AccountDao accountDao = new AccountDao();
+        List<Account> accounts = accountDao.getAll();
         Account acc = null;
         for (Account i : accounts) {
             if (i.getUud() != null) {
@@ -67,15 +71,19 @@ public class SignInController {
             }
         }
         if (acc == null) {
-            LoadForm.load("/fxml/LoginAsGuest.fxml", "Login as Guest");
+            LoadForm.load("/fxml/LoginAsGuest.fxml", "Login as Guest",false);
         } else {
             ShowAlert.show("Warning!", "Welcome back " + acc.getUsername());
+            LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
+            DisposeForm.Dispose(txtUsername);
         }
     }
 
     //endregion
     //region Controller Class
     public boolean signIn(String username, String password) {
+        AccountDao accountDao = new AccountDao();
+        List<Account> accounts = accountDao.getAll();
         for (Account account : accounts) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.getPassword());
             if ((account.getUsername().equals(username) || account.getEmail().equals(username)) && result.verified) {

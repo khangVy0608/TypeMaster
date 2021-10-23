@@ -19,7 +19,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/fxml/Login_Register"));
+        scene = new Scene(loadFXML("/fxml/Play"));
         stage.setScene(scene);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);

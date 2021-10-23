@@ -36,7 +36,7 @@ public class RoleDao implements Dao<Role>{
         }
     }
 
-    public Optional<Role> get(String id) {
+    public Role get(String id) {
         try {
             String query = "select * from role where idRole = ?";
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -45,13 +45,13 @@ public class RoleDao implements Dao<Role>{
             if (rs != null) {
                 Role role = new Role(rs.getString("idRole"), rs.getString("nameRole"));
                 prepareStatement.close();
-                return Optional.of(role);
+                return role;
             } else {
-                return Optional.empty();
+                return null;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return Optional.empty();
+            return null;
         }
     }
 

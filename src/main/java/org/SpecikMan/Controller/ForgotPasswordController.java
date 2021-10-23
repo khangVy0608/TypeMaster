@@ -28,26 +28,28 @@ public class ForgotPasswordController {
     private int second, minute;
     private String ddSecond, ddMinute;
     private final DecimalFormat dFormat = new DecimalFormat("00");
-    private final AccountDao accountDao = new AccountDao();
-    private final List<Account> accounts = accountDao.getAll();
 
     @FXML
     void onBtnConfirmClicked(MouseEvent event) {
+        AccountDao accountDao = new AccountDao();
+        List<Account> accounts = accountDao.getAll();
         if (txtVerificationCode.getText() == null || txtVerificationCode.getText().isEmpty()) {
             ShowAlert.show("Warning!", "Verification Code musts not empty");
         } else {
             Account acc = null;
             String email = txtEmail.getText();
             for (Account element : accounts) {
-                if (element.getEmail().equals(email)) {
-                    acc = element;
+                if (element.getEmail() != null) {
+                    if (element.getEmail().equals(email)) {
+                        acc = element;
+                    }
                 }
             }
             assert acc != null;
             if (acc.getVerificationCode().equals(txtVerificationCode.getText())) {
                 ShowAlert.show("Notice!", "Verify Success");
                 FileRW.Write("D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\ForgotPassword_id.txt", acc.getIdAccount());
-                LoadForm.load("/fxml/ChangeInformation.fxml", "Change Information");
+                LoadForm.load("/fxml/ChangeInformation.fxml", "Change Information", false);
                 DisposeForm.Dispose(btnConfirm);//Pass any controls to get it's stage
             } else {
                 ShowAlert.show("Notice!", "Verify Failed");
@@ -58,13 +60,17 @@ public class ForgotPasswordController {
     @FXML
     void onBtnSendCodeClicked(MouseEvent event) {
         Account acc = null;
-        if (txtEmail.getText() == null || txtEmail.getText().isEmpty()) {
+        AccountDao accountDao = new AccountDao();
+        List<Account> accounts = accountDao.getAll();
+        if (txtEmail.getText() == null || txtEmail.getText().isEmpty() || !txtEmail.getText().contains("@")) {
             ShowAlert.show("Warning!", "Please write email correctly");
         } else {
             String email = txtEmail.getText();
             for (Account element : accounts) {
-                if (element.getEmail().equals(email)) {
-                    acc = element;
+                if (element.getEmail() != null) {
+                    if (element.getEmail().equals(email)) {
+                        acc = element;
+                    }
                 }
             }
             if (acc == null) {
