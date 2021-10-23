@@ -31,7 +31,10 @@ public class PlayController {
     private static final String NOT_TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\notTyped.txt";
     private static final String TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\typed.txt";
     private static final String ORIGINAL_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\origin.txt";
-
+    int correct = 1;
+    int wrong = 1;
+    int total = 1;
+    double accuracy = 100;
     public void onBtnPauseClicked(MouseEvent e) {
         if (btnPause.getText().equals("Start")) {
             btnPause.setText("Pause");
@@ -53,7 +56,7 @@ public class PlayController {
         lbCorrect.setText("0");
         lbWrong.setText("0");
         lbTotal.setText("0");
-        lbAccuracy.setText("0%");
+        lbAccuracy.setText("100%");
         lbTime.setText("00:00");
     }
 
@@ -79,6 +82,19 @@ public class PlayController {
                         textflow.getChildren().addAll(l1, l2);
                         FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
                         FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                        correct++;
+                        total++;
+                        accuracy = (double)(correct/total)*100;
+                        lbCorrect.setText(String.valueOf(correct));
+                        lbTotal.setText(String.valueOf(total));
+                        lbAccuracy.setText(accuracy +"%");
+                    } else {
+                        wrong++;
+                        total++;
+                        accuracy = (double)(correct/total)*100;
+                        lbWrong.setText(String.valueOf(wrong));
+                        lbTotal.setText(String.valueOf(total));
+                        lbAccuracy.setText(accuracy +"%");
                     }
                 } else {
                     textflow.getChildren().clear();
@@ -87,15 +103,20 @@ public class PlayController {
                     typed[typed.length - 2] = input.toCharArray()[0];
                     typed[typed.length - 1] = " ".toCharArray()[0];
                     Label l = new Label(input);
-                    Label tmp = new Label(" ");
                     Label l2 = new Label(String.valueOf(notTyped));
                     Label l1 = new Label(String.valueOf(typed));
                     l.setStyle("-fx-font-size: 20;");
                     l2.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
                     l1.setStyle("-fx-font-size: 20;");
-                    textflow.getChildren().addAll(l1, tmp, l2);
+                    textflow.getChildren().addAll(l1, l2);
                     FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
                     FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                    correct++;
+                    total++;
+                    accuracy = (double)(correct/total)*100;
+                    lbCorrect.setText(String.valueOf(correct));
+                    lbTotal.setText(String.valueOf(total));
+                    lbAccuracy.setText(accuracy +"%");
                 }
             } else {
                 if (String.valueOf(notTyped[0]).equals(input)) {
@@ -112,6 +133,19 @@ public class PlayController {
                     textflow.getChildren().addAll(l1, l2);
                     FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
                     FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                    correct++;
+                    total++;
+                    accuracy = (double)(correct/total)*100;
+                    lbCorrect.setText(String.valueOf(correct));
+                    lbTotal.setText(String.valueOf(total));
+                    lbAccuracy.setText(accuracy +"%");
+                } else {
+                    wrong++;
+                    total++;
+                    accuracy = (double)(correct/total)*100;
+                    lbWrong.setText(String.valueOf(wrong));
+                    lbTotal.setText(String.valueOf(total));
+                    lbAccuracy.setText(accuracy +"%");
                 }
             }
         } else {
