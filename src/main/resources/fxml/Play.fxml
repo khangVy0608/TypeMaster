@@ -11,7 +11,7 @@
 
 <AnchorPane onKeyPressed="#keyPressed" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PlayController">
    <children>
-      <AnchorPane prefHeight="616.0" prefWidth="993.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;">
+      <AnchorPane prefHeight="616.0" prefWidth="993.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;" stylesheets="@../css/play.css">
          <children>
             <Pane layoutX="590.0" layoutY="-1.0" prefHeight="94.0" prefWidth="409.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@../css/play.css">
                <children>
@@ -22,7 +22,7 @@
                   </Label>
                </children>
             </Pane>
-            <AnchorPane layoutX="2.0" layoutY="79.0" prefHeight="546.0" prefWidth="996.0" style="-fx-background-color: #bed7ed; -fx-background-radius: 10;" stylesheets="@../../../../../Linh%20Tinh/javafx-sample-dashboard/src/css/fullpackstyling.css">
+            <AnchorPane layoutX="2.0" layoutY="79.0" prefHeight="546.0" prefWidth="996.0" style="-fx-background-color: #bed7ed; -fx-background-radius: 10;">
                <children>
                   <Line endX="100.0" layoutX="640.0" layoutY="56.0" startX="100.0" startY="418.0" strokeDashOffset="2.0" />
                   <FontAwesomeIconView glyphName="BOLT" layoutX="756.0" layoutY="80.0" size="40" wrappingWidth="16.2000732421875">
@@ -72,7 +72,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbAccuracy" alignment="CENTER" layoutX="804.0" layoutY="322.0" prefHeight="70.0" prefWidth="143.0" text="100%">
+                  <Label fx:id="lbAccuracy" alignment="CENTER" layoutX="746.0" layoutY="322.0" prefHeight="70.0" prefWidth="251.0" text="100%">
                      <font>
                         <Font name="System Bold" size="48.0" />
                      </font>

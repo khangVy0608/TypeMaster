@@ -31,10 +31,11 @@ public class PlayController {
     private static final String NOT_TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\notTyped.txt";
     private static final String TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\typed.txt";
     private static final String ORIGINAL_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\origin.txt";
-    int correct = 1;
-    int wrong = 1;
-    int total = 1;
+    int correct = 0;
+    int wrong = 0;
+    int total = 0;
     double accuracy = 100;
+
     public void onBtnPauseClicked(MouseEvent e) {
         if (btnPause.getText().equals("Start")) {
             btnPause.setText("Pause");
@@ -97,26 +98,35 @@ public class PlayController {
                         lbAccuracy.setText(accuracy +"%");
                     }
                 } else {
-                    textflow.getChildren().clear();
-                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
-                    typed = Arrays.copyOf(typed, typed.length + 2);
-                    typed[typed.length - 2] = input.toCharArray()[0];
-                    typed[typed.length - 1] = " ".toCharArray()[0];
-                    Label l = new Label(input);
-                    Label l2 = new Label(String.valueOf(notTyped));
-                    Label l1 = new Label(String.valueOf(typed));
-                    l.setStyle("-fx-font-size: 20;");
-                    l2.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
-                    l1.setStyle("-fx-font-size: 20;");
-                    textflow.getChildren().addAll(l1, l2);
-                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                    correct++;
-                    total++;
-                    accuracy = (double)(correct/total)*100;
-                    lbCorrect.setText(String.valueOf(correct));
-                    lbTotal.setText(String.valueOf(total));
-                    lbAccuracy.setText(accuracy +"%");
+                    if (String.valueOf(notTyped[0]).equals(input)) {
+                        textflow.getChildren().clear();
+                        notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                        typed = Arrays.copyOf(typed, typed.length + 2);
+                        typed[typed.length - 2] = input.toCharArray()[0];
+                        typed[typed.length - 1] = " ".toCharArray()[0];
+                        Label l = new Label(input);
+                        Label l2 = new Label(String.valueOf(notTyped));
+                        Label l1 = new Label(String.valueOf(typed));
+                        l.setStyle("-fx-font-size: 20;");
+                        l2.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                        l1.setStyle("-fx-font-size: 20;");
+                        textflow.getChildren().addAll(l1, l2);
+                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                        correct++;
+                        total++;
+                        accuracy = (double) (correct / total) * 100;
+                        lbCorrect.setText(String.valueOf(correct));
+                        lbTotal.setText(String.valueOf(total));
+                        lbAccuracy.setText(accuracy + "%");
+                    } else {
+                        wrong++;
+                        total++;
+                        accuracy = (double) (correct / total) * 100;
+                        lbWrong.setText(String.valueOf(wrong));
+                        lbTotal.setText(String.valueOf(total));
+                        lbAccuracy.setText(accuracy + "%");
+                    }
                 }
             } else {
                 if (String.valueOf(notTyped[0]).equals(input)) {
