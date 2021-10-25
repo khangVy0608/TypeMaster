@@ -1,5 +1,6 @@
 package org.SpecikMan.Controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,6 +9,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.TextFlow;
 import org.SpecikMan.Tools.FileRW;
 
+import javax.swing.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -28,19 +32,31 @@ public class PlayController {
     private Label lbWrong;
     @FXML
     private TextFlow textflow;
+    @FXML
+    private Label lbWPS;
     private static final String NOT_TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\notTyped.txt";
     private static final String TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\typed.txt";
     private static final String ORIGINAL_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\origin.txt";
     int correct = 0;
     int wrong = 0;
     int total = 0;
-    double accuracy = 100;
+    private Timer timer;
+    private int second, minute;
+    private String ddSecond, ddMinute;
+    private final DecimalFormat dFormat = new DecimalFormat("00");
 
     public void onBtnPauseClicked(MouseEvent e) {
         if (btnPause.getText().equals("Start")) {
-            btnPause.setText("Pause");
+            second = 7;
+            minute = 0;
+            CountDownTimer();
+            timer.start();
+        } else if (btnPause.getText().equals("Pause")) {
+            btnPause.setText("Resume");
+            timer.stop();
         } else {
-            btnPause.setText("Start");
+            btnPause.setText("Pause");
+            timer.start();
         }
     }
 
@@ -66,6 +82,8 @@ public class PlayController {
         char[] notTyped = Objects.requireNonNull(FileRW.Read(NOT_TYPED_PATH)).toCharArray();
         int pos = 0;
         String input = e.getText();
+        double total_minutes = (((double) second / 60) + minute);
+        int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
         if (btnPause.getText().equals("Pause")) {
             if (notTyped[0] != notTyped[notTyped.length - 1]) {
                 if (!String.valueOf(notTyped[1]).equals(" ")) {
@@ -85,17 +103,19 @@ public class PlayController {
                         FileRW.Write(TYPED_PATH, String.valueOf(typed));
                         correct++;
                         total++;
-                        accuracy = (double)(correct/total)*100;
                         lbCorrect.setText(String.valueOf(correct));
                         lbTotal.setText(String.valueOf(total));
-                        lbAccuracy.setText(accuracy +"%");
+                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
                     } else {
                         wrong++;
                         total++;
-                        accuracy = (double)(correct/total)*100;
                         lbWrong.setText(String.valueOf(wrong));
                         lbTotal.setText(String.valueOf(total));
-                        lbAccuracy.setText(accuracy +"%");
+                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
                     }
                 } else {
                     if (String.valueOf(notTyped[0]).equals(input)) {
@@ -115,17 +135,19 @@ public class PlayController {
                         FileRW.Write(TYPED_PATH, String.valueOf(typed));
                         correct++;
                         total++;
-                        accuracy = (double) (correct / total) * 100;
                         lbCorrect.setText(String.valueOf(correct));
                         lbTotal.setText(String.valueOf(total));
-                        lbAccuracy.setText(accuracy + "%");
+                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
                     } else {
                         wrong++;
                         total++;
-                        accuracy = (double) (correct / total) * 100;
                         lbWrong.setText(String.valueOf(wrong));
                         lbTotal.setText(String.valueOf(total));
-                        lbAccuracy.setText(accuracy + "%");
+                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
                     }
                 }
             } else {
@@ -145,17 +167,19 @@ public class PlayController {
                     FileRW.Write(TYPED_PATH, String.valueOf(typed));
                     correct++;
                     total++;
-                    accuracy = (double)(correct/total)*100;
                     lbCorrect.setText(String.valueOf(correct));
                     lbTotal.setText(String.valueOf(total));
-                    lbAccuracy.setText(accuracy +"%");
+                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
                 } else {
                     wrong++;
                     total++;
-                    accuracy = (double)(correct/total)*100;
                     lbWrong.setText(String.valueOf(wrong));
                     lbTotal.setText(String.valueOf(total));
-                    lbAccuracy.setText(accuracy +"%");
+                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
                 }
             }
         } else {
@@ -168,5 +192,52 @@ public class PlayController {
                 textflow.getChildren().add(l);
             }
         }
+    }
+
+    public void CountDownTimer() {
+        timer = new Timer(1000, e -> Platform.runLater(() -> {
+            //javaFX operations should go here
+            second--;
+            ddSecond = dFormat.format(second);
+            ddMinute = dFormat.format(minute);
+            lbTime.setText(ddMinute + ":" + ddSecond);
+            if (second == -1) {
+                second = 59;
+                minute--;
+                ddSecond = dFormat.format(second);
+                ddMinute = dFormat.format(minute);
+                lbTime.setText(ddMinute + ":" + ddSecond);
+            }
+            if (minute == 0 && second == 0) {
+                timer.stop();
+                btnPause.setText("Pause");
+                lbTime.setStyle("-fx-text-fill: red");
+                second = 0;
+                minute = 0;
+                normalTimer();
+                timer.start();
+            }
+        }));
+    }
+
+    public void normalTimer() {
+        timer = new Timer(1000, e -> Platform.runLater(() -> {
+                    second++;
+                    ddSecond = dFormat.format(second);
+                    ddMinute = dFormat.format(minute);
+                    lbTime.setText(ddMinute + ":" + ddSecond);
+                    if (second == 60) {
+                        second = 0;
+                        minute++;
+                        ddSecond = dFormat.format(second);
+                        ddMinute = dFormat.format(minute);
+                        lbTime.setText(ddMinute + ":" + ddSecond);
+                    }
+                    double total_minutes = (((double) second / 60) + minute);
+                    int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
+                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60))*100.0)/100.0));
+                }
+        ));
     }
 }
