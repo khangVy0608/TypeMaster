@@ -1,8 +1,7 @@
 package org.SpecikMan.DAL;
 
 import org.SpecikMan.DB.DBConnection;
-import org.SpecikMan.Entity.Role;
-import org.SpecikMan.Tools.GenerateID;
+import org.SpecikMan.Entity.Mode;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,89 +10,88 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoleDao implements Dao<Role>{
+public class ModeDao implements Dao<Mode>{
     private final Connection connection = DBConnection.getConnection();
-    private final List<Role> roles = new ArrayList<>();
+    private final List<Mode> modes = new ArrayList<>();
 
-    public RoleDao() {
+    public ModeDao() {
     }
 
-    public List<Role> getAll() {
+    public List<Mode> getAll() {
         try {
-            String query = "select * from Role"; //SQL Query
+            String query = "select * from Mode"; //SQL Query
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             ResultSet rs = prepareStatement.executeQuery();
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
-                    roles.add(new Role(rs.getString("idRole"),rs.getString("nameRole")));
+                    modes.add(new Mode(rs.getString("idMode"),rs.getString("nameMode")));
                 }
             }
             prepareStatement.close();
-            return roles;
+            return modes;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public Role get(String id) {
+    public Mode get(String id) {
         try {
-            String query = "select * Role where idRole = ?";
+            String query = "select * Mode where idMode = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, id);
             ResultSet rs = prepareStatement.executeQuery();
-            Role role = new Role();
+            Mode mode = new Mode();
             while (rs.next()) {
-                role = new Role(rs.getString("idRole"), rs.getString("roleName"));
+                mode = new Mode(rs.getString("idMode"), rs.getString("nameMode"));
             }
             prepareStatement.close();
-            return role;
+            return mode;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public void add(Role role) {
+    public void add(Mode mode) {
         try {
-            String query = "insert into Role values (?,?)"; //Full name - Dob null
+            String query = "insert into Mode values (?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, role.getIdRole());
-            prepareStatement.setString(2, role.getNameRole());
+            prepareStatement.setString(1, mode.getIdMode());
+            prepareStatement.setString(2, mode.getNameMode());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void update(Role role) {
+    public void update(Mode mode) {
         try {
-            String query = "update Role set nameRole = ? where idRole = ?";
+            String query = "update Mode set name = ? where idMode = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, role.getNameRole());
+            prepareStatement.setString(1, mode.getNameMode());
             //Condition
-            prepareStatement.setString(2, role.getIdRole());
+            prepareStatement.setString(2, mode.getIdMode());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Role role) {
+    public void delete(Mode mode) {
         try {
-            String query = "delete from Role where idRole = ?";
+            String query = "delete from Mode where idMode = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
-            prepareStatement.setString(1, role.getIdRole());
+            prepareStatement.setString(1, mode.getIdMode());
             prepareStatement.executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-
 }

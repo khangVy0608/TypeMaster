@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="300.0" style="-fx-background-color: #b4b4b4;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="64.0" fitWidth="45.0" layoutX="7.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lbLevelName" layoutX="60.0" layoutY="5.0" text="Level Name">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbDetails" layoutX="58.0" layoutY="27.0" text="Publisher - Words">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="60.0" layoutY="47.0" text="Difficulty:" />
+      <FontAwesomeIconView fx:id="iconEasy" glyphName="STAR" layoutX="118.0" layoutY="60.0" />
+      <FontAwesomeIconView fx:id="iconNormal" glyphName="STAR" layoutX="132.0" layoutY="60.0" />
+      <FontAwesomeIconView fx:id="iconHard" glyphName="STAR" layoutX="145.0" layoutY="60.0" />
+   </children>
+</AnchorPane>

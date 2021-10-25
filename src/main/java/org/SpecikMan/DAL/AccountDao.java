@@ -61,13 +61,15 @@ public class AccountDao implements Dao<Account> {
 
     public void add(Account account) {
         try {
-            String query = "insert into Account values (?,?,?,?,null,null,?,?,?)"; //Full name - Dob null
+            String query = "insert into Account values (?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, account.getIdAccount());
             prepareStatement.setString(2, account.getUsername());
             prepareStatement.setString(3, account.getPassword());
             prepareStatement.setString(4, account.getEmail());
+            prepareStatement.setDate(5, account.getDob());
+            prepareStatement.setString(6,account.getDob().toString());
             prepareStatement.setString(5, account.getVerificationCode());
             prepareStatement.setString(6, account.getUud());
             prepareStatement.setString(7, account.getIdRole());

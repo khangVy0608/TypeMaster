@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="933.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.DashboardController">
+   <children>
+      <BorderPane prefHeight="587.0" prefWidth="933.0">
+         <left>
+            <VBox prefHeight="510.0" prefWidth="223.0" style="-fx-background-color: #c7c7c7;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnAll" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#onBtnAllClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="All">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="GLOBE" size="15" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold Italic" size="17.0" />
+                     </font></Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Recent Played Levels">
+                     <font>
+                        <Font name="System Bold Italic" size="17.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="HISTORY" size="17" />
+                     </graphic>
+                  </Button>
+                  <Label text="Modes">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Normal">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Instant Death">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Blackout">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Death Token">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label text="Levels">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Your Levels">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Other Player Levels">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Default Levels">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label text="Difficulties">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Easy" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="STAR" wrappingWidth="57.79998970031738" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Normal">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <Pane prefHeight="27.0" prefWidth="58.0">
+                           <children>
+                              <FontAwesomeIconView glyphName="STAR" layoutY="18.0" />
+                              <FontAwesomeIconView glyphName="STAR" layoutX="19.0" layoutY="18.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Hard">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <Pane prefHeight="27.0" prefWidth="59.0">
+                           <children>
+                              <FontAwesomeIconView glyphName="STAR" layoutY="18.0" />
+                              <FontAwesomeIconView glyphName="STAR" layoutX="19.0" layoutY="18.0" />
+                              <FontAwesomeIconView glyphName="STAR" layoutX="39.0" layoutY="18.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Highest Liked Levels">
+                     <font>
+                        <Font name="System Bold Italic" size="17.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="HEART" size="17" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Back">
+                     <font>
+                        <Font name="System Bold Italic" size="17.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="ANGLE_DOUBLE_LEFT" size="25" />
+                     </graphic>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </left>
+         <right>
+            <Pane prefHeight="587.0" prefWidth="416.0" style="-fx-background-color: #9e9e9e;" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="77.0" layoutX="11.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label layoutX="93.0" layoutY="39.0" text="Level Name">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="94.0" layoutY="75.0" text="Create by:">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Hyperlink layoutX="151.0" layoutY="72.0" text="Author Link" />
+                  <Button layoutX="252.0" layoutY="52.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="56.0" text="Like">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="HEART" />
+                     </graphic>
+                  </Button>
+                  <Button layoutX="316.0" layoutY="53.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #4498e9;" text="Play">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="PLAY" wrappingWidth="11.0" />
+                     </graphic>
+                  </Button>
+                  <Label layoutX="46.0" layoutY="114.0" text="Details">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Line endX="286.00006103515625" layoutX="115.0" layoutY="123.0" startX="-18.79998779296875" stroke="#484848" />
+                  <Line endX="-71.5999755859375" layoutX="111.0" layoutY="123.0" startX="-104.39996337890625" startY="7.62939453125E-6" stroke="#484848" />
+                  <Label layoutX="13.0" layoutY="141.0" text="Create Time:" />
+                  <Label layoutX="14.0" layoutY="168.0" text="Updated Time:" />
+                  <Label layoutX="13.0" layoutY="195.0" text="Difficulty:" />
+                  <Label layoutX="83.0" layoutY="141.0" text="Date">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="97.0" layoutY="168.0" text="Date" />
+                  <FontAwesomeIconView glyphName="STAR" layoutX="98.0" layoutY="209.0" />
+                  <FontAwesomeIconView glyphName="STAR" layoutX="116.0" layoutY="209.0" text="" />
+                  <FontAwesomeIconView glyphName="STAR" layoutX="134.0" layoutY="209.0" text="" />
+                  <Line endX="43.20001220703125" endY="-51.600006103515625" layoutX="143.0" layoutY="192.0" startX="43.20001220703125" startY="20.0" stroke="#484848" />
+                  <Label layoutX="65.0" layoutY="195.0" text="Easy">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="208.0" layoutY="141.0" text="Total Words:" />
+                  <Label layoutX="207.0" layoutY="168.0" text="Time:" />
+                  <Label layoutX="281.0" layoutY="141.0" text="?">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="243.0" layoutY="168.0" text="?" />
+                  <Label layoutX="208.0" layoutY="195.0" text="Mode:" />
+                  <Label layoutX="248.0" layoutY="195.0" text="Mode Name">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="46.0" layoutY="227.0" text="Scoreboard">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Line endX="286.00006103515625" layoutX="113.0" layoutY="236.0" startX="8.00006103515625" stroke="#484848" />
+                  <Line endX="-71.5999755859375" layoutX="113.0" layoutY="236.0" startX="-105.5999755859375" stroke="#484848" />
+                  <JFXTreeTableView layoutX="7.0" layoutY="276.0" prefHeight="306.0" prefWidth="406.0" style="-fx-background-color: #c7c7c7;">
+                     <columns>
+                        <TreeTableColumn prefWidth="58.4000244140625" text="No." />
+                        <TreeTableColumn prefWidth="100.0" text="Username" />
+                        <TreeTableColumn prefWidth="78.39996337890625" text="Score" />
+                        <TreeTableColumn prefWidth="72.0" text="Time" />
+                        <TreeTableColumn prefWidth="92.7999267578125" text="Date" />
+                     </columns>
+                  </JFXTreeTableView>
+                  <Label layoutX="89.0" layoutY="247.0" text="Your highest score:" />
+                  <Label layoutX="191.0" layoutY="248.0" text="300000">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="239.0" layoutY="248.0" text="Time:" />
+                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="192.0" layoutY="244.0" startX="43.20001220703125" startY="25.0" stroke="#484848" />
+                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="262.0" layoutY="244.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
+                  <Label layoutX="269.0" layoutY="248.0" text="03:00">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="309.0" layoutY="247.0" text="Date:" />
+                  <Label layoutX="340.0" layoutY="247.0" text="03/03/2000">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="10.0" layoutY="244.0" text="No:">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="37.0" layoutY="244.0" text="#001">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                  </Label>
+                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="244.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
+                  <Button layoutX="237.0" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="126.0" text="Copy &amp; Modify">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="COPY" size="15" />
+                     </graphic>
+                  </Button>
+                  <Button layoutX="369.0" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="35.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="CLOSE" size="20" />
+                     </graphic>
+                  </Button>
+               </children></Pane>
+         </right>
+         <center>
+            <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <content>
+                  <VBox prefHeight="588.0" prefWidth="298.0" style="-fx-background-color: #b4b4b4;">
+                     <children>
+                        <HBox prefHeight="30.0" prefWidth="258.0">
+                           <children>
+                              <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="251.0" promptText="Search" style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" style="-fx-background-color: #c7c7c7;" textFill="#ff3636">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="PLUS" selectionFill="#e4e4e4" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <BorderPane prefHeight="558.0" prefWidth="294.0">
+                           <center>
+                              <VBox fx:id="vboxItems" prefHeight="542.0" prefWidth="294.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

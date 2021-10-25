@@ -1,0 +1,23 @@
+.button{
+    -fx-background-color: #aeadad;
+    -fx-background-radius: 0em;
+}
+.button:hover{
+    -fx-background-color:#6393E7;
+}
+.button:pressed{
+    -fx-background-color:#165DDB;
+    -fx-background-radius:5em;
+}
+.button:focused{
+    -fx-background-color:#165DDB;
+    -fx-border-color: #165DDB;
+    -fx-background-radius: 5em;
+}
+.txtSearch{
+    -fx-prompt-text-fill: #000000;
+}
+.table-column{
+    -fx-border-color: #9e9e9e;
+    -fx-text-fill: #000000;
+}

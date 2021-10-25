@@ -1,8 +1,7 @@
 package org.SpecikMan.DAL;
 
 import org.SpecikMan.DB.DBConnection;
-import org.SpecikMan.Entity.Role;
-import org.SpecikMan.Tools.GenerateID;
+import org.SpecikMan.Entity.Difficulty;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,89 +10,88 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoleDao implements Dao<Role>{
+public class DifficultyDao implements Dao<Difficulty>{
     private final Connection connection = DBConnection.getConnection();
-    private final List<Role> roles = new ArrayList<>();
+    private final List<Difficulty> difficulties = new ArrayList<>();
 
-    public RoleDao() {
+    public DifficultyDao() {
     }
 
-    public List<Role> getAll() {
+    public List<Difficulty> getAll() {
         try {
-            String query = "select * from Role"; //SQL Query
+            String query = "select * from Difficulty"; //SQL Query
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             ResultSet rs = prepareStatement.executeQuery();
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
-                    roles.add(new Role(rs.getString("idRole"),rs.getString("nameRole")));
+                    difficulties.add(new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")));
                 }
             }
             prepareStatement.close();
-            return roles;
+            return difficulties;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public Role get(String id) {
+    public Difficulty get(String id) {
         try {
-            String query = "select * Role where idRole = ?";
+            String query = "select * Difficulty where idDifficulty = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, id);
             ResultSet rs = prepareStatement.executeQuery();
-            Role role = new Role();
+            Difficulty difficulty = new Difficulty();
             while (rs.next()) {
-                role = new Role(rs.getString("idRole"), rs.getString("roleName"));
+                difficulty = new Difficulty(rs.getString("idDifficulty"), rs.getString("nameDifficulty"));
             }
             prepareStatement.close();
-            return role;
+            return difficulty;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public void add(Role role) {
+    public void add(Difficulty difficulty) {
         try {
-            String query = "insert into Role values (?,?)"; //Full name - Dob null
+            String query = "insert into Difficulty values (?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, role.getIdRole());
-            prepareStatement.setString(2, role.getNameRole());
+            prepareStatement.setString(1, difficulty.getIdDifficulty());
+            prepareStatement.setString(2, difficulty.getNameDifficulty());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void update(Role role) {
+    public void update(Difficulty difficulty) {
         try {
-            String query = "update Role set nameRole = ? where idRole = ?";
+            String query = "update Difficulty set name = ? where idDifficulty = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, role.getNameRole());
+            prepareStatement.setString(1, difficulty.getNameDifficulty());
             //Condition
-            prepareStatement.setString(2, role.getIdRole());
+            prepareStatement.setString(2, difficulty.getIdDifficulty());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Role role) {
+    public void delete(Difficulty difficulty) {
         try {
-            String query = "delete from Role where idRole = ?";
+            String query = "delete from Difficulty where idDifficulty = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
-            prepareStatement.setString(1, role.getIdRole());
+            prepareStatement.setString(1, difficulty.getIdDifficulty());
             prepareStatement.executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-
 }
