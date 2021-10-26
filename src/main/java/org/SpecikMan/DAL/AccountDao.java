@@ -68,11 +68,11 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setString(2, account.getUsername());
             prepareStatement.setString(3, account.getPassword());
             prepareStatement.setString(4, account.getEmail());
-            prepareStatement.setDate(5, account.getDob());
-            prepareStatement.setString(6,account.getDob().toString());
-            prepareStatement.setString(5, account.getVerificationCode());
-            prepareStatement.setString(6, account.getUud());
-            prepareStatement.setString(7, account.getIdRole());
+            prepareStatement.setString(5, account.getFullname());
+            prepareStatement.setDate(6,account.getDob());
+            prepareStatement.setString(7, account.getVerificationCode());
+            prepareStatement.setString(8, account.getUud());
+            prepareStatement.setString(9, account.getIdRole());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
