@@ -83,10 +83,12 @@ public class SignInController {
         AccountDao accountDao = new AccountDao();
         List<Account> accounts = accountDao.getAll();
         for (Account account : accounts) {
-            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.getPassword());
-            if ((account.getUsername().equals(username) || account.getEmail().equals(username)) && result.verified) {
-                FileRW.Write(LOGIN_PATH,account.getIdAccount());
-                return true;
+            if(account.getNameRole().equals("User")) {
+                BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.getPassword());
+                if ((account.getUsername().equals(username) || account.getEmail().equals(username)) && result.verified) {
+                    FileRW.Write(LOGIN_PATH, account.getIdAccount());
+                    return true;
+                }
             }
         }
         return false;
