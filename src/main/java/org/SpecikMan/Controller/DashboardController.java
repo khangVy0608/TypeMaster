@@ -1,12 +1,17 @@
 package org.SpecikMan.Controller;
 
-import com.jfoenix.controls.JFXTreeTableView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -15,13 +20,12 @@ import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
 import org.SpecikMan.Entity.AccountLevelDetails;
 import org.SpecikMan.Entity.Level;
+import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.LoadForm;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class DashboardController {
     @FXML
@@ -47,7 +51,7 @@ public class DashboardController {
     @FXML
     private Button btnDiffNormal;
     @FXML
-    private Button btnHightestLikedLevels;
+    private Button btnHighestLikedLevels;
     @FXML
     private Button btnInstantDeath;
     @FXML
@@ -95,7 +99,24 @@ public class DashboardController {
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private JFXTreeTableView<?> tvScoreboard;
+    private TableColumn<AccountLevelDetails, Date> tcDate;
+
+    @FXML
+    private TableColumn<String, Integer> tcNo;
+
+    @FXML
+    private TableColumn<AccountLevelDetails, String> tcScore;
+
+    @FXML
+    private TableColumn<AccountLevelDetails, String> tcTime;
+
+    @FXML
+    private TableColumn<AccountLevelDetails, String> tcUsername;
+
+    @FXML
+    private TableView<AccountLevelDetails> tvDetail;
+
+
     @FXML
     private TextField txtSearch;
     @FXML
@@ -107,86 +128,93 @@ public class DashboardController {
 
     @FXML
     public void onBtnAllClicked(MouseEvent event) {
-        showAll();
+
+        LevelDao levelDao = new LevelDao();
+        showAll(levelDao.getAll());
     }
 
     public void initialize() {
-        showAll();
+        LevelDao levelDao = new LevelDao();
+        showAll(levelDao.getAll());
     }
 
-    public void showAll() {
+    public void showAll(List<Level> listLevel) {
         try {
+            vboxItems.getChildren().clear();
             disappearRightPane();
-            LevelDao levelDao = new LevelDao();
-            AccountDao accountDao = new AccountDao();
-            List<Level> levels = levelDao.getAll();
-            DetailsDao detailDao = new DetailsDao();
-            Node[] nodes = new Node[levels.size()];
-            List<AccountLevelDetails> details = detailDao.getAll();
-            isSelected = new boolean[levels.size()];
-            for (int i = 0; i < nodes.length; i++) {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(DashboardController.class.getResource("/fxml/Dashboard_item.fxml"));
-                nodes[i] = loader.load();
-                Level level = levels.get(i);
-                ItemController controller = loader.getController();
-                controller.setItemInfo(level.getNameLevel(), accountDao.get(level.getIdAccount()).getUsername(), level.getDifficulty().getIdDifficulty(), level.getTotalWords());
-                final int h = i;
-                nodes[i].setOnMouseEntered(evt -> {
-                    if (!isSelected[h]) {
-                        nodes[h].setStyle("-fx-background-color: #4498e9;");
-                    }
-                });
-                nodes[i].setOnMouseExited(evt -> {
-                    if(isSelected[h]) {
-                        nodes[h].setStyle("-fx-background-color: #4498e9;");
-                    } else {
-                        nodes[h].setStyle("-fx-background-color: #b4b4b4");
-                    }
-                });
-                nodes[i].setOnMousePressed(evt -> {
-                    Arrays.fill(isSelected,Boolean.FALSE);
-                    isSelected[h] = true;
-                    for(Node n:nodes){
-                        n.setStyle("-fx-background-color: #b4b4b4");
-                    }
-                    if(isSelected[h]) {
-                        nodes[h].setStyle("-fx-background-color: #4498e9;");
-                    }
-                    appearRightPane();
-                    lbLevelName.setText(level.getNameLevel());
-                    hlAuthorLink.setText(accountDao.get(level.getIdAccount()).getUsername());
-                    lbCreateTime.setText(level.getCreateDate().toString());
-                    lbUpdatedTime.setText(level.getUpdatedDate().toString());
-                    lbDifficulty.setText(level.getDifficulty().getNameDifficulty());
-                    diff(level.getDifficulty().getNameDifficulty());
-                    lbTotalWords.setText(String.valueOf(level.getTotalWords()));
-                    lbTime.setText(level.getTime());
-                    lbModeName.setText(level.getMode().getNameMode());
-                    List<AccountLevelDetails> levelDetail = new ArrayList<>();
-                    AccountLevelDetails userDetail = new AccountLevelDetails();
-                    for (AccountLevelDetails detail : details) {
-                        if (detail.getLevel().getNameLevel().equals(levels.get(h).getNameLevel())) {
-                            levelDetail.add(detail);
+            if(listLevel.size()!=0) {
+                AccountDao accountDao = new AccountDao();
+                DetailsDao detailDao = new DetailsDao();
+                Node[] nodes = new Node[listLevel.size()];
+                List<AccountLevelDetails> details = detailDao.getAll();
+                isSelected = new boolean[listLevel.size()];
+                for (int i = 0; i < nodes.length; i++) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(DashboardController.class.getResource("/fxml/Dashboard_item.fxml"));
+                    nodes[i] = loader.load();
+                    Level level = listLevel.get(i);
+                    ItemController controller = loader.getController();
+                    controller.setItemInfo(level.getNameLevel(), accountDao.get(level.getIdAccount()).getUsername(), level.getDifficulty().getIdDifficulty(), level.getTotalWords());
+                    final int h = i;
+                    nodes[i].setOnMouseEntered(evt -> {
+                        if (!isSelected[h]) {
+                            nodes[h].setStyle("-fx-background-color: #4498e9;");
                         }
-                        if (detail.getLevel().getNameLevel().equals(levels.get(h).getNameLevel()) && detail.getIdAccount().equals(FileRW.Read(LOGIN_PATH))) {
-                            userDetail = detail;
+                    });
+                    nodes[i].setOnMouseExited(evt -> {
+                        if (isSelected[h]) {
+                            nodes[h].setStyle("-fx-background-color: #4498e9;");
+                        } else {
+                            nodes[h].setStyle("-fx-background-color: #b4b4b4");
                         }
-                    }
-                    if(userDetail.getIdAccount()!=null) {
-                        levelDetail.sort(Comparator.comparingInt(AccountLevelDetails::getScore));
-                        lbNo.setText("#" + (levelDetail.indexOf(userDetail) + 1));
-                        lbHighestScore.setText(String.valueOf(userDetail.getScore()));
-                        lbTimeLeft.setText(userDetail.getTimeLeft());
-                        lbPlayedDate.setText(userDetail.getDatePlayed().toString());
-                    } else {
-                        lbNo.setText("---");
-                        lbHighestScore.setText("---");
-                        lbTimeLeft.setText("---");
-                        lbPlayedDate.setText("---");
-                    }
-                });
-                vboxItems.getChildren().add(nodes[i]);
+                    });
+                    nodes[i].setOnMousePressed(evt -> {
+                        Arrays.fill(isSelected, Boolean.FALSE);
+                        isSelected[h] = true;
+                        for (Node n : nodes) {
+                            n.setStyle("-fx-background-color: #b4b4b4");
+                        }
+                        if (isSelected[h]) {
+                            nodes[h].setStyle("-fx-background-color: #4498e9;");
+                        }
+                        appearRightPane();
+                        lbLevelName.setText(level.getNameLevel());
+                        hlAuthorLink.setText(accountDao.get(level.getIdAccount()).getUsername());
+                        lbCreateTime.setText(level.getCreateDate().toString());
+                        lbUpdatedTime.setText(level.getUpdatedDate().toString());
+                        lbDifficulty.setText(level.getDifficulty().getNameDifficulty());
+                        diff(level.getDifficulty().getNameDifficulty());
+                        lbTotalWords.setText(String.valueOf(level.getTotalWords()));
+                        lbTime.setText(level.getTime());
+                        lbModeName.setText(level.getMode().getNameMode());
+                        List<AccountLevelDetails> levelDetail = new ArrayList<>();
+                        AccountLevelDetails userDetail = new AccountLevelDetails();
+                        for (AccountLevelDetails detail : details) {
+                            if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel())) {
+                                levelDetail.add(detail);
+                            }
+                            if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel()) && detail.getIdAccount().equals(FileRW.Read(LOGIN_PATH))) {
+                                userDetail = detail;
+                            }
+                        }
+                        levelDetail.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
+                        if (userDetail.getIdAccount() != null) {
+                            lbNo.setText("#" + (levelDetail.indexOf(userDetail) + 1));
+                            lbHighestScore.setText(String.valueOf(userDetail.getScore()));
+                            lbTimeLeft.setText(userDetail.getTimeLeft());
+                            lbPlayedDate.setText(userDetail.getDatePlayed().toString());
+                        } else {
+                            lbNo.setText("---");
+                            lbHighestScore.setText("---");
+                            lbTimeLeft.setText("---");
+                            lbPlayedDate.setText("---");
+                        }
+                        BindingDataToTable(levelDetail);
+                    });
+                    vboxItems.getChildren().add(nodes[i]);
+                }
+            } else {
+                vboxItems.getChildren().clear();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -204,7 +232,6 @@ public class DashboardController {
         ObservableList<Node> contents = rightPane.getChildren();
         contents.forEach(node -> node.setVisible(true));
     }
-
     public void diff(String diff) {
         if (diff.equals("Easy")) {
             iconEasy.setVisible(true);
@@ -220,4 +247,153 @@ public class DashboardController {
             iconHard.setVisible(true);
         }
     }
+    public void BindingDataToTable(List<AccountLevelDetails> listtmp){
+        ObservableList<AccountLevelDetails> list = FXCollections.observableList(listtmp);
+        tcNo.setCellFactory(col -> {
+            TableCell<String, Integer> indexCell = new TableCell<>();
+            ReadOnlyObjectProperty<TableRow<String>> rowProperty = indexCell.tableRowProperty();
+            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
+                TableRow<String> row = rowProperty.get();
+                if (row != null) {
+                    int rowIndex = row.getIndex();
+                    if (rowIndex < row.getTableView().getItems().size()) {
+                        return Integer.toString(rowIndex+1);
+                    }
+                }
+                return null;
+            }, rowProperty);
+            indexCell.textProperty().bind(rowBinding);
+            return indexCell;
+        });
+        tcUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+        tcDate.setCellValueFactory(new PropertyValueFactory<>("datePlayed"));
+        tcScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        tcTime.setCellValueFactory(new PropertyValueFactory<>("timeLeft"));
+        tvDetail.setItems(list);
+    }
+    @FXML
+    public void btnBlackoutClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getMode().getNameMode().equals("Blackout")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    public void btnDeathTokenClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getMode().getNameMode().equals("Death Token")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    public void btnInstantDeathClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getMode().getNameMode().equals("Instant Death")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    public void btnNormalClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getMode().getNameMode().equals("Normal")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+    @FXML
+    void btnBackClicked(MouseEvent event) {
+        LoadForm.load("/fxml/Home.fxml","Home",false);
+        DisposeForm.Dispose(lbTime);
+    }
+    @FXML
+    void btnDefaultLevelClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            System.out.println(i.getIdAccount().split("AC")[1]);
+            if(Integer.parseInt(i.getIdAccount().split("AC")[1])<10){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    void btnDiffEasyClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getDifficulty().getNameDifficulty().equals("Easy")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    void btnDiffHardClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getDifficulty().getNameDifficulty().equals("Hard")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    void btnDiffNormalClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getDifficulty().getNameDifficulty().equals("Normal")){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+    @FXML
+    void btnOtherPlayerLevelsClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(!(i.getIdAccount().equals(FileRW.Read(LOGIN_PATH)))&&!(Integer.parseInt(i.getIdAccount().split("AC")[1])<10)){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+    @FXML
+    void btnYourLevelsClicked(MouseEvent event) {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for(Level i: levelDao.getAll()){
+            if(i.getIdAccount().equals(FileRW.Read(LOGIN_PATH))){
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
+
+
 }

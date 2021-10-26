@@ -22,12 +22,12 @@ public class GenerateID {
     public static String genAccount() {
         List<Account> accounts = accountDao.getAll();
         if (accounts.isEmpty()) {
-            return "AC1";
+            return "AC11";
         } else {
             List<Integer> nums = new ArrayList<>();
             accounts.forEach(element -> nums.add(Integer.valueOf(element.getIdAccount().replaceAll("[^0-9]", ""))));
             Collections.sort(nums);
-            return "AC"+(nums.get(nums.size()-1)+1);
+            return "AC"+(nums.get(nums.size()-1)+10);
         }
     }
 

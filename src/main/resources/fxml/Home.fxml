@@ -38,17 +38,17 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnPlay" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#onBtnPlayClicked" prefHeight="181.0" prefWidth="242.0" text="Dashboard">
+            <Button fx:id="btnPlay" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#onBtnPlayClicked" prefHeight="181.0" prefWidth="242.0" text="Practice">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="HOME" size="50" />
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Students" GridPane.columnIndex="1">
+            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Rank" GridPane.columnIndex="1">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="GROUP" size="50" />
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Timetable" GridPane.columnIndex="2">
+            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Account Statistics" GridPane.columnIndex="2">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="CALENDAR_CHECK_ALT" size="50" />
                </graphic>
@@ -58,12 +58,12 @@
                   <FontAwesomeIconView fill="#2d75e8" glyphName="SLIDERS" size="50" />
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Inventory" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="EXCHANGE" size="50" />
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Classes" GridPane.rowIndex="1">
+            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Shop" GridPane.rowIndex="1">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="INDENT" size="50" />
                </graphic>
