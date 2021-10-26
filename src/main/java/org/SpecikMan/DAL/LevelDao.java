@@ -28,9 +28,9 @@ public class LevelDao implements Dao<Level> {
             ResultSet rs = prepareStatement.executeQuery();
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
-                    levels.add(new Level(rs.getString("idLevel"),rs.getString("name"),rs.getInt("numLike"),rs.getDate("createDate"),
+                    levels.add(new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                             rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                            new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idRole"),rs.getString("nameRole")),
+                            new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idMode"),rs.getString("nameMode")),
                             rs.getString("idPublisher")));
                 }
             }
@@ -51,7 +51,7 @@ public class LevelDao implements Dao<Level> {
             ResultSet rs = prepareStatement.executeQuery();
             Level level = new Level();
             while (rs.next()) {
-                level = new Level(rs.getString("idLevel"),rs.getString("name"),rs.getInt("numLike"),rs.getDate("createDate"),
+                level = new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                         rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
                         new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idRole"),rs.getString("nameRole")),
                         rs.getString("idPublisher"));

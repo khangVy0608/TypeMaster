@@ -124,4 +124,17 @@ public class Level extends Account{
         this.difficulty = difficulty;
         this.mode = mode;
     }
+
+    public Level(String idLevel, String nameLevel, int numLike, Date createDate, Date updatedDate, String levelContent, int totalWords, String time, Difficulty difficulty, Mode mode) {
+        this.idLevel = idLevel;
+        this.nameLevel = nameLevel;
+        this.numLike = numLike;
+        this.createDate = createDate;
+        this.updatedDate = updatedDate;
+        this.levelContent = levelContent;
+        this.totalWords = totalWords;
+        this.time = time;
+        this.difficulty = difficulty;
+        this.mode = mode;
+    }
 }

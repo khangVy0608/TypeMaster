@@ -9,10 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Tools.DisposeForm;
-import org.SpecikMan.Tools.GetUUD;
-import org.SpecikMan.Tools.LoadForm;
-import org.SpecikMan.Tools.ShowAlert;
+import org.SpecikMan.Tools.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class SignInController {
     @FXML
     private Hyperlink hlForgetPassword;
     //endregion
-
+    private static final String LOGIN_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\loginAcc";
     //region FXML Class
     @FXML
     public void onBtnSignInClicked(MouseEvent e) {
@@ -75,6 +72,7 @@ public class SignInController {
         } else {
             ShowAlert.show("Warning!", "Welcome back " + acc.getUsername());
             LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
+            FileRW.Write(LOGIN_PATH,acc.getIdAccount());
             DisposeForm.Dispose(txtUsername);
         }
     }
@@ -87,6 +85,7 @@ public class SignInController {
         for (Account account : accounts) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.getPassword());
             if ((account.getUsername().equals(username) || account.getEmail().equals(username)) && result.verified) {
+                FileRW.Write(LOGIN_PATH,account.getIdAccount());
                 return true;
             }
         }
