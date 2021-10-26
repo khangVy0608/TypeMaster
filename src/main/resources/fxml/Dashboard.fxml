@@ -18,9 +18,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="933.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.DashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="933.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.DashboardController">
    <children>
-      <BorderPane prefHeight="587.0" prefWidth="933.0">
+      <BorderPane prefHeight="620.0" prefWidth="934.0">
          <left>
             <VBox prefHeight="510.0" prefWidth="223.0" style="-fx-background-color: #c7c7c7;" BorderPane.alignment="CENTER">
                <children>
@@ -122,6 +122,14 @@
                         </Pane>
                      </graphic>
                   </Button>
+                  <Button fx:id="btnLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Liked Levels">
+                     <font>
+                        <Font name="System Bold Italic" size="17.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="HEART" size="17" />
+                     </graphic>
+                  </Button>
                   <Button fx:id="btnHightestLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Highest Liked Levels">
                      <font>
                         <Font name="System Bold Italic" size="17.0" />
@@ -218,7 +226,7 @@
                   </Label>
                   <Line endX="286.00006103515625" layoutX="113.0" layoutY="236.0" startX="8.00006103515625" stroke="#484848" />
                   <Line endX="-71.5999755859375" layoutX="113.0" layoutY="236.0" startX="-105.5999755859375" stroke="#484848" />
-                  <JFXTreeTableView fx:id="tvScoreboard" layoutX="7.0" layoutY="276.0" prefHeight="306.0" prefWidth="406.0" style="-fx-background-color: #c7c7c7;">
+                  <JFXTreeTableView fx:id="tvScoreboard" layoutX="7.0" layoutY="276.0" prefHeight="341.0" prefWidth="406.0" style="-fx-background-color: #c7c7c7;">
                      <columns>
                         <TreeTableColumn prefWidth="58.4000244140625" text="No." />
                         <TreeTableColumn prefWidth="100.0" text="Username" />
@@ -273,7 +281,7 @@
          <center>
             <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <content>
-                  <VBox prefHeight="588.0" prefWidth="298.0" style="-fx-background-color: #b4b4b4;">
+                  <VBox prefHeight="618.0" prefWidth="298.0" style="-fx-background-color: #b4b4b4;">
                      <children>
                         <HBox prefHeight="30.0" prefWidth="258.0">
                            <children>
@@ -292,9 +300,9 @@
                               </Button>
                            </children>
                         </HBox>
-                        <BorderPane prefHeight="558.0" prefWidth="294.0">
+                        <BorderPane prefHeight="582.0" prefWidth="298.0">
                            <center>
-                              <VBox fx:id="vboxItems" prefHeight="542.0" prefWidth="294.0" BorderPane.alignment="CENTER" />
+                              <VBox fx:id="vboxItems" prefHeight="593.0" prefWidth="298.0" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                      </children>
