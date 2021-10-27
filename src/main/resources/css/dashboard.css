@@ -20,4 +20,5 @@
 .table-column{
     -fx-border-color: #9e9e9e;
     -fx-text-fill: #000000;
+    -fx-alignment: CENTER;
 }

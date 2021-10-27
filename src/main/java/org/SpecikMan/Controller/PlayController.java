@@ -7,9 +7,15 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.TextFlow;
+import org.SpecikMan.DAL.AccountDao;
+import org.SpecikMan.DAL.LevelDao;
+import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Entity.Level;
 import org.SpecikMan.Tools.FileRW;
 
 import javax.swing.*;
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -34,9 +40,15 @@ public class PlayController {
     private TextFlow textflow;
     @FXML
     private Label lbWPS;
-    private static final String NOT_TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\notTyped.txt";
-    private static final String TYPED_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\typed.txt";
-    private static final String ORIGINAL_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\origin.txt";
+    @FXML
+    private Label lbLevelName;
+    @FXML
+    private Label lbUsername;
+    @FXML
+    private Label lbPublisher;
+    private static final String NOT_TYPED_PATH = FilePath.getNotTyped();
+    private static final String TYPED_PATH = FilePath.getTYPED();
+    private static final String ORIGINAL_PATH = FilePath.getORIGINAL();
     int correct = 0;
     int wrong = 0;
     int total = 0;
@@ -61,6 +73,14 @@ public class PlayController {
     }
 
     public void initialize() {
+        LevelDao levelDao = new LevelDao();
+        Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
+        AccountDao accountDao = new AccountDao();
+        Account accountPlay = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
+        Account publisher = accountDao.get(level.getIdAccount());
+        lbPublisher.setText(publisher.getUsername());
+        lbLevelName.setText(level.getNameLevel());
+        lbUsername.setText(accountPlay.getUsername());
         char[] chars = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
         FileRW.Write(NOT_TYPED_PATH, String.valueOf(chars));
         FileRW.Write(TYPED_PATH, "");

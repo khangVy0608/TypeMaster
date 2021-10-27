@@ -1,5 +1,7 @@
 package org.SpecikMan.DAL;
 
+import javafx.fxml.FXML;
+import javafx.scene.input.InputMethodEvent;
 import org.SpecikMan.DB.DBConnection;
 import org.SpecikMan.Entity.Difficulty;
 import org.SpecikMan.Entity.Level;
@@ -53,7 +55,7 @@ public class LevelDao implements Dao<Level> {
             while (rs.next()) {
                 level = new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                         rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                        new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idRole"),rs.getString("nameRole")),
+                        new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idMode"),rs.getString("nameMode")),
                         rs.getString("idPublisher"));
             }
             prepareStatement.close();

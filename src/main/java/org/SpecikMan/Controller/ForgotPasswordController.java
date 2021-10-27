@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Tools.*;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public class ForgotPasswordController {
             assert acc != null;
             if (acc.getVerificationCode().equals(txtVerificationCode.getText())) {
                 ShowAlert.show("Notice!", "Verify Success");
-                FileRW.Write("D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\ForgotPassword_id.txt", acc.getIdAccount());
+                FileRW.Write(FilePath.getForgotId(), acc.getIdAccount());
                 LoadForm.load("/fxml/ChangeInformation.fxml", "Change Information", false);
                 DisposeForm.Dispose(btnConfirm);//Pass any controls to get it's stage
             } else {

@@ -28,7 +28,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
             ResultSet rs = prepareStatement.executeQuery();
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
-                    details.add(new AccountLevelDetails(rs.getString("idAccount"),rs.getString("username"),rs.getString("password"),
+                    details.add(new AccountLevelDetails(rs.getString("idAccount"),rs.getString("username").trim(),rs.getString("password"),
                             rs.getString("email"),rs.getString("fullName"),rs.getDate("dob"),rs.getString("verificationCode"),
                             rs.getString("uud"),rs.getString("idRole"),null,rs.getString("idLevelDetails"),
                             rs.getInt("score"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getBoolean("isLike"),rs.getFloat("wpm"),

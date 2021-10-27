@@ -15,7 +15,7 @@
          <children>
             <Pane layoutX="590.0" layoutY="-1.0" prefHeight="94.0" prefWidth="409.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@../css/play.css">
                <children>
-                  <Label layoutX="167.0" layoutY="21.0" text="Username - Rank" textFill="WHITE">
+                  <Label fx:id="lbUsername" layoutX="167.0" layoutY="21.0" text="Username - Rank" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -98,7 +98,7 @@
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <Label layoutX="297.0" layoutY="14.0" text="Publisher name">
+                  <Label fx:id="lbPublisher" layoutX="297.0" layoutY="14.0" text="Publisher name">
                      <font>
                         <Font size="21.0" />
                      </font>
@@ -127,7 +127,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Label layoutX="59.0" layoutY="29.0" text="Level Name" textFill="#0b0b0b">
+            <Label fx:id="lbLevelName" layoutX="59.0" layoutY="29.0" text="Level Name" textFill="#0b0b0b">
                <font>
                   <Font size="13.0" />
                </font>
