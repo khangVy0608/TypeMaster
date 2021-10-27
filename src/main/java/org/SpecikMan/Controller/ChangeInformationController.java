@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.ShowAlert;
@@ -36,8 +37,9 @@ public class ChangeInformationController {
     @FXML
     private TextField txtUsername;
 
+
+
     /* Đường dẫn đến file ForgotPassword_id.txt để nhận dữ liệu được truyền từ form ForgotPassword*/
-    private static final String FORGOT_ID_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\ForgotPassword_id.txt";
     @FXML
     void onBtnConfirmClicked(MouseEvent event) {
         /* Kiểm tra nhập*/
@@ -53,7 +55,7 @@ public class ChangeInformationController {
         } else if(!txtConfirmPassword.getText().equals(txtNewPassword.getText())){
             ShowAlert.show("Warning!","2 passwords are not match");
         } else {
-            Account account = accountDao.get(FileRW.Read(FORGOT_ID_PATH));
+            Account account = accountDao.get(FileRW.Read(FilePath.getForgotId()));
             if (account != null) {
                 account.setUsername(txtUsername.getText());
                 account.setEmail(txtEmail.getText());
@@ -74,7 +76,7 @@ public class ChangeInformationController {
         } else {
             txtEmail.setDisable(true);//HyperLink là revert nhấn vào -> Change
             hlChangeEmail.setText("Change");
-            Account acc = accountDao.get(FileRW.Read(FORGOT_ID_PATH));
+            Account acc = accountDao.get(FileRW.Read(FilePath.getForgotId()));
             if (acc != null) {
                 txtEmail.setText(acc.getEmail());//Hiển thị email
             }
@@ -90,7 +92,7 @@ public class ChangeInformationController {
         } else {
             txtUsername.setDisable(true);
             hlChangeUsername.setText("Change");
-            Account acc = accountDao.get(FileRW.Read(FORGOT_ID_PATH));
+            Account acc = accountDao.get(FileRW.Read(FilePath.getForgotId()));
             if (acc != null) {
                 txtUsername.setText(acc.getUsername());//Hiển thị username
             }
@@ -99,7 +101,7 @@ public class ChangeInformationController {
 
     public void initialize() {//Chạy form sẽ thực hiện code trong init này trước
         AccountDao accountDao = new AccountDao();
-        Account acc = accountDao.get(FileRW.Read(FORGOT_ID_PATH));
+        Account acc = accountDao.get(FileRW.Read(FilePath.getForgotId()));
         if (acc != null) {
             txtEmail.setText(acc.getEmail());
             txtUsername.setText(acc.getUsername());

@@ -31,7 +31,7 @@
                      <font>
                         <Font name="System Bold Italic" size="17.0" />
                      </font></Button>
-                  <Button fx:id="btnRecentPlayed" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Recent Played Levels">
+                  <Button fx:id="btnRecentPlayed" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnRecentPlayedClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Recent Played Levels">
                      <font>
                         <Font name="System Bold Italic" size="17.0" />
                      </font>
@@ -122,7 +122,7 @@
                         </Pane>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Liked Levels">
+                  <Button fx:id="btnLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnLikeLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Liked Levels">
                      <font>
                         <Font name="System Bold Italic" size="17.0" />
                      </font>
@@ -130,7 +130,7 @@
                         <FontAwesomeIconView glyphName="HEART" size="17" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnHighestLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Highest Liked Levels">
+                  <Button fx:id="btnHighestLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnHighestLikedLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../css/dashboard.css" text="Highest Liked Levels">
                      <font>
                         <Font name="System Bold Italic" size="17.0" />
                      </font>
@@ -172,7 +172,7 @@
                         <FontAwesomeIconView glyphName="HEART" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnPlay" layoutX="316.0" layoutY="53.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #4498e9;" text="Play">
+                  <Button fx:id="btnPlay" layoutX="316.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#btnPlayClicked" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #4498e9;" text="Play">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -257,17 +257,12 @@
                      </font>
                   </Label>
                   <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="244.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
-                  <Button fx:id="btnCopyAndModify" layoutX="237.0" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="126.0" text="Copy &amp; Modify">
+                  <Button fx:id="btnCopyAndModify" layoutX="277.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="128.0" text="Copy &amp; Modify">
                      <graphic>
                         <FontAwesomeIconView glyphName="COPY" size="15" />
                      </graphic>
                   </Button>
-                  <Button layoutX="369.0" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="35.0">
-                     <graphic>
-                        <FontAwesomeIconView fx:id="btnClose" glyphName="CLOSE" size="20" />
-                     </graphic>
-                  </Button>
-                  <TableView fx:id="tvDetail" layoutX="3.0" layoutY="290.0" prefHeight="327.0" prefWidth="410.0" stylesheets="@../css/dashboard.css">
+                  <TableView fx:id="tvDetail" layoutX="3.0" layoutY="273.0" prefHeight="344.0" prefWidth="410.0" stylesheets="@../css/dashboard.css">
                     <columns>
                       <TableColumn fx:id="tcNo" prefWidth="57.600035190582275" text="No" />
                       <TableColumn fx:id="tcUsername" prefWidth="133.60004425048828" text="Username" />
@@ -285,18 +280,15 @@
                      <children>
                         <HBox prefHeight="30.0" prefWidth="258.0">
                            <children>
-                              <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="251.0" promptText="Search" style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
+                              <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="243.0" promptText="Search" style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
                                  <HBox.margin>
                                     <Insets left="5.0" top="5.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #c7c7c7;" textFill="#ff3636">
+                              <Button fx:id="btnFind" mnemonicParsing="false" onMouseClicked="#btnFindClicked" style="-fx-background-color: #c7c7c7;" text="Find" textFill="#ff3636">
                                  <HBox.margin>
                                     <Insets left="5.0" top="5.0" />
                                  </HBox.margin>
-                                 <graphic>
-                                    <FontAwesomeIconView fx:id="btnAdd" glyphName="PLUS" selectionFill="#e4e4e4" />
-                                 </graphic>
                               </Button>
                            </children>
                         </HBox>

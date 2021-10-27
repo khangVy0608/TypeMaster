@@ -3,7 +3,6 @@ package org.SpecikMan.Controller;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,13 +18,17 @@ import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
 import org.SpecikMan.Entity.AccountLevelDetails;
+import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Entity.Level;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.LoadForm;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class DashboardController {
     @FXML
@@ -106,29 +109,24 @@ public class DashboardController {
 
     @FXML
     private TableColumn<AccountLevelDetails, String> tcScore;
-
     @FXML
     private TableColumn<AccountLevelDetails, String> tcTime;
-
     @FXML
     private TableColumn<AccountLevelDetails, String> tcUsername;
-
     @FXML
     private TableView<AccountLevelDetails> tvDetail;
-
-
-    @FXML
-    private TextField txtSearch;
     @FXML
     private VBox vboxItems;
     @FXML
     private Pane rightPane;
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    private Label lbIdLevel;
     private boolean[] isSelected;
-    private static final String LOGIN_PATH = "D:\\Learning\\TypeMaster\\src\\main\\resources\\data\\loginAcc";
 
     @FXML
-    public void onBtnAllClicked(MouseEvent event) {
-
+    public void onBtnAllClicked() {
         LevelDao levelDao = new LevelDao();
         showAll(levelDao.getAll());
     }
@@ -187,13 +185,14 @@ public class DashboardController {
                         lbTotalWords.setText(String.valueOf(level.getTotalWords()));
                         lbTime.setText(level.getTime());
                         lbModeName.setText(level.getMode().getNameMode());
+                        FileRW.Write(FilePath.getPlayLevel(),level.getIdLevel());
                         List<AccountLevelDetails> levelDetail = new ArrayList<>();
                         AccountLevelDetails userDetail = new AccountLevelDetails();
                         for (AccountLevelDetails detail : details) {
                             if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel())) {
                                 levelDetail.add(detail);
                             }
-                            if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel()) && detail.getIdAccount().equals(FileRW.Read(LOGIN_PATH))) {
+                            if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel()) && detail.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
                                 userDetail = detail;
                             }
                         }
@@ -337,7 +336,7 @@ public class DashboardController {
     }
 
     @FXML
-    void btnDiffEasyClicked(MouseEvent event) {
+    void btnDiffEasyClicked() {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
         for(Level i: levelDao.getAll()){
@@ -349,11 +348,11 @@ public class DashboardController {
     }
 
     @FXML
-    void btnDiffHardClicked(MouseEvent event) {
+    void btnDiffHardClicked() {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
-        for(Level i: levelDao.getAll()){
-            if(i.getDifficulty().getNameDifficulty().equals("Hard")){
+        for (Level i : levelDao.getAll()) {
+            if (i.getDifficulty().getNameDifficulty().equals("Hard")) {
                 list.add(i);
             }
         }
@@ -361,22 +360,11 @@ public class DashboardController {
     }
 
     @FXML
-    void btnDiffNormalClicked(MouseEvent event) {
+    void btnDiffNormalClicked() {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
-        for(Level i: levelDao.getAll()){
-            if(i.getDifficulty().getNameDifficulty().equals("Normal")){
-                list.add(i);
-            }
-        }
-        showAll(list);
-    }
-    @FXML
-    void btnOtherPlayerLevelsClicked(MouseEvent event) {
-        LevelDao levelDao = new LevelDao();
-        List<Level> list = new ArrayList<>();
-        for(Level i: levelDao.getAll()){
-            if(!(i.getIdAccount().equals(FileRW.Read(LOGIN_PATH)))&&!(Integer.parseInt(i.getIdAccount().split("AC")[1])<10)){
+        for (Level i : levelDao.getAll()) {
+            if (i.getDifficulty().getNameDifficulty().equals("Normal")) {
                 list.add(i);
             }
         }
@@ -384,16 +372,94 @@ public class DashboardController {
     }
 
     @FXML
-    void btnYourLevelsClicked(MouseEvent event) {
+    void btnOtherPlayerLevelsClicked() {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
-        for(Level i: levelDao.getAll()){
-            if(i.getIdAccount().equals(FileRW.Read(LOGIN_PATH))){
+        for (Level i : levelDao.getAll()) {
+            if (!(i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) && !(Integer.parseInt(i.getIdAccount().split("AC")[1]) < 10)) {
                 list.add(i);
             }
         }
         showAll(list);
     }
 
+    @FXML
+    void btnYourLevelsClicked() {
+        LevelDao levelDao = new LevelDao();
+        List<Level> list = new ArrayList<>();
+        for (Level i : levelDao.getAll()) {
+            if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
+                list.add(i);
+            }
+        }
+        showAll(list);
+    }
 
+    @FXML
+    void btnRecentPlayedClicked() {
+        DetailsDao detailsDao = new DetailsDao();
+        List<AccountLevelDetails> details = new ArrayList<>();
+        LevelDao levelDao = new LevelDao();
+        List<Level> levels = new ArrayList<>();
+        Date date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        for (AccountLevelDetails i : detailsDao.getAll()) {
+            if (DiffDate(i.getDatePlayed(), date) < 5 && i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
+                details.add(i);
+            }
+        }
+        for (AccountLevelDetails i : details) {
+            levels.add(levelDao.get(i.getLevel().getIdLevel()));
+        }
+        showAll(levels);
+    }
+
+    @FXML
+    void btnHighestLikedLevelsClicked() {
+        LevelDao levelDao = new LevelDao();
+        List<Level> levels = levelDao.getAll();
+        levels.sort(Comparator.comparingInt(Level::getNumLike).reversed());
+        showAll(levels);
+    }
+
+    @FXML
+    void btnLikeLevelsClicked() {
+        DetailsDao detailsDao = new DetailsDao();
+        LevelDao levelDao = new LevelDao();
+        List<AccountLevelDetails> details = new ArrayList<>();
+        List<Level> levels = new ArrayList<>();
+        for (AccountLevelDetails i : detailsDao.getAll()) {
+            if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())) && i.isLike()) {
+                details.add(i);
+            }
+        }
+        for (AccountLevelDetails i : details) {
+            levels.add(levelDao.get(i.getLevel().getIdLevel()));
+        }
+        showAll(levels);
+    }
+
+    public long DiffDate(Date startDate, Date endDate) {
+        long duration = endDate.getTime() - startDate.getTime();
+        return TimeUnit.MILLISECONDS.toDays(duration);
+    }
+    @FXML
+    public void btnFindClicked(){
+        LevelDao levelDao = new LevelDao();
+        List<Level> levelsM = levelDao.getAll();
+        List<Level> levels = new ArrayList<>();
+        if (txtSearch.getText().trim().equals("")) {
+            levels.addAll(levelsM);
+        } else {
+            for (Level i : levelsM) {
+                if (i.getNameLevel().contains(txtSearch.getText().trim()) || i.getLevelContent().trim().contains(txtSearch.getText().trim())) {
+                    levels.add(i);
+                }
+            }
+        }
+        showAll(levels);
+    }
+    @FXML
+    public void btnPlayClicked(){
+        LoadForm.load("/fxml/Play.fxml","Play",false);
+    }
 }
