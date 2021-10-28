@@ -22,7 +22,10 @@ public class Difficulty {
 
     public Difficulty() {
     }
-
+    @Override
+    public String toString() {
+        return nameDifficulty;
+    }
     public Difficulty(String idDifficulty, String nameDifficulty) {
         this.idDifficulty = idDifficulty;
         this.nameDifficulty = nameDifficulty;

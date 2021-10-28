@@ -22,7 +22,10 @@ public class Mode {
 
     public Mode() {
     }
-
+    @Override
+    public String toString(){
+        return nameMode;
+    }
     public Mode(String idMode, String name) {
         this.idMode = idMode;
         this.nameMode = name;

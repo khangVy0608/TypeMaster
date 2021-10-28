@@ -95,8 +95,9 @@ public class Account extends Role {
         this.uud = uud;
     }
 
-    public Account(String idAccount) {
+    public Account(String idAccount,String username) {
         this.idAccount = idAccount;
+        this.username = username;
     }
     //endregion
 }

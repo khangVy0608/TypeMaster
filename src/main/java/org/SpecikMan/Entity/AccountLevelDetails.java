@@ -121,8 +121,8 @@ public class AccountLevelDetails extends Account{
         this.level = level;
     }
 
-    public AccountLevelDetails(String idAccount, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level) {
-        super(idAccount);
+    public AccountLevelDetails(String idAccount,String username, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level) {
+        super(idAccount,username);
         this.idLevelDetails = idLevelDetails;
         this.score = score;
         this.timeLeft = timeLeft;

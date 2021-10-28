@@ -90,7 +90,7 @@ public class RoleDao implements Dao<Role>{
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
             prepareStatement.setString(1, role.getIdRole());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

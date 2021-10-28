@@ -89,7 +89,7 @@ public class DifficultyDao implements Dao<Difficulty>{
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
             prepareStatement.setString(1, difficulty.getIdDifficulty());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

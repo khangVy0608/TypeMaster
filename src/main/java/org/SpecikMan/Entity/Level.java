@@ -97,8 +97,8 @@ public class Level extends Account{
     public Level() {
     }
     //change when use
-    public Level(String idLevel, String name, int numLike, Date createDate, Date updatedDate, String levelContent, int totalWords, String time, Difficulty difficulty, Mode mode,String idAccount) {
-        super(idAccount);
+    public Level(String idLevel, String name, int numLike, Date createDate, Date updatedDate, String levelContent, int totalWords, String time, Difficulty difficulty, Mode mode,String idAccount,String username) {
+        super(idAccount,username);
         this.idLevel = idLevel;
         this.nameLevel = name;
         this.numLike = numLike;
@@ -136,5 +136,8 @@ public class Level extends Account{
         this.time = time;
         this.difficulty = difficulty;
         this.mode = mode;
+    }
+    public Level(String idLevel){
+        this.idLevel = idLevel;
     }
 }

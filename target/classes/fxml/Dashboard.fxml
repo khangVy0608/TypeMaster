@@ -167,12 +167,12 @@
                      </font>
                   </Label>
                   <Hyperlink fx:id="hlAuthorLink" layoutX="151.0" layoutY="72.0" text="Author Link" />
-                  <Button fx:id="btnLike" layoutX="252.0" layoutY="52.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="56.0" text="Like">
+                  <Button fx:id="btnLike" layoutX="323.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#btnLikeClicked" prefHeight="31.0" prefWidth="82.0" text="Like">
                      <graphic>
                         <FontAwesomeIconView glyphName="HEART" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnPlay" layoutX="316.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#btnPlayClicked" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #4498e9;" text="Play">
+                  <Button fx:id="btnPlay" layoutX="316.0" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#btnPlayClicked" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #4498e9;" text="Play">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -195,7 +195,10 @@
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbUpdatedTime" layoutX="97.0" layoutY="168.0" text="Date" />
+                  <Label fx:id="lbUpdatedTime" layoutX="97.0" layoutY="168.0" text="Date">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Label>
                   <FontAwesomeIconView fx:id="iconEasy" glyphName="STAR" layoutX="115.0" layoutY="207.0" />
                   <FontAwesomeIconView fx:id="iconNormal" glyphName="STAR" layoutX="133.0" layoutY="207.0" text="" />
                   <FontAwesomeIconView fx:id="iconHard" glyphName="STAR" layoutX="151.0" layoutY="207.0" text="" />
@@ -212,7 +215,10 @@
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbTime" layoutX="243.0" layoutY="168.0" text="?" />
+                  <Label fx:id="lbTime" layoutX="243.0" layoutY="168.0" text="?">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Label>
                   <Label layoutX="208.0" layoutY="195.0" text="Mode:" />
                   <Label fx:id="lbModeName" layoutX="248.0" layoutY="195.0" text="Mode Name">
                      <font>
@@ -257,7 +263,7 @@
                      </font>
                   </Label>
                   <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="244.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
-                  <Button fx:id="btnCopyAndModify" layoutX="277.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="128.0" text="Copy &amp; Modify">
+                  <Button fx:id="btnCopyAndModify" layoutX="276.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#onBtnCopyClicked" prefHeight="31.0" prefWidth="128.0" text="Copy &amp; Modify">
                      <graphic>
                         <FontAwesomeIconView glyphName="COPY" size="15" />
                      </graphic>
@@ -280,12 +286,17 @@
                      <children>
                         <HBox prefHeight="30.0" prefWidth="258.0">
                            <children>
-                              <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="243.0" promptText="Search" style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
+                              <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="166.0" promptText="Search" style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
                                  <HBox.margin>
                                     <Insets left="5.0" top="5.0" />
                                  </HBox.margin>
                               </TextField>
                               <Button fx:id="btnFind" mnemonicParsing="false" onMouseClicked="#btnFindClicked" style="-fx-background-color: #c7c7c7;" text="Find" textFill="#ff3636">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnAddLevel" mnemonicParsing="false" onMouseClicked="#btnAddLevelClicked" prefHeight="26.0" prefWidth="71.0" style="-fx-background-color: #c7c7c7;" text="Add Level" textFill="#ff3636">
                                  <HBox.margin>
                                     <Insets left="5.0" top="5.0" />
                                  </HBox.margin>

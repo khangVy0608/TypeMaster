@@ -1,13 +1,7 @@
 package org.SpecikMan.Tools;
 
-import org.SpecikMan.DAL.AccountDao;
-import org.SpecikMan.DAL.DifficultyDao;
-import org.SpecikMan.DAL.ModeDao;
-import org.SpecikMan.DAL.RoleDao;
-import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Entity.Difficulty;
-import org.SpecikMan.Entity.Mode;
-import org.SpecikMan.Entity.Role;
+import org.SpecikMan.DAL.*;
+import org.SpecikMan.Entity.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +12,8 @@ public class GenerateID {
     private static final RoleDao roleDao = new RoleDao();
     private static final DifficultyDao difficultyDao = new DifficultyDao();
     private static final ModeDao modeDao = new ModeDao();
-
+    private static final LevelDao levelDao = new LevelDao();
+    private static final DetailsDao detailsDao = new DetailsDao();
     public static String genAccount() {
         List<Account> accounts = accountDao.getAll();
         if (accounts.isEmpty()) {
@@ -62,6 +57,28 @@ public class GenerateID {
             modes.forEach(element -> nums.add(Integer.valueOf(element.getIdMode().replaceAll("[^0-9]", ""))));
             Collections.sort(nums);
             return "MD"+(nums.get(nums.size()-1)+1);
+        }
+    }
+    public static String genLevel() {
+        List<Level> levels = levelDao.getAll();
+        if (levels.isEmpty()) {
+            return "LV1";
+        } else {
+            List<Integer> nums = new ArrayList<>();
+            levels.forEach(element -> nums.add(Integer.valueOf(element.getIdLevel().replaceAll("[^0-9]", ""))));
+            Collections.sort(nums);
+            return "LV"+(nums.get(nums.size()-1)+1);
+        }
+    }
+    public static String genDetails() {
+        List<AccountLevelDetails> details = detailsDao.getAll();
+        if (details.isEmpty()) {
+            return "LD1";
+        } else {
+            List<Integer> nums = new ArrayList<>();
+            details.forEach(element -> nums.add(Integer.valueOf(element.getIdLevelDetails().replaceAll("[^0-9]", ""))));
+            Collections.sort(nums);
+            return "LD"+(nums.get(nums.size()-1)+1);
         }
     }
 }
