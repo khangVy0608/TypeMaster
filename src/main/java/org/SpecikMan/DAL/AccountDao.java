@@ -105,7 +105,7 @@ public class AccountDao implements Dao<Account> {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
             prepareStatement.setString(1, account.getIdAccount());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

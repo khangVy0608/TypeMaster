@@ -35,7 +35,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
                             rs.getFloat("wps"),rs.getInt("correct"),rs.getInt("wrong"),rs.getString("accuracy"),
                             new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                                     rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                                    new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"))));
+                                    new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username"))));
                 }
             }
             prepareStatement.close();
@@ -62,7 +62,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
                         rs.getFloat("wps"),rs.getInt("correct"),rs.getInt("wrong"),rs.getString("accuracy"),
                         new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                                 rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                                new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount")));
+                                new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username")));
             }
             prepareStatement.close();
             return detail;
@@ -126,7 +126,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
             prepareStatement.setString(1, detail.getIdLevelDetails());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

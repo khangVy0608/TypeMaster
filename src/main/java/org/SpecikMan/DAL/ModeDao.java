@@ -89,7 +89,7 @@ public class ModeDao implements Dao<Mode>{
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
             prepareStatement.setString(1, mode.getIdMode());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

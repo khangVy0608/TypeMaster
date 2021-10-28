@@ -20,8 +20,11 @@ import org.SpecikMan.DAL.LevelDao;
 import org.SpecikMan.Entity.AccountLevelDetails;
 import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Entity.Level;
+import org.SpecikMan.Table.HyperLinkCell;
+import org.SpecikMan.Table.TableViewItem;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.GenerateID;
 import org.SpecikMan.Tools.LoadForm;
 
 import java.io.IOException;
@@ -102,19 +105,19 @@ public class DashboardController {
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private TableColumn<AccountLevelDetails, Date> tcDate;
+    private TableColumn<TableViewItem, Date> tcDate;
 
     @FXML
     private TableColumn<String, Integer> tcNo;
 
     @FXML
-    private TableColumn<AccountLevelDetails, String> tcScore;
+    private TableColumn<TableViewItem, String> tcScore;
     @FXML
-    private TableColumn<AccountLevelDetails, String> tcTime;
+    private TableColumn<TableViewItem, String> tcTime;
     @FXML
-    private TableColumn<AccountLevelDetails, String> tcUsername;
+    private TableColumn<TableViewItem, Hyperlink> tcUsername;
     @FXML
-    private TableView<AccountLevelDetails> tvDetail;
+    private TableView<TableViewItem> tvDetail;
     @FXML
     private VBox vboxItems;
     @FXML
@@ -123,6 +126,8 @@ public class DashboardController {
     private TextField txtSearch;
     @FXML
     private Label lbIdLevel;
+    @FXML
+    private Button btnAddLevel;
     private boolean[] isSelected;
 
     @FXML
@@ -142,9 +147,7 @@ public class DashboardController {
             disappearRightPane();
             if(listLevel.size()!=0) {
                 AccountDao accountDao = new AccountDao();
-                DetailsDao detailDao = new DetailsDao();
                 Node[] nodes = new Node[listLevel.size()];
-                List<AccountLevelDetails> details = detailDao.getAll();
                 isSelected = new boolean[listLevel.size()];
                 for (int i = 0; i < nodes.length; i++) {
                     FXMLLoader loader = new FXMLLoader();
@@ -152,7 +155,7 @@ public class DashboardController {
                     nodes[i] = loader.load();
                     Level level = listLevel.get(i);
                     ItemController controller = loader.getController();
-                    controller.setItemInfo(level.getNameLevel(), accountDao.get(level.getIdAccount()).getUsername(), level.getDifficulty().getIdDifficulty(), level.getTotalWords());
+                    controller.setItemInfo(level.getNameLevel(), accountDao.get(level.getIdAccount()).getUsername(), level.getDifficulty().getIdDifficulty(), level.getTotalWords(),level.getNumLike(), level.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())));
                     final int h = i;
                     nodes[i].setOnMouseEntered(evt -> {
                         if (!isSelected[h]) {
@@ -167,6 +170,8 @@ public class DashboardController {
                         }
                     });
                     nodes[i].setOnMousePressed(evt -> {
+                        DetailsDao detailDao = new DetailsDao();
+                        List<AccountLevelDetails> details = detailDao.getAll();
                         Arrays.fill(isSelected, Boolean.FALSE);
                         isSelected[h] = true;
                         for (Node n : nodes) {
@@ -197,7 +202,7 @@ public class DashboardController {
                             }
                         }
                         levelDetail.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
-                        if (userDetail.getIdAccount() != null) {
+                        if (userDetail.getDatePlayed() != null) {
                             lbNo.setText("#" + (levelDetail.indexOf(userDetail) + 1));
                             lbHighestScore.setText(String.valueOf(userDetail.getScore()));
                             lbTimeLeft.setText(userDetail.getTimeLeft());
@@ -208,7 +213,21 @@ public class DashboardController {
                             lbTimeLeft.setText("---");
                             lbPlayedDate.setText("---");
                         }
+                        AccountLevelDetails removeEle = new AccountLevelDetails();
+                        for (AccountLevelDetails z : levelDetail) {
+                            if (z.getDatePlayed() == null) {
+                                removeEle = z;
+                            }
+                        }
+                        levelDetail.remove(removeEle);
                         BindingDataToTable(levelDetail);
+                        if (userDetail.isLike()) {
+                            btnLike.setText("Liked");
+                            btnLike.setStyle("-fx-background-color:  #4498e9;");
+                        } else {
+                            btnLike.setText("Like");
+                            btnLike.setStyle("-fx-background-color:  #aeadad;");
+                        }
                     });
                     vboxItems.getChildren().add(nodes[i]);
                 }
@@ -247,35 +266,27 @@ public class DashboardController {
         }
     }
     public void BindingDataToTable(List<AccountLevelDetails> listtmp){
-        ObservableList<AccountLevelDetails> list = FXCollections.observableList(listtmp);
-        tcNo.setCellFactory(col -> {
-            TableCell<String, Integer> indexCell = new TableCell<>();
-            ReadOnlyObjectProperty<TableRow<String>> rowProperty = indexCell.tableRowProperty();
-            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
-                TableRow<String> row = rowProperty.get();
-                if (row != null) {
-                    int rowIndex = row.getIndex();
-                    if (rowIndex < row.getTableView().getItems().size()) {
-                        return Integer.toString(rowIndex+1);
-                    }
-                }
-                return null;
-            }, rowProperty);
-            indexCell.textProperty().bind(rowBinding);
-            return indexCell;
-        });
+        List<TableViewItem> listItem = new ArrayList<>();
+        int k = 1;
+        for(AccountLevelDetails i:listtmp){
+            listItem.add(new TableViewItem(k,new Hyperlink(i.getUsername()),i.getScore(),i.getTimeLeft(),i.getDatePlayed()));
+            k++;
+        }
+        ObservableList<TableViewItem> list = FXCollections.observableList(listItem);
+        tcNo.setCellValueFactory(new PropertyValueFactory<>("no"));
         tcUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        tcDate.setCellValueFactory(new PropertyValueFactory<>("datePlayed"));
+        tcUsername.setCellFactory(new HyperLinkCell());
+        tcDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         tcScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-        tcTime.setCellValueFactory(new PropertyValueFactory<>("timeLeft"));
+        tcTime.setCellValueFactory(new PropertyValueFactory<>("time"));
         tvDetail.setItems(list);
     }
     @FXML
     public void btnBlackoutClicked(MouseEvent event) {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
-        for(Level i: levelDao.getAll()){
-            if(i.getMode().getNameMode().equals("Blackout")){
+        for (Level i : levelDao.getAll()) {
+            if (i.getMode().getNameMode().equals("Blackout")) {
                 list.add(i);
             }
         }
@@ -283,11 +294,54 @@ public class DashboardController {
     }
 
     @FXML
+    public void btnLikeClicked() {
+        DetailsDao detailsDao = new DetailsDao();
+        AccountLevelDetails detail = new AccountLevelDetails();
+        LevelDao levelDao = new LevelDao();
+        Level level = new Level();
+        if (btnLike.getText().equals("Like")) {
+            for (AccountLevelDetails i : detailsDao.getAll()) {
+                if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())) && i.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel()))) {
+                    detail = i;
+                }
+            }
+            if (detail.getIdAccount() == null) {
+                detail.setIdLevelDetails(GenerateID.genDetails());
+                detail.setLike(true);
+                detail.setIdAccount(FileRW.Read(FilePath.getLoginAcc()));
+                detail.setLevel(new Level(FileRW.Read(FilePath.getPlayLevel())));
+                detailsDao.add(detail);
+            } else {
+                detail.setLike(true);
+                detailsDao.update(detail);
+            }
+            level = levelDao.get(detail.getLevel().getIdLevel());
+            level.setNumLike(level.getNumLike() + 1);
+            levelDao.update(level);
+            btnLike.setText("Liked");
+            btnLike.setStyle("-fx-background-color:  #4498e9;");
+        } else {
+            for (AccountLevelDetails i : detailsDao.getAll()) {
+                if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())) && i.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel()))) {
+                    detail = i;
+                }
+            }
+            detail.setLike(false);
+            detailsDao.update(detail);
+            level = levelDao.get(detail.getLevel().getIdLevel());
+            level.setNumLike(level.getNumLike() - 1);
+            levelDao.update(level);
+            btnLike.setText("Like");
+            btnLike.setStyle("-fx-background-color:  #aeadad;");
+        }
+    }
+
+    @FXML
     public void btnDeathTokenClicked(MouseEvent event) {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
-        for(Level i: levelDao.getAll()){
-            if(i.getMode().getNameMode().equals("Death Token")){
+        for (Level i : levelDao.getAll()) {
+            if (i.getMode().getNameMode().equals("Death Token")) {
                 list.add(i);
             }
         }
@@ -451,7 +505,7 @@ public class DashboardController {
             levels.addAll(levelsM);
         } else {
             for (Level i : levelsM) {
-                if (i.getNameLevel().contains(txtSearch.getText().trim()) || i.getLevelContent().trim().contains(txtSearch.getText().trim())) {
+                if (i.getNameLevel().contains(txtSearch.getText().trim()) || i.getLevelContent().trim().contains(txtSearch.getText().trim())||i.getUsername().contains(txtSearch.getText().trim())) {
                     levels.add(i);
                 }
             }
@@ -461,5 +515,13 @@ public class DashboardController {
     @FXML
     public void btnPlayClicked(){
         LoadForm.load("/fxml/Play.fxml","Play",false);
+    }
+    @FXML
+    public void btnAddLevelClicked(){
+        LoadForm.load("/fxml/AddLevel.fxml","Add Level",false);
+    }
+    @FXML
+    public void onBtnCopyClicked(){
+        LoadForm.load("/fxml/CopyLevel.fxml","Copy & Modify",false);
     }
 }

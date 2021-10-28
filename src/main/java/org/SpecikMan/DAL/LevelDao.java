@@ -33,7 +33,7 @@ public class LevelDao implements Dao<Level> {
                     levels.add(new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                             rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
                             new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idMode"),rs.getString("nameMode")),
-                            rs.getString("idPublisher")));
+                            rs.getString("idPublisher"),rs.getString("username")));
                 }
             }
             prepareStatement.close();
@@ -56,7 +56,7 @@ public class LevelDao implements Dao<Level> {
                 level = new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                         rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
                         new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")),new Mode(rs.getString("idMode"),rs.getString("nameMode")),
-                        rs.getString("idPublisher"));
+                        rs.getString("idPublisher"),rs.getString("username"));
             }
             prepareStatement.close();
             return level;
@@ -118,7 +118,7 @@ public class LevelDao implements Dao<Level> {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             //Condition
             prepareStatement.setString(1, level.getIdLevel());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
