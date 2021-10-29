@@ -166,7 +166,7 @@
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Hyperlink fx:id="hlAuthorLink" layoutX="151.0" layoutY="72.0" text="Author Link" />
+                  <Hyperlink fx:id="hlAuthorLink" layoutX="151.0" layoutY="72.0" onMouseClicked="#onHlAuthorClicked" text="Author Link" />
                   <Button fx:id="btnLike" layoutX="323.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#btnLikeClicked" prefHeight="31.0" prefWidth="82.0" text="Like">
                      <graphic>
                         <FontAwesomeIconView glyphName="HEART" />

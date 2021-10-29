@@ -7,6 +7,11 @@ public class FilePath {
     private static String PLAY_LEVEL = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\playLevel.txt";
     private static String TYPED = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\typed.txt";
     private static String FORGOT_ID = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\ForgotPassword_id.txt";
+    private static String CHOOSE_PROFILE = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\chooseProfile.txt";
+
+    public static String getChooseProfile() {
+        return CHOOSE_PROFILE;
+    }
 
     public static String getForgotId() {
         return FORGOT_ID;

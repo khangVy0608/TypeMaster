@@ -8,6 +8,9 @@ public class Account extends Role {
     private String username;
     private String password;
     private String email;
+    private Date createDate;
+    private Date latestLoginDate;
+    private int countLoginDate;
     private String fullName;
     private Date dob;
     private String verificationCode;
@@ -77,13 +80,51 @@ public class Account extends Role {
     public void setUud(String uud) {
         this.uud = uud;
     }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLatestLoginDate() {
+        return latestLoginDate;
+    }
+
+    public void setLatestLoginDate(Date latestLoginDate) {
+        this.latestLoginDate = latestLoginDate;
+    }
+
+    public int getCountLoginDate() {
+        return countLoginDate;
+    }
+
+    public void setCountLoginDate(int countLoginDate) {
+        this.countLoginDate = countLoginDate;
+    }
     //endregion
     //region Constructor
 
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
+        super(idRole, nameRole);
+        this.idAccount = idAccount;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.dob = dob;
+        this.verificationCode = verificationCode;
+        this.uud = uud;
+        this.createDate = createDate;
+        this.latestLoginDate = latestLogin;
+        this.countLoginDate = countLoginDate;
+    }
+    public Account(String idAccount, String username, String password, String email,String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -94,7 +135,6 @@ public class Account extends Role {
         this.verificationCode = verificationCode;
         this.uud = uud;
     }
-
     public Account(String idAccount,String username) {
         this.idAccount = idAccount;
         this.username = username;

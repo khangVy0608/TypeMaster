@@ -12,6 +12,7 @@ import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.LoadForm;
 import org.SpecikMan.Tools.ShowAlert;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class ItemController {
@@ -64,5 +65,8 @@ public class ItemController {
             levelDao.delete(level);
             ShowAlert.show("Notice","Delete successfully");
         }
+    }
+    public void initialize(){
+
     }
 }

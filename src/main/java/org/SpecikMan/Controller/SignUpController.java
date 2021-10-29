@@ -7,11 +7,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Tools.DisposeForm;
-import org.SpecikMan.Tools.LoadForm;
-import org.SpecikMan.Tools.ShowAlert;
+import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Tools.*;
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import org.SpecikMan.Tools.GenerateID;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class SignUpController {
     //region FXML Declares
@@ -47,16 +48,30 @@ public class SignUpController {
         } else if(!txtPassword.getText().equals(txtConfirmPassword.getText())){
             ShowAlert.show("Warning!","2 passwords are not match");
         } else {
-            Account acc = new Account();
-            acc.setIdAccount(GenerateID.genAccount());
-            acc.setUsername(txtUsername.getText());
-            acc.setPassword(BCrypt.withDefaults().hashToString(12, txtPassword.getText().toCharArray()));
-            acc.setEmail(txtEmail.getText());
-            acc.setIdRole("RL2");
-            accountDao.add(acc);
-            ShowAlert.show("Notice","Sign Up successfully");
-            LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
-            DisposeForm.Dispose(txtUsername);
+            boolean flag = false;
+            for(Account i: accountDao.getAll()){
+                if(i.getUsername().trim().equals(txtUsername.getText().trim())){
+                    flag = true;
+                }
+            }
+            if(!flag){
+                Account acc = new Account();
+                acc.setIdAccount(GenerateID.genAccount());
+                acc.setUsername(txtUsername.getText());
+                acc.setPassword(BCrypt.withDefaults().hashToString(12, txtPassword.getText().toCharArray()));
+                acc.setCreateDate(Date.valueOf(LocalDate.now()));
+                acc.setLatestLoginDate(Date.valueOf(LocalDate.now()));
+                acc.setCountLoginDate(1);
+                acc.setEmail(txtEmail.getText());
+                acc.setIdRole("RL2");
+                accountDao.add(acc);
+                ShowAlert.show("Notice","Sign Up successfully");
+                LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
+                FileRW.Write(FilePath.getLoginAcc(),acc.getIdAccount());
+                DisposeForm.Dispose(txtUsername);
+            } else {
+                ShowAlert.show("Notice","Given username already exists");
+            }
         }
     }
     //endregion
