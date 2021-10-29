@@ -16,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class LoginAsGuestController {
 
@@ -40,6 +42,9 @@ public class LoginAsGuestController {
             acc.setUsername(txtUsername.getText());
             acc.setUud(BCrypt.withDefaults().hashToString(12,txtUUD.getText().toCharArray()));
             acc.setIdRole("RL3"); //RL03 = Guest
+            acc.setCreateDate(Date.valueOf(LocalDate.now()));
+            acc.setLatestLoginDate(Date.valueOf(LocalDate.now()));
+            acc.setCountLoginDate(1);
             accountDao.add(acc);
             ShowAlert.show("Notice","Signed up success");
             DisposeForm.Dispose(txtUsername);//Throw any control to get it's stage

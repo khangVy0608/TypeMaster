@@ -13,6 +13,8 @@ import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Tools.*;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class SignInController {
@@ -72,6 +74,11 @@ public class SignInController {
             ShowAlert.show("Warning!", "Welcome back " + acc.getUsername());
             LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
             FileRW.Write(FilePath.getLoginAcc(),acc.getIdAccount());
+            if(!acc.getLatestLoginDate().equals(Date.valueOf(LocalDate.now()))){
+                acc.setLatestLoginDate(Date.valueOf(LocalDate.now()));
+                acc.setCountLoginDate(acc.getCountLoginDate()+1);
+                accountDao.update(acc);
+            }
             DisposeForm.Dispose(txtUsername);
         }
     }
@@ -86,6 +93,11 @@ public class SignInController {
                 BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.getPassword());
                 if ((account.getUsername().equals(username) || account.getEmail().equals(username)) && result.verified) {
                     FileRW.Write(FilePath.getLoginAcc(), account.getIdAccount());
+                    if(!account.getLatestLoginDate().equals(Date.valueOf(LocalDate.now()))){
+                        account.setLatestLoginDate(Date.valueOf(LocalDate.now()));
+                        account.setCountLoginDate(account.getCountLoginDate()+1);
+                        accountDao.update(account);
+                    }
                     return true;
                 }
             }

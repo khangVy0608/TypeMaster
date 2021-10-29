@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
+import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.AccountLevelDetails;
 import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Entity.Level;
@@ -523,5 +524,17 @@ public class DashboardController {
     @FXML
     public void onBtnCopyClicked(){
         LoadForm.load("/fxml/CopyLevel.fxml","Copy & Modify",false);
+    }
+    @FXML
+    public void onHlAuthorClicked(){
+        AccountDao accountDao = new AccountDao();
+        Account account = new Account();
+        for(Account i: accountDao.getAll()){
+            if(i.getUsername().trim().equals(hlAuthorLink.getText().trim())){
+                account = i;
+            }
+        }
+        FileRW.Write(FilePath.getChooseProfile(),account.getIdAccount());
+        LoadForm.load("/fxml/Profile.fxml","Profile",false);
     }
 }

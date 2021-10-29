@@ -4,6 +4,11 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
+import org.SpecikMan.DAL.AccountDao;
+import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.LoadForm;
 
 import javax.swing.*;
 
@@ -17,7 +22,15 @@ public class HyperLinkCell implements Callback<TableColumn<TableViewItem, Hyperl
                 setGraphic(empty ? null : item);
                 if(!empty){
                     item.setOnAction(e->{
-                        JOptionPane.showMessageDialog(null,item.getText());
+                        AccountDao accountDao = new AccountDao();
+                        Account account = new Account();
+                        for(Account i: accountDao.getAll()){
+                            if(i.getUsername().trim().equals(item.getText().trim())){
+                                account = i;
+                            }
+                        }
+                        FileRW.Write(FilePath.getChooseProfile(),account.getIdAccount());
+                        LoadForm.load("/fxml/Profile.fxml","Profile",false);
                     });
                 }
             }
