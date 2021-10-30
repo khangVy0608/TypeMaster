@@ -13,6 +13,7 @@ public class Account extends Role {
     private int countLoginDate;
     private String fullName;
     private Date dob;
+    private Boolean gender;
     private String verificationCode;
     private String uud;
     //region get-set
@@ -104,13 +105,21 @@ public class Account extends Role {
     public void setCountLoginDate(int countLoginDate) {
         this.countLoginDate = countLoginDate;
     }
+
+    public Boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
     //endregion
     //region Constructor
 
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String fullName, Date dob,boolean gender, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -123,6 +132,7 @@ public class Account extends Role {
         this.createDate = createDate;
         this.latestLoginDate = latestLogin;
         this.countLoginDate = countLoginDate;
+        this.gender = gender;
     }
     public Account(String idAccount, String username, String password, String email,String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);

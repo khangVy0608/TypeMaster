@@ -5,14 +5,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import org.SpecikMan.DAL.DetailLogDao;
+import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
+import org.SpecikMan.Entity.AccountLevelDetails;
+import org.SpecikMan.Entity.DetailLog;
 import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Entity.Level;
 import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.GenerateID;
 import org.SpecikMan.Tools.LoadForm;
 import org.SpecikMan.Tools.ShowAlert;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ItemController {
@@ -61,9 +68,38 @@ public class ItemController {
         Optional<ButtonType> action = alert.showAndWait();
         if(action.get()==ButtonType.OK){
             LevelDao levelDao = new LevelDao();
+            DetailsDao detailsDao = new DetailsDao();
+            DetailLogDao logDao = new DetailLogDao();
             Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
+            List<AccountLevelDetails> details = new ArrayList<>();
+            for(AccountLevelDetails i:detailsDao.getAll()){
+                if(i.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel()))){
+                    details.add(i);
+                }
+            }
+            for(AccountLevelDetails i:details){
+                DetailLog log = new DetailLog();
+                log.setIdLog(GenerateID.genLog());
+                log.setIdLevel(level.getIdLevel());
+                log.setLevelName(level.getNameLevel());
+                log.setIdPublisher(level.getIdAccount());
+                log.setPublisherName(level.getUsername());
+                log.setIdPlayer(i.getIdAccount());
+                log.setPlayerName(i.getUsername());
+                log.setScore(i.getScore());
+                log.setWpm(i.getWpm());
+                log.setWps(i.getWps());
+                log.setCorrect(i.getCorrect());
+                log.setWrong(i.getWrong());
+                log.setAccuracy(i.getAccuracy());
+                log.setTimeLeft(i.getTimeLeft());
+                log.setDatePlayed(i.getDatePlayed());
+                logDao.add(log);
+                detailsDao.delete(i);
+            }
             levelDao.delete(level);
-            ShowAlert.show("Notice","Delete successfully");
+            ShowAlert.show("Notice","Delete level successfully");
+
         }
     }
     public void initialize(){

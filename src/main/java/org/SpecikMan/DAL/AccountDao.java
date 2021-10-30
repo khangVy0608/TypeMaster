@@ -26,8 +26,8 @@ public class AccountDao implements Dao<Account> {
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     accounts.add(new Account(rs.getString("idAccount").trim(), rs.getString("username").trim(),
-                            rs.getString("password"), rs.getString("email"),rs.getDate("createDate"),rs.getDate("latestLoginDate"),rs.getInt("countLoginDate"), rs.getString("fullName"),
-                            rs.getDate("dob"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")));
+                            rs.getString("password"), rs.getString("email"), rs.getDate("createDate"), rs.getDate("latestLoginDate"), rs.getInt("countLoginDate"), rs.getString("fullName"),
+                            rs.getDate("dob"), rs.getBoolean("gender"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")));
                 }
             }
             prepareStatement.close();
@@ -48,8 +48,8 @@ public class AccountDao implements Dao<Account> {
             Account acc = new Account();
             while (rs.next()) {
                 acc = new Account(rs.getString("idAccount").trim(), rs.getString("username").trim(),
-                        rs.getString("password"), rs.getString("email"),rs.getDate("createDate"),rs.getDate("latestLoginDate"),rs.getInt("countLoginDate"), rs.getString("fullName"),
-                        rs.getDate("dob"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")); //namerole = null
+                        rs.getString("password"), rs.getString("email"), rs.getDate("createDate"), rs.getDate("latestLoginDate"), rs.getInt("countLoginDate"), rs.getString("fullName"),
+                        rs.getDate("dob"), rs.getBoolean("gender"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")); //namerole = null
             }
             prepareStatement.close();
             return acc;
@@ -61,7 +61,7 @@ public class AccountDao implements Dao<Account> {
 
     public void add(Account account) {
         try {
-            String query = "insert into Account values (?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
+            String query = "insert into Account values (?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, account.getIdAccount());
@@ -72,10 +72,11 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setDate(6,account.getLatestLoginDate());
             prepareStatement.setInt(7,account.getCountLoginDate());
             prepareStatement.setString(8, account.getFullname());
-            prepareStatement.setDate(9,account.getDob());
-            prepareStatement.setString(10, account.getVerificationCode());
-                prepareStatement.setString(11, account.getUud());
-            prepareStatement.setString(12, account.getIdRole());
+            prepareStatement.setDate(9, account.getDob());
+            prepareStatement.setBoolean(10, account.isGender());
+            prepareStatement.setString(11, account.getVerificationCode());
+            prepareStatement.setString(12, account.getUud());
+            prepareStatement.setString(13, account.getIdRole());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
@@ -84,7 +85,7 @@ public class AccountDao implements Dao<Account> {
 
     public void update(Account account) {
         try {
-            String query = "update Account set username = ?,password = ?,email = ?,createDate = ?,latestLoginDate = ?,countLoginDate = ?,fullName = ?,dob = ?,idRole = ?,verificationCode=?,uud=? where idAccount = ?";
+            String query = "update Account set username = ?,password = ?,email = ?,createDate = ?,latestLoginDate = ?,countLoginDate = ?,fullName = ?,dob = ?,gender = ?,idRole = ?,verificationCode=?,uud=? where idAccount = ?";
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, account.getUsername());
             prepareStatement.setString(2, account.getPassword());
@@ -94,11 +95,12 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setInt(6,account.getCountLoginDate());
             prepareStatement.setString(7, account.getFullname());
             prepareStatement.setDate(8, account.getDob());
-            prepareStatement.setString(9, account.getIdRole());
-            prepareStatement.setString(10, account.getVerificationCode());
-            prepareStatement.setString(11, account.getUud());
+            prepareStatement.setBoolean(9,account.isGender());
+            prepareStatement.setString(10, account.getIdRole());
+            prepareStatement.setString(11, account.getVerificationCode());
+            prepareStatement.setString(12, account.getUud());
             //Condition
-            prepareStatement.setString(12, account.getIdAccount());
+            prepareStatement.setString(13, account.getIdAccount());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
