@@ -10,8 +10,8 @@ public class DBConnection {
     public static Connection getConnection(){
         SQLServerDataSource ds = new SQLServerDataSource();
         String user = "sa";
-        String server = "DESKTOP-VGBCIMJ\\SQLEXPRESS2014";
-        String password = "12345";
+        String server = "MSI\\SQLEXPRESS";
+        String password = "0359292183";
         String db = "TypeMaster";
         int port = 1433;
         ds.setUser(user);

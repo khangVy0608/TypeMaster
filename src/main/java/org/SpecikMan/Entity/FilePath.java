@@ -1,13 +1,13 @@
 package org.SpecikMan.Entity;
 
 public class FilePath {
-    private static String LOGIN_ACC = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\loginAcc.txt";
-    private static String NOT_TYPED = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\notTyped.txt";
-    private static String ORIGINAL = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\origin.txt";
-    private static String PLAY_LEVEL = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\playLevel.txt";
-    private static String TYPED = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\typed.txt";
-    private static String FORGOT_ID = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\ForgotPassword_id.txt";
-    private static String CHOOSE_PROFILE = "C:\\Users\\qwthi\\IdeaProjects\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\chooseProfile.txt";
+    private static String LOGIN_ACC = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\loginAcc.txt";
+    private static String NOT_TYPED = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\notTyped.txt";
+    private static String ORIGINAL = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\origin.txt";
+    private static String PLAY_LEVEL = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\playLevel.txt";
+    private static String TYPED = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\typed.txt";
+    private static String FORGOT_ID = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\ForgotPassword_id.txt";
+    private static String CHOOSE_PROFILE = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\chooseProfile.txt";
 
     public static String getChooseProfile() {
         return CHOOSE_PROFILE;
