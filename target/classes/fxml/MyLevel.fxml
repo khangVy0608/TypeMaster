@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="399.0" prefWidth="949.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.MyLevelController">
+   <children>
+      <Pane layoutX="4.0" layoutY="1.0" prefHeight="380.0" prefWidth="949.0" style="-fx-background-color: #fff;">
+         <children>
+            <Separator layoutX="-104.0" layoutY="51.0" prefHeight="7.0" prefWidth="1052.0" />
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="222.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/nameLevel_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="222.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/hardLevel_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="222.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/timeLevel_icon.png" />
+               </image>
+            </ImageView>
+            <ScrollPane layoutX="5.0" layoutY="59.0" prefHeight="320.0" prefWidth="209.0">
+               <content>
+                  <VBox fx:id="vbMyLevel" prefHeight="319.0" prefWidth="207.0" />
+               </content>
+            </ScrollPane>
+            <Separator layoutX="617.0" layoutY="55.0" orientation="VERTICAL" prefHeight="327.0" prefWidth="6.0" />
+            <Button fx:id="btnAddMyLevel" layoutX="168.0" layoutY="8.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="125.0" text="Add" />
+            <Button fx:id="btnEditMyLevel" layoutX="400.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="125.0" text="Edit" />
+            <Button fx:id="btnDeleteMyLevel" layoutX="634.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="125.0" text="Delete" />
+            <TextArea fx:id="txtAreaMyLevel" layoutX="623.0" layoutY="55.0" prefHeight="321.0" prefWidth="322.0" />
+            <Button fx:id="btnSaveMyLevel" layoutX="541.0" layoutY="335.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="67.0" text="Save" />
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="222.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/gameMode_icon.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="txtNameLevelMyLevel" layoutX="344.0" layoutY="80.0" />
+            <TextField fx:id="txtTimeLevelMyLevel" layoutX="344.0" layoutY="153.0" />
+            <ComboBox fx:id="cbbHardLevelMyLevel" layoutX="343.0" layoutY="243.0" prefWidth="150.0" />
+            <ComboBox fx:id="txtGameModeMyLevel" layoutX="343.0" layoutY="322.0" prefWidth="150.0" />
+         </children>
+         <effect>
+            <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />
+         </effect>
+      </Pane>
+   </children>
+</AnchorPane>
