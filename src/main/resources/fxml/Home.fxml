@@ -48,7 +48,7 @@
                   <FontAwesomeIconView fill="#2d75e8" glyphName="GROUP" size="50" />
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Account Statistics" GridPane.columnIndex="2">
+            <Button contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#btnStatClicked" prefHeight="181.0" prefWidth="242.0" text="Account Statistics" GridPane.columnIndex="2">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="CALENDAR_CHECK_ALT" size="50" />
                </graphic>

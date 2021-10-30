@@ -21,4 +21,9 @@ public class HomeController
         LoadForm.load("/fxml/Dashboard.fxml","Play Dashboard",false);
     }
 
+    @FXML
+    void btnStatClicked(MouseEvent event) {
+        LoadForm.load("/fxml/HomeUser.fxml","Play Dashboard",false);
+    }
+
 }
