@@ -14,6 +14,7 @@ public class GenerateID {
     private static final ModeDao modeDao = new ModeDao();
     private static final LevelDao levelDao = new LevelDao();
     private static final DetailsDao detailsDao = new DetailsDao();
+    private static final DetailLogDao logDao = new DetailLogDao();
     public static String genAccount() {
         List<Account> accounts = accountDao.getAll();
         if (accounts.isEmpty()) {
@@ -79,6 +80,17 @@ public class GenerateID {
             details.forEach(element -> nums.add(Integer.valueOf(element.getIdLevelDetails().replaceAll("[^0-9]", ""))));
             Collections.sort(nums);
             return "LD"+(nums.get(nums.size()-1)+1);
+        }
+    }
+    public static String genLog() {
+        List<DetailLog> logs = logDao.getAll();
+        if (logs.isEmpty()) {
+            return "LG1";
+        } else {
+            List<Integer> nums = new ArrayList<>();
+            logs.forEach(element -> nums.add(Integer.valueOf(element.getIdLog().replaceAll("[^0-9]", ""))));
+            Collections.sort(nums);
+            return "LG"+(nums.get(nums.size()-1)+1);
         }
     }
 }
