@@ -51,6 +51,7 @@ public class HomeUserController {
 
     @FXML
     void onbtnClickAccountSetting(MouseEvent event) throws IOException {
+        pnl_scroll.getChildren().clear();
         Node[] nodes = new Node[1];
         nodes[0] = (Node) FXMLLoader.load(getClass().getResource("/fxml/ChangeAccount.fxml"));
         pnl_scroll.getChildren().add(nodes[0]);
@@ -58,6 +59,7 @@ public class HomeUserController {
 
     @FXML
     void onbtnClickFeedback(MouseEvent event) throws IOException {
+        pnl_scroll.getChildren().clear();
         Node[] nodes = new Node[1];
         nodes[0] = (Node) FXMLLoader.load(getClass().getResource("/fxml/Feedback.fxml"));
         pnl_scroll.getChildren().add(nodes[0]);
@@ -65,6 +67,7 @@ public class HomeUserController {
 
     @FXML
     void onbtnClickGeneral(MouseEvent event) throws IOException {
+        pnl_scroll.getChildren().clear();
         Node[] nodes = new Node[1];
         nodes[0] = FXMLLoader.load(getClass().getResource("/fxml/General.fxml"));
         pnl_scroll.getChildren().add(nodes[0]);
@@ -73,6 +76,7 @@ public class HomeUserController {
 
     @FXML
     void onbtnClickMyLevels(MouseEvent event) throws IOException {
+        pnl_scroll.getChildren().clear();
         Node[] nodes = new Node[1];
         nodes[0] = (Node) FXMLLoader.load(getClass().getResource("/fxml/MyLevel.fxml"));
         pnl_scroll.getChildren().add(nodes[0]);
