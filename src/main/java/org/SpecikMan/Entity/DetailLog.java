@@ -156,7 +156,15 @@ public class DetailLog {
         this.timeLeft = timeLeft;
         this.datePlayed = datePlayed;
     }
-
+    public DetailLog(int score, float wpm,int correct, int wrong, String accuracy, String timeLeft, Date datePlayed) {
+        this.score = score;
+        this.wpm = wpm;
+        this.correct = correct;
+        this.wrong = wrong;
+        this.accuracy = accuracy;
+        this.timeLeft = timeLeft;
+        this.datePlayed = datePlayed;
+    }
     public DetailLog() {
     }
 }

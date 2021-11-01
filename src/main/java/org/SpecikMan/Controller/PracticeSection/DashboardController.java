@@ -12,12 +12,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.SpecikMan.DAL.AccountDao;
+import org.SpecikMan.DAL.DetailLogDao;
 import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
-import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Entity.AccountLevelDetails;
-import org.SpecikMan.Entity.FilePath;
-import org.SpecikMan.Entity.Level;
+import org.SpecikMan.Entity.*;
 import org.SpecikMan.Table.HyperLinkCell;
 import org.SpecikMan.Table.TableViewItem;
 import org.SpecikMan.Tools.DisposeForm;
@@ -104,10 +102,8 @@ public class DashboardController {
     private ScrollPane scrollPane;
     @FXML
     private TableColumn<TableViewItem, Date> tcDate;
-
     @FXML
     private TableColumn<String, Integer> tcNo;
-
     @FXML
     private TableColumn<TableViewItem, String> tcScore;
     @FXML
@@ -116,6 +112,22 @@ public class DashboardController {
     private TableColumn<TableViewItem, Hyperlink> tcUsername;
     @FXML
     private TableView<TableViewItem> tvDetail;
+    @FXML
+    private TableColumn<DetailLog, Date> tcDateA;
+    @FXML
+    private TableColumn<DetailLog, Integer> tcScoreA;
+    @FXML
+    private TableColumn<DetailLog, String> tcTimeA;
+    @FXML
+    private TableColumn<DetailLog, String> tcAccuracyA;
+    @FXML
+    private TableColumn<DetailLog, Integer> tcCorrectA;
+    @FXML
+    private TableColumn<DetailLog, Integer> tcWrongA;
+    @FXML
+    private TableColumn<DetailLog, Float> tcWPMA;
+    @FXML
+    private TableView<DetailLog> tvAttempts;
     @FXML
     private VBox vboxItems;
     @FXML
@@ -218,7 +230,17 @@ public class DashboardController {
                             }
                         }
                         levelDetail.remove(removeEle);
-                        BindingDataToTable(levelDetail);
+                        BindingDataToTableLeaderboard(levelDetail);
+                        DetailLogDao logDao = new DetailLogDao();
+                        List<DetailLog> logs = new ArrayList<>();
+                        for (DetailLog z : logDao.getAll()) {
+                            if (z.getIdPlayer().equals(FileRW.Read(FilePath.getLoginAcc())) && z.getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel()))) {
+                                logs.add(z);
+                            }
+                        }
+                        logs.add(new DetailLog(userDetail.getScore(), userDetail.getWpm(), userDetail.getCorrect(),
+                                userDetail.getWrong(), userDetail.getAccuracy(), userDetail.getTimeLeft(), userDetail.getDatePlayed()));
+                        BindingDataToTableAttempts(logs);
                         if (userDetail.isLike()) {
                             btnLike.setText("Liked");
                             btnLike.setStyle("-fx-background-color:  #4498e9;");
@@ -263,11 +285,12 @@ public class DashboardController {
             iconHard.setVisible(true);
         }
     }
-    public void BindingDataToTable(List<AccountLevelDetails> listtmp){
+
+    public void BindingDataToTableLeaderboard(List<AccountLevelDetails> listtmp) {
         List<TableViewItem> listItem = new ArrayList<>();
         int k = 1;
-        for(AccountLevelDetails i:listtmp){
-            listItem.add(new TableViewItem(k,new Hyperlink(i.getUsername()),i.getScore(),i.getTimeLeft(),i.getDatePlayed()));
+        for (AccountLevelDetails i : listtmp) {
+            listItem.add(new TableViewItem(k, new Hyperlink(i.getUsername()), i.getScore(), i.getTimeLeft(), i.getDatePlayed()));
             k++;
         }
         ObservableList<TableViewItem> list = FXCollections.observableList(listItem);
@@ -279,6 +302,19 @@ public class DashboardController {
         tcTime.setCellValueFactory(new PropertyValueFactory<>("time"));
         tvDetail.setItems(list);
     }
+
+    public void BindingDataToTableAttempts(List<DetailLog> logs) {
+        ObservableList<DetailLog> item = FXCollections.observableList(logs);
+        tcDateA.setCellValueFactory(new PropertyValueFactory<>("datePlayed"));
+        tcScoreA.setCellValueFactory(new PropertyValueFactory<>("score"));
+        tcTimeA.setCellValueFactory(new PropertyValueFactory<>("timeLeft"));
+        tcAccuracyA.setCellValueFactory(new PropertyValueFactory<>("accuracy"));
+        tcCorrectA.setCellValueFactory(new PropertyValueFactory<>("correct"));
+        tcWrongA.setCellValueFactory(new PropertyValueFactory<>("wrong"));
+        tcWPMA.setCellValueFactory(new PropertyValueFactory<>("wpm"));
+        tvAttempts.setItems(item);
+    }
+
     @FXML
     public void btnBlackoutClicked(MouseEvent event) {
         LevelDao levelDao = new LevelDao();
