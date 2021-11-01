@@ -10,8 +10,6 @@ import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.LoadForm;
 
-import javax.swing.*;
-
 public class HyperLinkCell implements Callback<TableColumn<TableViewItem, Hyperlink>, TableCell<TableViewItem,Hyperlink>> {
     @Override
     public TableCell<TableViewItem,Hyperlink> call(TableColumn<TableViewItem,Hyperlink> arg){
@@ -30,7 +28,7 @@ public class HyperLinkCell implements Callback<TableColumn<TableViewItem, Hyperl
                             }
                         }
                         FileRW.Write(FilePath.getChooseProfile(),account.getIdAccount());
-                        LoadForm.load("/fxml/Profile.fxml","Profile",false);
+                        LoadForm.load("/fxml/PracticeFXMLs/Profile.fxml","Profile",false);
                     });
                 }
             }
