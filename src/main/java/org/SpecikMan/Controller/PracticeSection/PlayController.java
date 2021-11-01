@@ -12,7 +12,9 @@ import org.SpecikMan.DAL.LevelDao;
 import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Entity.Level;
+import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.LoadForm;
 import org.SpecikMan.Tools.ShowAlert;
 
 import javax.swing.*;
@@ -59,6 +61,7 @@ public class PlayController {
     int wrong = 0;
     int total = 0;
     int combo = 0;
+    int maxCombo = 0;
     private Timer timer;
     private int second, minute;
     private String ddSecond, ddMinute;
@@ -86,6 +89,9 @@ public class PlayController {
     }
 
     public void initialize() {
+        textflow.getChildren().clear();
+        btnPause.setText("Start");
+        btnPause.setDisable(false);
         LevelDao levelDao = new LevelDao();
         Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
         AccountDao accountDao = new AccountDao();
@@ -110,6 +116,11 @@ public class PlayController {
         lbAccuracy.setText("100%");
         lbTime.setText("00:00");
         lbTimeUp.setText("00:00");
+        lbCombo.setText("0");
+        lbScore.setText("0");
+        lbWPM.setText("0");
+        lbWPS.setText("0");
+        lbTime.setStyle("-fx-text-fill: black");
     }
 
     public void keyPressed(KeyEvent e) {
@@ -141,6 +152,9 @@ public class PlayController {
                 correct++;
                 total++;
                 combo++;
+                if(combo > maxCombo){
+                    maxCombo = combo;
+                }
                 lbCorrect.setText(String.valueOf(correct));
                 lbTotal.setText(String.valueOf(total));
                 lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
@@ -150,7 +164,13 @@ public class PlayController {
                 lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+(Integer.parseInt(lbAccuracy.getText().split("%")[0])*(total*500)/100)+"");
                 timer.stop();
                 timer2.stop();
-                ShowAlert.show("Warning!", "Game Over");
+                transferData();
+                LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml","Level Cleared",true);
+                if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                    initialize();
+                } else {
+                    DisposeForm.Dispose(lbScore);
+                }
             } else {
                 if (notTyped[0] != notTyped[notTyped.length - 1]) {
                     if (!String.valueOf(notTyped[1]).equals(" ")) {
@@ -175,6 +195,9 @@ public class PlayController {
                             correct++;
                             total++;
                             combo++;
+                            if(combo > maxCombo){
+                                maxCombo = combo;
+                            }
                             lbCorrect.setText(String.valueOf(correct));
                             lbTotal.setText(String.valueOf(total));
                             lbCombo.setText(String.valueOf(combo));
@@ -217,6 +240,9 @@ public class PlayController {
                             correct++;
                             total++;
                             combo++;
+                            if(combo > maxCombo){
+                                maxCombo = combo;
+                            }
                             lbCorrect.setText(String.valueOf(correct));
                             lbTotal.setText(String.valueOf(total));
                             lbCombo.setText(String.valueOf(combo));
@@ -259,6 +285,9 @@ public class PlayController {
                         correct++;
                         total++;
                         combo++;
+                        if(combo > maxCombo){
+                            maxCombo = combo;
+                        }
                         lbCorrect.setText(String.valueOf(correct));
                         lbTotal.setText(String.valueOf(total));
                         lbCombo.setText(String.valueOf(combo));
@@ -367,5 +396,10 @@ public class PlayController {
 
                 }
         ));
+    }
+    public void transferData(){
+        String data = lbWPS.getText()+"-"+lbWPM.getText()+"-"+lbCorrect.getText()+"-"+lbWrong.getText()+"-"+lbTotal.getText()+"-"
+                +lbCombo.getText()+"-"+maxCombo+"-"+lbAccuracy.getText()+"-"+ddMinute+":"+ddSecond+"-"+ddMinute2+":"+ddSecond2+"-"+lbScore.getText()+"-"+lbUsername.getText()+"-"+lbLevelName.getText();
+        FileRW.Write(FilePath.getPlayResult(),data);
     }
 }

@@ -225,50 +225,50 @@
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="46.0" layoutY="227.0" text="Scoreboard">
+                  <Label layoutX="46.0" layoutY="217.0" text="Scoreboard">
                      <font>
                         <Font name="System Bold Italic" size="13.0" />
                      </font>
                   </Label>
-                  <Line endX="286.00006103515625" layoutX="113.0" layoutY="236.0" startX="8.00006103515625" stroke="#484848" />
-                  <Line endX="-71.5999755859375" layoutX="113.0" layoutY="236.0" startX="-105.5999755859375" stroke="#484848" />
-                  <Label layoutX="89.0" layoutY="247.0" text="Your highest score:" />
-                  <Label fx:id="lbHighestScore" layoutX="191.0" layoutY="248.0" text="300000">
+                  <Line endX="286.00006103515625" layoutX="113.0" layoutY="226.0" startX="8.00006103515625" stroke="#484848" />
+                  <Line endX="-71.5999755859375" layoutX="113.0" layoutY="226.0" startX="-105.5999755859375" stroke="#484848" />
+                  <Label layoutX="89.0" layoutY="235.0" text="Your highest score:" />
+                  <Label fx:id="lbHighestScore" layoutX="191.0" layoutY="236.0" text="300000">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="239.0" layoutY="248.0" text="Time:" />
-                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="192.0" layoutY="244.0" startX="43.20001220703125" startY="25.0" stroke="#484848" />
-                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="262.0" layoutY="244.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
-                  <Label fx:id="lbTimeLeft" layoutX="269.0" layoutY="248.0" text="03:00">
+                  <Label layoutX="239.0" layoutY="236.0" text="Time:" />
+                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="192.0" layoutY="232.0" startX="43.20001220703125" startY="25.0" stroke="#484848" />
+                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="262.0" layoutY="232.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
+                  <Label fx:id="lbTimeLeft" layoutX="269.0" layoutY="236.0" text="03:00">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="309.0" layoutY="247.0" text="Date:" />
-                  <Label fx:id="lbPlayedDate" layoutX="340.0" layoutY="247.0" text="03/03/2000">
+                  <Label layoutX="309.0" layoutY="235.0" text="Date:" />
+                  <Label fx:id="lbPlayedDate" layoutX="340.0" layoutY="235.0" text="03/03/2000">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="244.0" text="No:">
+                  <Label layoutX="10.0" layoutY="232.0" text="No:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbNo" layoutX="37.0" layoutY="244.0" text="#001">
+                  <Label fx:id="lbNo" layoutX="37.0" layoutY="232.0" text="#001">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
                   </Label>
-                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="244.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
+                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="232.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
                   <Button fx:id="btnCopyAndModify" layoutX="276.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#onBtnCopyClicked" prefHeight="31.0" prefWidth="128.0" text="Copy &amp; Modify">
                      <graphic>
                         <FontAwesomeIconView glyphName="COPY" size="15" />
                      </graphic>
                   </Button>
-                  <TableView fx:id="tvDetail" layoutX="3.0" layoutY="273.0" prefHeight="344.0" prefWidth="410.0" stylesheets="@../../css/dashboard.css">
+                  <TableView fx:id="tvDetail" layoutX="3.0" layoutY="258.0" prefHeight="173.0" prefWidth="410.0" stylesheets="@../../css/dashboard.css">
                     <columns>
                       <TableColumn fx:id="tcNo" prefWidth="57.600035190582275" text="No" />
                       <TableColumn fx:id="tcUsername" prefWidth="133.60004425048828" text="Username" />
@@ -276,6 +276,24 @@
                         <TableColumn fx:id="tcTime" prefWidth="60.0" text="Time" />
                         <TableColumn fx:id="tcDate" prefWidth="83.9998779296875" text="Date" />
                     </columns>
+                  </TableView>
+                  <Label layoutX="47.0" layoutY="432.0" text="Your Attempts">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Line endX="294.9999694824219" layoutX="111.0" layoutY="442.0" startX="32.600006103515625" stroke="#484848" />
+                  <Line endX="-71.5999755859375" layoutX="114.0" layoutY="441.0" startX="-105.5999755859375" stroke="#484848" />
+                  <TableView fx:id="tvAttempts" layoutX="2.0" layoutY="451.0" prefHeight="167.0" prefWidth="410.0" stylesheets="@../../css/dashboard.css">
+                     <columns>
+                        <TableColumn fx:id="tcDateA" prefWidth="76.79998636245728" text="Date" />
+                        <TableColumn fx:id="tcScoreA" prefWidth="54.39997100830078" text="Score" />
+                        <TableColumn fx:id="tcTimeA" prefWidth="64.7999267578125" text="Time Left" />
+                        <TableColumn fx:id="tcAccuracyA" prefWidth="65.60009765625" text="Accuracy" />
+                        <TableColumn fx:id="tcCorrectA" prefWidth="56.7999267578125" text="Correct" />
+                        <TableColumn fx:id="tcWrongA" minWidth="0.0" prefWidth="48.800048828125" text="Wrong" />
+                        <TableColumn fx:id="tcWPMA" prefWidth="40.400054931640625" text="WPM" />
+                     </columns>
                   </TableView>
                </children></Pane>
          </right>
