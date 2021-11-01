@@ -11,6 +11,7 @@ public class Account extends Role {
     private Date createDate;
     private Date latestLoginDate;
     private int countLoginDate;
+    private String pathImage;
     private String fullName;
     private Date dob;
     private Boolean gender;
@@ -49,6 +50,10 @@ public class Account extends Role {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPathImage() { return pathImage; }
+
+    public void setPathImage(String pathImage) { this.pathImage = pathImage; }
 
     public String getFullname() {
         return fullName;
@@ -119,12 +124,13 @@ public class Account extends Role {
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String fullName, Date dob,boolean gender, String verificationCode,String uud,String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String pathImage, String fullName, Date dob,boolean gender, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.pathImage = pathImage;
         this.fullName = fullName;
         this.dob = dob;
         this.verificationCode = verificationCode;

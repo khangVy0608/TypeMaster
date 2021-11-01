@@ -158,7 +158,7 @@
       </VBox>
       <Pane layoutX="71.0" layoutY="44.0" prefHeight="131.0" prefWidth="142.0" style="-fx-background-color: #fff;">
          <children>
-            <ImageView fx:id="imUser" fitHeight="120.0" fitWidth="139.0" layoutX="11.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imUser" fitHeight="118.0" fitWidth="123.0" layoutX="12.0" layoutY="7.0" onMouseClicked="#onClickImage" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../image/Imuser.png" />
                </image>
