@@ -5,12 +5,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.SpecikMan.DAL.AccountDao;
+import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.LoadForm;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,6 +58,15 @@ public class HomeUserController {
     private VBox pnl_scroll;
 
     @FXML
+    void onClickImage(MouseEvent event) throws IOException {
+        pnl_scroll.getChildren().clear();
+        Node[] nodes = new Node[1];
+        nodes[0] = (Node) FXMLLoader.load(getClass().getResource("/fxml/EditImage.fxml"));
+        pnl_scroll.getChildren().add(nodes[0]);
+//        LoadForm.load("/fxml/EditImage.fxml","EditImage",false);
+    }
+
+    @FXML
     void onbtnClickAccountSetting(MouseEvent event) throws IOException {
         pnl_scroll.getChildren().clear();
         Node[] nodes = new Node[1];
@@ -80,5 +97,14 @@ public class HomeUserController {
         Node[] nodes = new Node[1];
         nodes[0] = (Node) FXMLLoader.load(getClass().getResource("/fxml/MyLevel.fxml"));
         pnl_scroll.getChildren().add(nodes[0]);
+    }
+    public void initialize() throws FileNotFoundException {
+        AccountDao accountDao = new AccountDao();
+        Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
+        lbUserName.setText(account.getUsername());
+        lbFullname.setText(account.getFullname());
+        Image image = new Image(new FileInputStream(account.getPathImage()),123,123,false,false);
+        imUser.setImage(image);
+
     }
 }
