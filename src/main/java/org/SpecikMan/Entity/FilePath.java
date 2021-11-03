@@ -10,6 +10,11 @@ public class FilePath {
     private static String CHOOSE_PROFILE = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\chooseProfile.txt";
     private static String PLAY_RESULT = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\PlayResult.txt";
     private static String RETRY_OR_MENU = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\RetryOrMenu.txt";
+    private static String CHART_DATA = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\chartData.txt";
+
+    public static String getChartData() {
+        return CHART_DATA;
+    }
 
     public static String getChooseProfile() {
         return CHOOSE_PROFILE;
