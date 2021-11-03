@@ -93,6 +93,7 @@ public class ItemController {
                 log.setAccuracy(i.getAccuracy());
                 log.setTimeLeft(i.getTimeLeft());
                 log.setDatePlayed(i.getDatePlayed());
+                log.setChartData(i.getChartData());
                 logDao.add(log);
                 detailsDao.delete(i);
             }

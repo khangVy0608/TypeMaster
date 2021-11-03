@@ -29,7 +29,7 @@ public class DetailLogDao implements Dao<DetailLog>{
                     logs.add(new DetailLog(rs.getString("idLog"),rs.getString("idLevel"),rs.getString("levelName"),rs.getString("idPublisher"),
                             rs.getString("publisherName"),rs.getString("idPlayer"),rs.getString("playerName"),
                             rs.getInt("score"),rs.getFloat("wpm"),rs.getFloat("wps"),rs.getInt("correct"),
-                            rs.getInt("wrong"),rs.getString("accuracy"),rs.getString("timeLeft"),rs.getDate("datePlayed")));
+                            rs.getInt("wrong"),rs.getString("accuracy"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getString("chartData")));
                 }
             }
             prepareStatement.close();
@@ -52,7 +52,7 @@ public class DetailLogDao implements Dao<DetailLog>{
                 log = new DetailLog(rs.getString("idLog"),rs.getString("idLevel"),rs.getString("levelName"),rs.getString("idPublisher"),
                         rs.getString("publisherName"),rs.getString("idPlayer"),rs.getString("playerName"),
                         rs.getInt("score"),rs.getFloat("wpm"),rs.getFloat("wps"),rs.getInt("correct"),
-                        rs.getInt("wrong"),rs.getString("accuracy"),rs.getString("timeLeft"),rs.getDate("datePlayed"));
+                        rs.getInt("wrong"),rs.getString("accuracy"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getString("chartData"));
             }
             prepareStatement.close();
             return log;
@@ -64,7 +64,7 @@ public class DetailLogDao implements Dao<DetailLog>{
 
     public void add(DetailLog log) {
         try {
-            String query = "insert into DetailLog values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
+            String query = "insert into DetailLog values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, log.getIdLog());
@@ -82,6 +82,7 @@ public class DetailLogDao implements Dao<DetailLog>{
             prepareStatement.setString(13, log.getAccuracy());
             prepareStatement.setString(14, log.getTimeLeft());
             prepareStatement.setDate(15, log.getDatePlayed());
+            prepareStatement.setString(16,log.getChartData());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();

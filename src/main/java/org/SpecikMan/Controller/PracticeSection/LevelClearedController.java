@@ -1,7 +1,12 @@
 package org.SpecikMan.Controller.PracticeSection;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import org.SpecikMan.DAL.DetailLogDao;
 import org.SpecikMan.DAL.DetailsDao;
@@ -14,10 +19,11 @@ import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.GenerateID;
 
+import java.io.File;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class LevelClearedController {
@@ -63,15 +69,16 @@ public class LevelClearedController {
 
     @FXML
     private Label lbTotalScore;
-
     @FXML
     private Label lbWPM;
-
     @FXML
     private Label lbWPS;
-
     @FXML
     private Label lbWrong;
+    @FXML
+    private LineChart<Number, Number> lineChart;
+    @FXML
+    private ComboBox<String> cbbChartElement;
 
     public void initialize() {
         String[] data = Objects.requireNonNull(FileRW.Read(FilePath.getPlayResult())).split("-");
@@ -101,7 +108,7 @@ public class LevelClearedController {
                 detail = i;
             }
         }
-        if(detail.getIdLevelDetails()==null){
+        if (detail.getIdLevelDetails() == null) {
             detail.setIdLevelDetails(GenerateID.genDetails());
             detail.setLevel(new Level(FileRW.Read(FilePath.getPlayLevel())));
             detail.setIdAccount(FileRW.Read(FilePath.getLoginAcc()));
@@ -114,45 +121,160 @@ public class LevelClearedController {
             detail.setTimeLeft(lbTimeLeft.getText());
             detail.setDatePlayed(Date.valueOf(LocalDate.now()));
             detail.setScore(Integer.parseInt(lbTotalScore.getText()));
+            detail.setChartData(FileRW.Read(FilePath.getChartData()));
             detailsDao.add(detail);
         } else {
-            log.setIdLog(GenerateID.genLog());
-            log.setIdLevel(level.getIdLevel());
-            log.setLevelName(level.getNameLevel());
-            log.setIdPublisher(level.getIdAccount());
-            log.setPublisherName(level.getUsername());
-            log.setIdPlayer(detail.getIdAccount());
-            log.setPlayerName(detail.getUsername());
-            log.setScore(detail.getScore());
-            log.setWpm(detail.getWpm());
-            log.setWps(detail.getWps());
-            log.setCorrect(detail.getCorrect());
-            log.setWrong(detail.getWrong());
-            log.setAccuracy(detail.getAccuracy());
-            log.setTimeLeft(detail.getTimeLeft());
-            log.setDatePlayed(detail.getDatePlayed());
-            logDao.add(log);
-            detail.setWpm(Float.parseFloat(lbWPM.getText()));
-            detail.setWps(Float.parseFloat(lbWPS.getText()));
-            detail.setCorrect(Integer.parseInt(lbCorrect.getText()));
-            detail.setWrong(Integer.parseInt(lbWrong.getText()));
-            detail.setAccuracy(lbAccuracy.getText());
-            detail.setTimeLeft(lbTimeLeft.getText());
-            detail.setDatePlayed(Date.valueOf(LocalDate.now()));
-            detail.setScore(Integer.parseInt(lbTotalScore.getText()));
-            detailsDao.update(detail);
+            if(detail.getScore()<Integer.parseInt(lbTotalScore.getText())){
+                log.setIdLog(GenerateID.genLog());
+                log.setIdLevel(level.getIdLevel());
+                log.setLevelName(level.getNameLevel());
+                log.setIdPublisher(level.getIdAccount());
+                log.setPublisherName(level.getUsername());
+                log.setIdPlayer(detail.getIdAccount());
+                log.setPlayerName(detail.getUsername());
+                log.setScore(detail.getScore());
+                log.setWpm(detail.getWpm());
+                log.setWps(detail.getWps());
+                log.setCorrect(detail.getCorrect());
+                log.setWrong(detail.getWrong());
+                log.setAccuracy(detail.getAccuracy());
+                log.setTimeLeft(detail.getTimeLeft());
+                log.setDatePlayed(detail.getDatePlayed());
+                log.setChartData(detail.getChartData());
+                logDao.add(log);
+                detail.setWpm(Float.parseFloat(lbWPM.getText()));
+                detail.setWps(Float.parseFloat(lbWPS.getText()));
+                detail.setCorrect(Integer.parseInt(lbCorrect.getText()));
+                detail.setWrong(Integer.parseInt(lbWrong.getText()));
+                detail.setAccuracy(lbAccuracy.getText());
+                detail.setTimeLeft(lbTimeLeft.getText());
+                detail.setDatePlayed(Date.valueOf(LocalDate.now()));
+                detail.setScore(Integer.parseInt(lbTotalScore.getText()));
+                detail.setChartData(FileRW.Read(FilePath.getChartData()));
+                detailsDao.update(detail);
+            } else {
+                log.setIdLog(GenerateID.genLog());
+                log.setIdLevel(level.getIdLevel());
+                log.setLevelName(level.getNameLevel());
+                log.setIdPublisher(level.getIdAccount());
+                log.setPublisherName(level.getUsername());
+                log.setIdPlayer(detail.getIdAccount());
+                log.setPlayerName(detail.getUsername());
+                log.setScore(Integer.parseInt(lbTotalScore.getText()));
+                log.setWpm(Float.parseFloat(lbWPM.getText()));
+                log.setWps(Float.parseFloat(lbWPS.getText()));
+                log.setCorrect(Integer.parseInt(lbCorrect.getText()));
+                log.setWrong(Integer.parseInt(lbWrong.getText()));
+                log.setAccuracy(lbAccuracy.getText());
+                log.setTimeLeft(lbTimeLeft.getText());
+                log.setDatePlayed(Date.valueOf(LocalDate.now()));
+                log.setChartData(FileRW.Read(FilePath.getChartData()));
+                logDao.add(log);
+            }
         }
+        BindDataToChart();
+        BindDataToCombobox();
+        cbbChartElement.getSelectionModel().select("All");
     }
+
     @FXML
-    public void btnRetryClicked(){
-        FileRW.Write(FilePath.getRetryOrMenu(),"retry");
+    public void btnRetryClicked() {
+        FileRW.Write(FilePath.getRetryOrMenu(), "retry");
         DisposeForm.Dispose(lbLevelName);
     }
+
     @FXML
-    public void btnMenuClicked(){
-        FileRW.Write(FilePath.getRetryOrMenu(),"menu");
+    public void btnMenuClicked() {
+        FileRW.Write(FilePath.getRetryOrMenu(), "menu");
         DisposeForm.Dispose(lbPlayerName);
     }
 
+    public void BindDataToChart() {
+        lineChart.getData().clear();
+        String[] chartData = Objects.requireNonNull(FileRW.Read(FilePath.getChartData())).split("_");
+        chartData = Arrays.copyOf(chartData,chartData.length-1);
+        XYChart.Series<Number, Number> seriesWPM = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesCorrect = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesWrong = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesCombo = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesAccuracy = new XYChart.Series<>();
+        seriesWPM.setName("WPM");
+        seriesCorrect.setName("Correct");
+        seriesWrong.setName("Wrong");
+        seriesCombo.setName("Combo");
+        seriesAccuracy.setName("Accuracy");
+        for (int i = 0; i < chartData.length; i++) {
+            seriesWPM.getData().add(new XYChart.Data<>((i + 1),Integer.parseInt(chartData[i].split("-")[0])));
+            seriesCorrect.getData().add(new XYChart.Data<>((i + 1),Integer.parseInt(chartData[i].split("-")[1])));
+            seriesWrong.getData().add(new XYChart.Data<>((i + 1),Integer.parseInt(chartData[i].split("-")[2])));
+            seriesCombo.getData().add(new XYChart.Data<>((i + 1),Integer.parseInt(chartData[i].split("-")[3])));
+            seriesAccuracy.getData().add(new XYChart.Data<>((i + 1),Integer.parseInt(chartData[i].split("-")[4].split("%")[0])));
+        }
+        lineChart.getData().addAll(new ArrayList<>(Arrays.asList(seriesWPM, seriesCorrect, seriesWrong, seriesCombo, seriesAccuracy)));
+    }
+    public void BindDataToCombobox(){
+        ObservableList<String> list = FXCollections.observableList(new ArrayList<>(Arrays.asList("All","WPM","Correct","Wrong","Combo","Accuracy")));
+        cbbChartElement.setItems(list);
+        String[] chartData = Objects.requireNonNull(FileRW.Read(FilePath.getChartData())).split("_");
+        chartData = Arrays.copyOf(chartData,chartData.length-1);
+        String[] finalChartData = chartData;
+        cbbChartElement.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) ->{
+            switch (newValue) {
+                case "WPM": {
+                    lineChart.getData().clear();
+                    XYChart.Series<Number, Number> seriesWPM = new XYChart.Series<>();
+                    seriesWPM.setName("WPM");
+                    for (int i = 0; i < finalChartData.length; i++) {
+                        seriesWPM.getData().add(new XYChart.Data<>((i + 1), Integer.parseInt(finalChartData[i].split("-")[0])));
+                    }
+                    lineChart.getData().add(seriesWPM);
+                    break;
+                }
+                case "Correct": {
+                    lineChart.getData().clear();
+                    XYChart.Series<Number, Number> seriesWPM = new XYChart.Series<>();
+                    seriesWPM.setName("Correct");
+                    for (int i = 0; i < finalChartData.length; i++) {
+                        seriesWPM.getData().add(new XYChart.Data<>((i + 1), Integer.parseInt(finalChartData[i].split("-")[1])));
+                    }
+                    lineChart.getData().add(seriesWPM);
+                    break;
+                }
+                case "Wrong": {
+                    lineChart.getData().clear();
+                    XYChart.Series<Number, Number> seriesWPM = new XYChart.Series<>();
+                    seriesWPM.setName("Wrong");
+                    for (int i = 0; i < finalChartData.length; i++) {
+                        seriesWPM.getData().add(new XYChart.Data<>((i + 1), Integer.parseInt(finalChartData[i].split("-")[2])));
+                    }
+                    lineChart.getData().add(seriesWPM);
+                    break;
+                }
+                case "Combo": {
+                    lineChart.getData().clear();
+                    XYChart.Series<Number, Number> seriesWPM = new XYChart.Series<>();
+                    seriesWPM.setName("Combo");
+                    for (int i = 0; i < finalChartData.length; i++) {
+                        seriesWPM.getData().add(new XYChart.Data<>((i + 1), Integer.parseInt(finalChartData[i].split("-")[3])));
+                    }
+                    lineChart.getData().add(seriesWPM);
+                    break;
+                }
+                case "Accuracy": {
+                    lineChart.getData().clear();
+                    XYChart.Series<Number, Number> seriesWPM = new XYChart.Series<>();
+                    seriesWPM.setName("Accuracy");
+                    for (int i = 0; i < finalChartData.length; i++) {
+                        seriesWPM.getData().add(new XYChart.Data<>((i + 1), Integer.parseInt(finalChartData[i].split("-")[4].split("%")[0])));
+                    }
+                    lineChart.getData().add(seriesWPM);
+                    break;
+                }
+                default:
+                    BindDataToChart();
+                    break;
+            }
+        });
+    }
 }
 

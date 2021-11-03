@@ -15,7 +15,6 @@ import org.SpecikMan.Entity.Level;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.LoadForm;
-import org.SpecikMan.Tools.ShowAlert;
 
 import javax.swing.*;
 import java.math.BigDecimal;
@@ -90,6 +89,12 @@ public class PlayController {
 
     public void initialize() {
         textflow.getChildren().clear();
+        correct = 0;
+        wrong = 0;
+        total = 0;
+        combo = 0;
+        maxCombo = 0;
+        FileRW.Write(FilePath.getChartData(), "");
         btnPause.setText("Start");
         btnPause.setDisable(false);
         LevelDao levelDao = new LevelDao();
@@ -165,7 +170,8 @@ public class PlayController {
                 timer.stop();
                 timer2.stop();
                 transferData();
-                LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml","Level Cleared",true);
+                chartData();
+                LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
                 if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
                     initialize();
                 } else {
@@ -362,11 +368,6 @@ public class PlayController {
             ddSecond = dFormat.format(second);
             ddMinute = dFormat.format(minute);
             lbTime.setText(ddMinute + ":" + ddSecond);
-            double total_minutes = (((double) second / 60) + minute);
-            int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
-            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-            lbScore.setText(Integer.parseInt(lbScore.getText())-1000+"");
             if (second == -1) {
                 second = 59;
                 minute--;
@@ -386,6 +387,12 @@ public class PlayController {
                     ddSecond2 = dFormat.format(second2);
                     ddMinute2 = dFormat.format(minute2);
                     lbTimeUp.setText(ddMinute2 + ":" + ddSecond2);
+                    double total_minutes = (((double) second2 / 60) + minute2);
+                    int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
+                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                    lbScore.setText(Integer.parseInt(lbScore.getText()) - 1000 + "");
+                    chartData();
                     if (second == 60) {
                         second2 = 0;
                         minute2++;
@@ -393,13 +400,18 @@ public class PlayController {
                         ddMinute2 = dFormat.format(minute2);
                         lbTimeUp.setText(ddMinute2 + ":" + ddSecond2);
                     }
-
                 }
         ));
     }
-    public void transferData(){
-        String data = lbWPS.getText()+"-"+lbWPM.getText()+"-"+lbCorrect.getText()+"-"+lbWrong.getText()+"-"+lbTotal.getText()+"-"
-                +lbCombo.getText()+"-"+maxCombo+"-"+lbAccuracy.getText()+"-"+ddMinute+":"+ddSecond+"-"+ddMinute2+":"+ddSecond2+"-"+lbScore.getText()+"-"+lbUsername.getText()+"-"+lbLevelName.getText();
-        FileRW.Write(FilePath.getPlayResult(),data);
+
+    public void transferData() {
+        String data = lbWPS.getText() + "-" + lbWPM.getText() + "-" + lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbTotal.getText() + "-"
+                + lbCombo.getText() + "-" + maxCombo + "-" + lbAccuracy.getText() + "-" + ddMinute + ":" + ddSecond + "-" + ddMinute2 + ":" + ddSecond2 + "-" + lbScore.getText() + "-" + lbUsername.getText() + "-" + lbLevelName.getText();
+        FileRW.Write(FilePath.getPlayResult(), data);
+    }
+
+    public void chartData() {
+        String data = lbWPM.getText() + "-" +lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbCombo.getText() + "-" + lbAccuracy.getText() + "_";
+        FileRW.Write(FilePath.getChartData(), FileRW.Read(FilePath.getChartData()) + data);
     }
 }

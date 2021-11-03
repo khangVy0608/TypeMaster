@@ -35,7 +35,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
                             rs.getFloat("wps"),rs.getInt("correct"),rs.getInt("wrong"),rs.getString("accuracy"),
                             new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                                     rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                                    new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username"))));
+                                    new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username")),rs.getString("chartData")));
                 }
             }
             prepareStatement.close();
@@ -62,7 +62,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
                         rs.getFloat("wps"),rs.getInt("correct"),rs.getInt("wrong"),rs.getString("accuracy"),
                         new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
                                 rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                                new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username")));
+                                new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username")),rs.getString("chartData"));
             }
             prepareStatement.close();
             return detail;
@@ -74,7 +74,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
 
     public void add(AccountLevelDetails detail) {
         try {
-            String query = "insert into AccountLevelDetails values (?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
+            String query = "insert into AccountLevelDetails values (?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, detail.getIdLevelDetails());
@@ -89,6 +89,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
             prepareStatement.setInt(10,detail.getCorrect());
             prepareStatement.setInt(11,detail.getWrong());
             prepareStatement.setString(12,detail.getAccuracy());
+            prepareStatement.setString(13,detail.getChartData());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
@@ -97,7 +98,7 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
 
     public void update(AccountLevelDetails detail) {
         try {
-            String query = "update AccountLevelDetails set idAccount = ?,idLevel = ?,score = ?,timeLeft = ?,datePlayed = ?,isLike = ?,wpm = ?,wps = ?,correct = ?,wrong = ?,accuracy = ? where idLevelDetails = ?";
+            String query = "update AccountLevelDetails set idAccount = ?,idLevel = ?,score = ?,timeLeft = ?,datePlayed = ?,isLike = ?,wpm = ?,wps = ?,correct = ?,wrong = ?,accuracy = ?,chartData = ? where idLevelDetails = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, detail.getIdAccount());
@@ -111,8 +112,9 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
             prepareStatement.setInt(9,detail.getCorrect());
             prepareStatement.setInt(10,detail.getWrong());
             prepareStatement.setString(11,detail.getAccuracy());
+            prepareStatement.setString(12,detail.getChartData());
             //Condition
-            prepareStatement.setString(12, detail.getIdLevelDetails());
+            prepareStatement.setString(13, detail.getIdLevelDetails());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,6 +14,7 @@ public class AccountLevelDetails extends Account{
     private int wrong;
     private String accuracy;
     private Level level;
+    private String chartData;
 
     public String getIdLevelDetails() {
         return idLevelDetails;
@@ -103,10 +104,18 @@ public class AccountLevelDetails extends Account{
         this.level = level;
     }
 
+    public String getChartData() {
+        return chartData;
+    }
+
+    public void setChartData(String chartData) {
+        this.chartData = chartData;
+    }
+
     public AccountLevelDetails() {
     }
 
-    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level) {
+    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level,String chartData) {
         super(idAccount, username, password, email, fullName, dob, verificationCode, uud, idRole, nameRole);
         this.idLevelDetails = idLevelDetails;
         this.score = score;
@@ -119,6 +128,7 @@ public class AccountLevelDetails extends Account{
         this.wrong = wrong;
         this.accuracy = accuracy;
         this.level = level;
+        this.chartData = chartData;
     }
 
     public AccountLevelDetails(String idAccount,String username, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level) {

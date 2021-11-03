@@ -18,6 +18,7 @@ public class DetailLog {
     private String accuracy;
     private String timeLeft;
     private Date datePlayed;
+    private String chartData;
 
     public String getIdLog() {
         return idLog;
@@ -139,7 +140,15 @@ public class DetailLog {
         this.datePlayed = datePlayed;
     }
 
-    public DetailLog(String idLog, String idLevel, String levelName, String idPublisher, String publisherName, String idPlayer, String playerName, int score, float wpm, float wps, int correct, int wrong, String accuracy, String timeLeft, Date datePlayed) {
+    public String getChartData() {
+        return chartData;
+    }
+
+    public void setChartData(String chartData) {
+        this.chartData = chartData;
+    }
+
+    public DetailLog(String idLog, String idLevel, String levelName, String idPublisher, String publisherName, String idPlayer, String playerName, int score, float wpm, float wps, int correct, int wrong, String accuracy, String timeLeft, Date datePlayed,String chartData) {
         this.idLog = idLog;
         this.idLevel = idLevel;
         this.levelName = levelName;
@@ -155,6 +164,7 @@ public class DetailLog {
         this.accuracy = accuracy;
         this.timeLeft = timeLeft;
         this.datePlayed = datePlayed;
+        this.chartData = chartData;
     }
     public DetailLog(int score, float wpm,int correct, int wrong, String accuracy, String timeLeft, Date datePlayed) {
         this.score = score;
