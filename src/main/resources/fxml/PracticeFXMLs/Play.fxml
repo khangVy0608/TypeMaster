@@ -11,7 +11,8 @@
 
 <AnchorPane onKeyPressed="#keyPressed" prefHeight="667.0" prefWidth="1000.0" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PracticeSection.PlayController">
    <children>
-      <AnchorPane prefHeight="616.0" prefWidth="993.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;" stylesheets="@../../css/play.css">
+      <AnchorPane fx:id="paneLightOff" prefHeight="666.0" prefWidth="1001.0" />
+      <AnchorPane prefHeight="666.0" prefWidth="1002.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;" stylesheets="@../../css/play.css">
          <children>
             <Pane layoutX="590.0" layoutY="-1.0" prefHeight="94.0" prefWidth="409.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@../../css/play.css">
                <children>
@@ -152,6 +153,7 @@
                         <Font name="System Bold" size="41.0" />
                      </font>
                   </Label>
+                  <Line endX="100.0" endY="18.99999237060547" layoutX="795.0" layoutY="25.0" startX="100.0" startY="66.20001220703125" />
                </children>
             </AnchorPane>
             <Label fx:id="lbLevelName" layoutX="59.0" layoutY="29.0" text="Level Name" textFill="#0b0b0b">
