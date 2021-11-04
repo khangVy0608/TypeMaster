@@ -53,7 +53,7 @@ public class MailSender {
             message.setFrom(new InternetAddress(from));
 
             // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress("h.v.khang68@gmail.com"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             // Set Subject: header field
             message.setSubject("Reset Password");

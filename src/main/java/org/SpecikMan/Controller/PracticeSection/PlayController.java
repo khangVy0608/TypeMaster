@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextFlow;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.LevelDao;
@@ -14,6 +15,7 @@ import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Entity.Level;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.GenerateRandomNumbers;
 import org.SpecikMan.Tools.LoadForm;
 
 import javax.swing.*;
@@ -53,6 +55,8 @@ public class PlayController {
     private Label lbScore;
     @FXML
     private Label lbTimeUp;
+    @FXML
+    private AnchorPane paneLightOff;
     private static final String NOT_TYPED_PATH = FilePath.getNotTyped();
     private static final String TYPED_PATH = FilePath.getTYPED();
     private static final String ORIGINAL_PATH = FilePath.getORIGINAL();
@@ -67,6 +71,8 @@ public class PlayController {
     private Timer timer2;
     private int second2, minute2;
     private String ddSecond2, ddMinute2;
+    private Timer timer3;
+    private int second3;
     private final DecimalFormat dFormat = new DecimalFormat("00");
 
     public void onBtnPauseClicked(MouseEvent e) {
@@ -129,148 +135,17 @@ public class PlayController {
     }
 
     public void keyPressed(KeyEvent e) {
+        LevelDao levelDao = new LevelDao();
+        Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
         char[] typed = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).toCharArray();
         char[] notTyped = Objects.requireNonNull(FileRW.Read(NOT_TYPED_PATH)).toCharArray();
-        int pos = 0;
         String input = e.getText();
         double total_minutes = (((double) second2 / 60) + minute2);
         int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
-        if (btnPause.getText().equals("Pause")) {
-            if(String.valueOf(notTyped[1]).equals("_")){
-                textflow.getChildren().clear();
-                notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                typed = Arrays.copyOf(typed, typed.length + 1);
-                typed[typed.length - 1] = input.toCharArray()[0];
-                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                for (char i : typed) {
-                    Label tmp = new Label(String.valueOf(i));
-                    tmp.setStyle("-fx-font-size: 20;");
-                    textflow.getChildren().add(tmp);
-                }
-                for (char i : notTyped) {
-                    Label tmp = new Label(String.valueOf(i));
-                    tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
-                    textflow.getChildren().add(tmp);
-                }
-                correct++;
-                total++;
-                combo++;
-                if(combo > maxCombo){
-                    maxCombo = combo;
-                }
-                lbCorrect.setText(String.valueOf(correct));
-                lbTotal.setText(String.valueOf(total));
-                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                lbCombo.setText(String.valueOf(combo));
-                lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+(Integer.parseInt(lbAccuracy.getText().split("%")[0])*(total*500)/100)+"");
-                timer.stop();
-                timer2.stop();
-                transferData();
-                chartData();
-                LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
-                if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
-                    initialize();
-                } else {
-                    DisposeForm.Dispose(lbScore);
-                }
-            } else {
-                if (notTyped[0] != notTyped[notTyped.length - 1]) {
-                    if (!String.valueOf(notTyped[1]).equals(" ")) {
-                        if (String.valueOf(notTyped[0]).equals(input)) {
-                            textflow.getChildren().clear();
-                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                            typed = Arrays.copyOf(typed, typed.length + 1);
-                            typed[typed.length - 1] = input.toCharArray()[0];
-                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                            for (char i : typed) {
-                                Label tmp = new Label(String.valueOf(i));
-                                tmp.setStyle("-fx-font-size: 20;");
-                                textflow.getChildren().add(tmp);
-                            }
-                            for (char i : notTyped) {
-                                Label tmp = new Label(String.valueOf(i));
-                                tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
-                                textflow.getChildren().add(tmp);
-                            }
-                            correct++;
-                            total++;
-                            combo++;
-                            if(combo > maxCombo){
-                                maxCombo = combo;
-                            }
-                            lbCorrect.setText(String.valueOf(correct));
-                            lbTotal.setText(String.valueOf(total));
-                            lbCombo.setText(String.valueOf(combo));
-                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                            lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
-                        } else {
-                            wrong++;
-                            total++;
-                            combo = 0;
-                            lbWrong.setText(String.valueOf(wrong));
-                            lbTotal.setText(String.valueOf(total));
-                            lbCombo.setText(String.valueOf(combo));
-                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                            lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
-                        }
-                    } else {
-                        if (String.valueOf(notTyped[0]).equals(input)) {
-                            textflow.getChildren().clear();
-                            notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
-                            typed = Arrays.copyOf(typed, typed.length + 2);
-                            typed[typed.length - 2] = input.toCharArray()[0];
-                            typed[typed.length - 1] = " ".toCharArray()[0];
-                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                            for (char i : typed) {
-                                Label tmp = new Label(String.valueOf(i));
-                                tmp.setStyle("-fx-font-size: 20;");
-                                textflow.getChildren().add(tmp);
-                            }
-                            for (char i : notTyped) {
-                                Label tmp = new Label(String.valueOf(i));
-                                tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
-                                textflow.getChildren().add(tmp);
-                            }
-                            correct++;
-                            total++;
-                            combo++;
-                            if(combo > maxCombo){
-                                maxCombo = combo;
-                            }
-                            lbCorrect.setText(String.valueOf(correct));
-                            lbTotal.setText(String.valueOf(total));
-                            lbCombo.setText(String.valueOf(combo));
-                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                            lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
-                        } else {
-                            wrong++;
-                            total++;
-                            combo = 0;
-                            lbWrong.setText(String.valueOf(wrong));
-                            lbTotal.setText(String.valueOf(total));
-                            lbCombo.setText(String.valueOf(combo));
-                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                            lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
-                        }
-                    }
-                } else {
-                    if (String.valueOf(notTyped[0]).equals(input)) {
+        switch(level.getMode().getNameMode()){
+            case "Normal":{
+                if (btnPause.getText().equals("Pause")) {
+                    if(String.valueOf(notTyped[1]).equals("_")){
                         textflow.getChildren().clear();
                         notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
                         typed = Arrays.copyOf(typed, typed.length + 1);
@@ -296,35 +171,564 @@ public class PlayController {
                         }
                         lbCorrect.setText(String.valueOf(correct));
                         lbTotal.setText(String.valueOf(total));
-                        lbCombo.setText(String.valueOf(combo));
                         lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
                         lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                         lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                        lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                        lbCombo.setText(String.valueOf(combo));
+                        lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+(Integer.parseInt(lbAccuracy.getText().split("%")[0])*(total*500)/100)+"");
+                        timer.stop();
+                        timer2.stop();
+                        transferData();
+                        chartData();
+                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
+                        if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                            initialize();
+                        } else {
+                            DisposeForm.Dispose(lbScore);
+                        }
                     } else {
-                        wrong++;
-                        total++;
-                        combo = 0;
-                        lbWrong.setText(String.valueOf(wrong));
-                        lbTotal.setText(String.valueOf(total));
-                        lbCombo.setText(String.valueOf(combo));
-                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                        lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                    textflow.getChildren().clear();
+                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                    for (char i : typed) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    for (char i : notTyped) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    correct++;
+                                    total++;
+                                    combo++;
+                                    if(combo > maxCombo){
+                                        maxCombo = combo;
+                                    }
+                                    lbCorrect.setText(String.valueOf(correct));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                                } else {
+                                    wrong++;
+                                    total++;
+                                    combo = 0;
+                                    lbWrong.setText(String.valueOf(wrong));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                                }
+                            } else {
+                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                    textflow.getChildren().clear();
+                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                    for (char i : typed) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    for (char i : notTyped) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    correct++;
+                                    total++;
+                                    combo++;
+                                    if(combo > maxCombo){
+                                        maxCombo = combo;
+                                    }
+                                    lbCorrect.setText(String.valueOf(correct));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                                } else {
+                                    wrong++;
+                                    total++;
+                                    combo = 0;
+                                    lbWrong.setText(String.valueOf(wrong));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                                }
+                            }
+                        } else {
+                            if (String.valueOf(notTyped[0]).equals(input)) {
+                                textflow.getChildren().clear();
+                                notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                typed = Arrays.copyOf(typed, typed.length + 1);
+                                typed[typed.length - 1] = input.toCharArray()[0];
+                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                for (char i : typed) {
+                                    Label tmp = new Label(String.valueOf(i));
+                                    tmp.setStyle("-fx-font-size: 20;");
+                                    textflow.getChildren().add(tmp);
+                                }
+                                for (char i : notTyped) {
+                                    Label tmp = new Label(String.valueOf(i));
+                                    tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                    textflow.getChildren().add(tmp);
+                                }
+                                correct++;
+                                total++;
+                                combo++;
+                                if(combo > maxCombo){
+                                    maxCombo = combo;
+                                }
+                                lbCorrect.setText(String.valueOf(correct));
+                                lbTotal.setText(String.valueOf(total));
+                                lbCombo.setText(String.valueOf(combo));
+                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                            } else {
+                                wrong++;
+                                total++;
+                                combo = 0;
+                                lbWrong.setText(String.valueOf(wrong));
+                                lbTotal.setText(String.valueOf(total));
+                                lbCombo.setText(String.valueOf(combo));
+                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                            }
+                        }
+                    }
+                } else {
+                    char[] chars = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
+                    textflow.getChildren().clear();
+                    chars = Arrays.copyOfRange(chars,0,chars.length);
+                    for (char c : chars) {
+                        Label l = new Label(String.valueOf(c));
+                        l.setStyle("-fx-font-size: 20;-fx-text-fill: gray");
+                        textflow.getChildren().add(l);
                     }
                 }
+                break;
             }
-        } else {
-            char[] chars = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
-            textflow.getChildren().clear();
-            chars = Arrays.copyOfRange(chars,0,chars.length);
-            for (char c : chars) {
-                Label l = new Label(String.valueOf(c));
-                l.setStyle("-fx-font-size: 20;-fx-text-fill: gray");
-                textflow.getChildren().add(l);
+            case "Instant Death": {
+                if (btnPause.getText().equals("Pause")) {
+                    if(String.valueOf(notTyped[1]).equals("_")){
+                        textflow.getChildren().clear();
+                        notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                        typed = Arrays.copyOf(typed, typed.length + 1);
+                        typed[typed.length - 1] = input.toCharArray()[0];
+                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                        notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                        for (char i : typed) {
+                            Label tmp = new Label(String.valueOf(i));
+                            tmp.setStyle("-fx-font-size: 20;");
+                            textflow.getChildren().add(tmp);
+                        }
+                        for (char i : notTyped) {
+                            Label tmp = new Label(String.valueOf(i));
+                            tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                            textflow.getChildren().add(tmp);
+                        }
+                        correct++;
+                        total++;
+                        combo++;
+                        if(combo > maxCombo){
+                            maxCombo = combo;
+                        }
+                        lbCorrect.setText(String.valueOf(correct));
+                        lbTotal.setText(String.valueOf(total));
+                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                        lbCombo.setText(String.valueOf(combo));
+                        lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+(Integer.parseInt(lbAccuracy.getText().split("%")[0])*(total*500)/100)+"");
+                        timer.stop();
+                        timer2.stop();
+                        transferData();
+                        chartData();
+                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
+                        if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                            initialize();
+                        } else {
+                            DisposeForm.Dispose(lbScore);
+                        }
+                    } else {
+                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                    textflow.getChildren().clear();
+                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                    for (char i : typed) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    for (char i : notTyped) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    correct++;
+                                    total++;
+                                    combo++;
+                                    if(combo > maxCombo){
+                                        maxCombo = combo;
+                                    }
+                                    lbCorrect.setText(String.valueOf(correct));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                                } else {
+                                    timer.stop();
+                                    timer2.stop();
+                                    LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                    if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                                        initialize();
+                                    } else {
+                                        DisposeForm.Dispose(lbScore);
+                                    }
+                                }
+                            } else {
+                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                    textflow.getChildren().clear();
+                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                    for (char i : typed) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    for (char i : notTyped) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    correct++;
+                                    total++;
+                                    combo++;
+                                    if(combo > maxCombo){
+                                        maxCombo = combo;
+                                    }
+                                    lbCorrect.setText(String.valueOf(correct));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                                } else {
+                                    timer.stop();
+                                    timer2.stop();
+                                    LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                    if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                                        initialize();
+                                    } else {
+                                        DisposeForm.Dispose(lbScore);
+                                    }
+                                }
+                            }
+                        } else {
+                            if (String.valueOf(notTyped[0]).equals(input)) {
+                                textflow.getChildren().clear();
+                                notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                typed = Arrays.copyOf(typed, typed.length + 1);
+                                typed[typed.length - 1] = input.toCharArray()[0];
+                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                for (char i : typed) {
+                                    Label tmp = new Label(String.valueOf(i));
+                                    tmp.setStyle("-fx-font-size: 20;");
+                                    textflow.getChildren().add(tmp);
+                                }
+                                for (char i : notTyped) {
+                                    Label tmp = new Label(String.valueOf(i));
+                                    tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                    textflow.getChildren().add(tmp);
+                                }
+                                correct++;
+                                total++;
+                                combo++;
+                                if(combo > maxCombo){
+                                    maxCombo = combo;
+                                }
+                                lbCorrect.setText(String.valueOf(correct));
+                                lbTotal.setText(String.valueOf(total));
+                                lbCombo.setText(String.valueOf(combo));
+                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                            } else {
+                                timer.stop();
+                                timer2.stop();
+                                LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                                    initialize();
+                                } else {
+                                    DisposeForm.Dispose(lbScore);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    char[] chars = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
+                    textflow.getChildren().clear();
+                    chars = Arrays.copyOfRange(chars,0,chars.length);
+                    for (char c : chars) {
+                        Label l = new Label(String.valueOf(c));
+                        l.setStyle("-fx-font-size: 20;-fx-text-fill: gray");
+                        textflow.getChildren().add(l);
+                    }
+                }
+                break;
+            }
+            case "Blackout":{
+                int number = Integer.parseInt(GenerateRandomNumbers.generate());
+                if(number%5==0){
+                    paneLightOff.toFront();
+                    paneLightOff.setStyle("-fx-background-color: #000000");
+                    second3 = getRandomNumber(1,2);
+                    CountDownTimerBlackout();
+                }
+                if (btnPause.getText().equals("Pause")) {
+                    if(String.valueOf(notTyped[1]).equals("_")){
+                        textflow.getChildren().clear();
+                        notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                        typed = Arrays.copyOf(typed, typed.length + 1);
+                        typed[typed.length - 1] = input.toCharArray()[0];
+                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                        notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                        for (char i : typed) {
+                            Label tmp = new Label(String.valueOf(i));
+                            tmp.setStyle("-fx-font-size: 20;");
+                            textflow.getChildren().add(tmp);
+                        }
+                        for (char i : notTyped) {
+                            Label tmp = new Label(String.valueOf(i));
+                            tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                            textflow.getChildren().add(tmp);
+                        }
+                        correct++;
+                        total++;
+                        combo++;
+                        if(combo > maxCombo){
+                            maxCombo = combo;
+                        }
+                        lbCorrect.setText(String.valueOf(correct));
+                        lbTotal.setText(String.valueOf(total));
+                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                        lbCombo.setText(String.valueOf(combo));
+                        lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+(Integer.parseInt(lbAccuracy.getText().split("%")[0])*(total*500)/100)+"");
+                        timer.stop();
+                        timer2.stop();
+                        transferData();
+                        chartData();
+                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
+                        if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                            initialize();
+                        } else {
+                            DisposeForm.Dispose(lbScore);
+                        }
+                    } else {
+                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                    textflow.getChildren().clear();
+                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                    for (char i : typed) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    for (char i : notTyped) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    correct++;
+                                    total++;
+                                    combo++;
+                                    if(combo > maxCombo){
+                                        maxCombo = combo;
+                                    }
+                                    lbCorrect.setText(String.valueOf(correct));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                                } else {
+                                    wrong++;
+                                    total++;
+                                    combo = 0;
+                                    lbWrong.setText(String.valueOf(wrong));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                                }
+                            } else {
+                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                    textflow.getChildren().clear();
+                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                    for (char i : typed) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    for (char i : notTyped) {
+                                        Label tmp = new Label(String.valueOf(i));
+                                        tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                        textflow.getChildren().add(tmp);
+                                    }
+                                    correct++;
+                                    total++;
+                                    combo++;
+                                    if(combo > maxCombo){
+                                        maxCombo = combo;
+                                    }
+                                    lbCorrect.setText(String.valueOf(correct));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                                } else {
+                                    wrong++;
+                                    total++;
+                                    combo = 0;
+                                    lbWrong.setText(String.valueOf(wrong));
+                                    lbTotal.setText(String.valueOf(total));
+                                    lbCombo.setText(String.valueOf(combo));
+                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                    lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                                }
+                            }
+                        } else {
+                            if (String.valueOf(notTyped[0]).equals(input)) {
+                                textflow.getChildren().clear();
+                                notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                typed = Arrays.copyOf(typed, typed.length + 1);
+                                typed[typed.length - 1] = input.toCharArray()[0];
+                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                for (char i : typed) {
+                                    Label tmp = new Label(String.valueOf(i));
+                                    tmp.setStyle("-fx-font-size: 20;");
+                                    textflow.getChildren().add(tmp);
+                                }
+                                for (char i : notTyped) {
+                                    Label tmp = new Label(String.valueOf(i));
+                                    tmp.setStyle("-fx-font-size: 20;-fx-text-fill: gray;");
+                                    textflow.getChildren().add(tmp);
+                                }
+                                correct++;
+                                total++;
+                                combo++;
+                                if(combo > maxCombo){
+                                    maxCombo = combo;
+                                }
+                                lbCorrect.setText(String.valueOf(correct));
+                                lbTotal.setText(String.valueOf(total));
+                                lbCombo.setText(String.valueOf(combo));
+                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                lbScore.setText(Integer.parseInt(lbScore.getText())+(500)+(combo*50)+"");
+                            } else {
+                                wrong++;
+                                total++;
+                                combo = 0;
+                                lbWrong.setText(String.valueOf(wrong));
+                                lbTotal.setText(String.valueOf(total));
+                                lbCombo.setText(String.valueOf(combo));
+                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                lbScore.setText(Integer.parseInt(lbScore.getText())-(500)+(combo*50)+"");
+                            }
+                        }
+                    }
+                } else {
+                    char[] chars = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
+                    textflow.getChildren().clear();
+                    chars = Arrays.copyOfRange(chars,0,chars.length);
+                    for (char c : chars) {
+                        Label l = new Label(String.valueOf(c));
+                        l.setStyle("-fx-font-size: 20;-fx-text-fill: gray");
+                        textflow.getChildren().add(l);
+                    }
+                }
+                break;
+            }
+            case "Death Token":{
+
             }
         }
+
+
     }
 
     public void CountDownTimer() {
@@ -376,6 +780,14 @@ public class PlayController {
                 lbTime.setText(ddMinute + ":" + ddSecond);
             }
             if (minute == 0 && second == 0) {
+                timer.stop();
+                timer2.stop();
+                LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
+                    initialize();
+                } else {
+                    DisposeForm.Dispose(lbScore);
+                }
             }
         }));
     }
@@ -403,6 +815,16 @@ public class PlayController {
                 }
         ));
     }
+    public void CountDownTimerBlackout() {
+        timer3 = new Timer(1000, e -> Platform.runLater(() -> {
+            //javaFX operations should go here
+            second3--;
+            if (second3 == 0) {
+                paneLightOff.toBack();
+                paneLightOff.setStyle("-fx-background-color: transparent;");
+            }
+        }));
+    }
 
     public void transferData() {
         String data = lbWPS.getText() + "-" + lbWPM.getText() + "-" + lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbTotal.getText() + "-"
@@ -413,5 +835,8 @@ public class PlayController {
     public void chartData() {
         String data = lbWPM.getText() + "-" +lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbCombo.getText() + "-" + lbAccuracy.getText() + "_";
         FileRW.Write(FilePath.getChartData(), FileRW.Read(FilePath.getChartData()) + data);
+    }
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }
