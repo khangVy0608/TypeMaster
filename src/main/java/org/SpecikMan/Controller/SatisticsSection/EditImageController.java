@@ -37,7 +37,7 @@ public class EditImageController {
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         if (account.getPathImage() == null)
         {
-            txtPath.setText("path defaul");
+            txtPath.setText("path default");
         }
         txtPath.setText(account.getPathImage());
         Image image = new Image(new FileInputStream(account.getPathImage()));
