@@ -97,7 +97,7 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setString(7, account.getPathImage());
             prepareStatement.setString(8, account.getFullname());
             prepareStatement.setDate(9, account.getDob());
-            prepareStatement.setBoolean(10, false);
+            prepareStatement.setBoolean(10, account.isGender());
             prepareStatement.setString(11, account.getIdRole());
             prepareStatement.setString(12, account.getVerificationCode());
             prepareStatement.setString(13, account.getUud());
