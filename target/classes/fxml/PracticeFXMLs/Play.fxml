@@ -104,7 +104,7 @@
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnPause" layoutX="267.0" layoutY="510.0" mnemonicParsing="false" onMouseClicked="#onBtnPauseClicked" prefHeight="75.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="Start">
+                  <Button fx:id="btnPause" layoutX="144.0" layoutY="509.0" mnemonicParsing="false" onMouseClicked="#onBtnPauseClicked" prefHeight="75.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="Start">
                      <font>
                         <Font size="35.0" />
                      </font>
@@ -154,6 +154,11 @@
                      </font>
                   </Label>
                   <Line endX="100.0" endY="18.99999237060547" layoutX="795.0" layoutY="25.0" startX="100.0" startY="66.20001220703125" />
+                  <Button fx:id="btnRetry" layoutX="393.0" layoutY="509.0" mnemonicParsing="false" onMouseClicked="#onBtnRetryClicked" prefHeight="75.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="Retry" visible="false">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
             <Label fx:id="lbLevelName" layoutX="59.0" layoutY="29.0" text="Level Name" textFill="#0b0b0b">
