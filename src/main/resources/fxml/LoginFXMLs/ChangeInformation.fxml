@@ -27,7 +27,7 @@
       </Button>
       <FontAwesomeIconView glyphName="USER" layoutX="411.0" layoutY="164.0" size="1.3em" />
       <TextField fx:id="txtEmail" disable="true" layoutX="16.0" layoutY="192.0" prefHeight="26.0" prefWidth="386.0" promptText="Email" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
-      <PasswordField fx:id="txtConfirmPassword" layoutX="14.0" layoutY="294.0" prefHeight="26.0" prefWidth="436.0" promptText="New Password" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+      <PasswordField fx:id="txtConfirmPassword" layoutX="14.0" layoutY="294.0" prefHeight="26.0" prefWidth="436.0" promptText="Confirm New Password" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
       <FontAwesomeIconView glyphName="LOCK" layoutX="456.0" layoutY="270.0" size="1.3em" />
       <Hyperlink fx:id="hlChangeUsername" layoutX="425.0" layoutY="146.0" onMouseClicked="#onHlChangeUsernameClicked" text="Change" />
       <Hyperlink fx:id="hlChangeEmail" layoutX="425.0" layoutY="197.0" onMouseClicked="#onHlChangeEmailClicked" text="Change" />
