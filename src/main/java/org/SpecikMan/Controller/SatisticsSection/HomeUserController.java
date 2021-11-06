@@ -101,6 +101,19 @@ public class HomeUserController {
         lbFullname.setText(account.getFullname());
         Image image = new Image(new FileInputStream(account.getPathImage()),123,123,false,false);
         imUser.setImage(image);
-
+    }
+    @FXML
+    public void btnGeneralStatClicked() throws IOException {
+        pnl_scroll.getChildren().clear();
+        Node[] nodes = new Node[1];
+        nodes[0] = FXMLLoader.load(getClass().getResource("/fxml/SatisticsFXMLs/StatsAll.fxml"));
+        pnl_scroll.getChildren().add(nodes[0]);
+    }
+    @FXML
+    public void btnSpecClicked() throws IOException {
+        pnl_scroll.getChildren().clear();
+        Node[] nodes = new Node[1];
+        nodes[0] = FXMLLoader.load(getClass().getResource("/fxml/SatisticsFXMLs/StatsOne.fxml"));
+        pnl_scroll.getChildren().add(nodes[0]);
     }
 }

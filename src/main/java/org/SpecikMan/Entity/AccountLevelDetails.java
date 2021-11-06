@@ -107,7 +107,10 @@ public class AccountLevelDetails extends Account{
     public String getChartData() {
         return chartData;
     }
-
+    @Override
+    public String toString() {
+        return this.level.getNameLevel();
+    }
     public void setChartData(String chartData) {
         this.chartData = chartData;
     }

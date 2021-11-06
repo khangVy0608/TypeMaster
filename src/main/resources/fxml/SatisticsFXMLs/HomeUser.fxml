@@ -106,7 +106,7 @@
                   <Insets left="50.0" />
                </padding>
             </JFXButton>
-            <JFXButton fx:id="btnGeneralStatistics" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="43.0" prefWidth="252.0" ripplerFill="#bfadf8" text="General Statistics" textFill="#5b5858">
+            <JFXButton fx:id="btnGeneralStatistics" alignment="BASELINE_LEFT" graphicTextGap="10.0" onMouseClicked="#btnGeneralStatClicked" prefHeight="43.0" prefWidth="252.0" ripplerFill="#bfadf8" text="General Statistics" textFill="#5b5858">
                <font>
                   <Font size="13.0" />
                </font>
@@ -121,7 +121,7 @@
                   <Insets left="50.0" />
                </padding>
             </JFXButton>
-            <JFXButton fx:id="btnSpecificStatistics" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="43.0" prefWidth="252.0" ripplerFill="#bfadf8" text="Specific Statistics" textFill="#5b5858">
+            <JFXButton fx:id="btnSpecificStatistics" alignment="BASELINE_LEFT" graphicTextGap="10.0" onMouseClicked="#btnSpecClicked" prefHeight="43.0" prefWidth="252.0" ripplerFill="#bfadf8" text="Specific Statistics" textFill="#5b5858">
                <font>
                   <Font size="13.0" />
                </font>

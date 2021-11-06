@@ -93,7 +93,10 @@ public class Level extends Account{
     public void setMode(Mode mode) {
         this.mode = mode;
     }
-
+    @Override
+    public String toString() {
+        return this.nameLevel;
+    }
     public Level() {
     }
     //change when use

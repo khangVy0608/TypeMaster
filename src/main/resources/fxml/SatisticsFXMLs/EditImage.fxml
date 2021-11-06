@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.SatisticsSection.EditImageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="816.0" stylesheets="@../../css/Login_Register.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.SatisticsSection.EditImageController">
    <children>
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="345.0" prefWidth="785.0">
          <children>
@@ -18,8 +18,8 @@
             </ImageView>
          </children>
       </Pane>
-      <Button fx:id="btnEdit" layoutX="50.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#onClickEdit" prefHeight="36.0" prefWidth="64.0" text="Edit" />
-      <Button fx:id="btnSave" layoutX="714.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#onClickSave" prefHeight="36.0" prefWidth="64.0" text="Save" />
-      <TextField fx:id="txtPath" layoutX="149.0" layoutY="371.0" prefHeight="30.0" prefWidth="453.0" />
+      <Button fx:id="btnEdit" layoutX="50.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#onClickEdit" prefHeight="36.0" prefWidth="88.0" styleClass="blue-btn" text="Edit" />
+      <Button fx:id="btnSave" layoutX="675.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#onClickSave" prefHeight="36.0" prefWidth="132.0" styleClass="blue-btn" text="Save" />
+      <TextField fx:id="txtPath" layoutX="149.0" layoutY="371.0" prefHeight="30.0" prefWidth="514.0" styleClass="tf_box" />
    </children>
 </AnchorPane>

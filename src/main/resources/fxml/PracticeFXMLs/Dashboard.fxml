@@ -44,7 +44,7 @@
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnNormal" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal Mode">
+                  <Button fx:id="btnNormal" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>
@@ -57,7 +57,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnDeathToken" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDeathTokenClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Death Token">
+                  <Button fx:id="btnDeathToken" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDeathTokenClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hidden">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

@@ -103,6 +103,7 @@ public class PlayController {
         btnRetry.setVisible(false);
     }
     public void initialize() {
+        btnRetry.setVisible(false);
         textflow.getChildren().clear();
         correct = 0;
         wrong = 0;

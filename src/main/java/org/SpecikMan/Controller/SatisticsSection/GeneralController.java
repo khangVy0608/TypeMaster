@@ -10,6 +10,7 @@ import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Tools.FileRW;
+import org.SpecikMan.Tools.LoadForm;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -72,16 +73,24 @@ public class GeneralController {
 
     @FXML
     void onClickEdit(MouseEvent event) {
+        if(btnEdit.getText().equals("Edit")){
+            btnEdit.setText("Back");
+            txtFullNameChange.setDisable(false);
+            cbbSexChange.setDisable(false);
+            dpDobChange.setDisable(false);
+            btnSave.setDisable(false);
+            ObservableList<String> gt = FXCollections.observableArrayList();
+            gt.add("Male");
+            gt.add("Female");
+            cbbSexChange.setItems(gt);
+        } else {
+            btnEdit.setText("Edit");
+            txtFullNameChange.setDisable(true);
+            cbbSexChange.setDisable(true);
+            dpDobChange.setDisable(true);
+            btnSave.setDisable(true);
+        }
 
-        txtFullNameChange.setEditable(true);
-        cbbSexChange.setEditable(true);
-        dpDobChange.setEditable(true);
-        btnSave.setDisable(false);
-
-        ObservableList<String> gt = FXCollections.observableArrayList();
-        gt.add("Male");
-        gt.add("Female");
-        cbbSexChange.setItems(gt);
     }
 
     @FXML
@@ -93,9 +102,10 @@ public class GeneralController {
         account.setGender(cbbSexChange.getValue().equals("Male"));
         accountDao.update(account);
         btnSave.setDisable(true);
-        txtFullNameChange.setEditable(false);
-        cbbSexChange.setEditable(false);
-        dpDobChange.setEditable(false);
+        txtFullNameChange.setDisable(true);
+        cbbSexChange.setDisable(true);
+        dpDobChange.setDisable(true);
+        initialize();
     }
 
     public void initialize() {
@@ -114,6 +124,9 @@ public class GeneralController {
         lbDayRecentLogin.setText(c.get(Calendar.DAY_OF_MONTH) + "");
         lbMonthRecentLogin.setText(months[c.get(Calendar.MONTH)]);
         lbYearRecentLogin.setText(String.valueOf(c.get(Calendar.YEAR)));
+        btnEdit.setText("Edit");
+        btnSave.setDisable(true);
+        lbEmail.setText(account.getEmail());
 
 
         boolean sex = account.isGender();
@@ -135,6 +148,15 @@ public class GeneralController {
             String d = account.getDob().toString();
             dpDobChange.setValue(LocalDate.parse(d));
         }
+        txtFullNameChange.setDisable(true);
+        cbbSexChange.setDisable(true);
+        dpDobChange.setDisable(true);
+        btnSave.setDisable(true);
+    }
+    @FXML
+    public void btnEditSEClicked(){
+        LoadForm.load("/fxml/SatisticsFXMLs/VerifyCode.fxml","Verify Email",true);
+        initialize();
     }
 }
 
