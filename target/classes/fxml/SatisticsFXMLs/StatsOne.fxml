@@ -56,7 +56,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lbWPM" layoutX="142.0" layoutY="126.0" prefHeight="19.0" prefWidth="96.0" text="20" textFill="#4d4c4c">
+            <Label fx:id="lbWPM" layoutX="142.0" layoutY="126.0" prefHeight="19.0" prefWidth="96.0" text="20" textFill="#a11818">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -124,7 +124,7 @@
                   <Image url="@../../image/TotalCorrect_icon.png" />
                </image>
             </ImageView>
-            <Label fx:id="lbCorrect" layoutX="315.0" layoutY="301.0" prefHeight="19.0" prefWidth="96.0" text="800" textFill="#4d4c4c">
+            <Label fx:id="lbCorrect" layoutX="315.0" layoutY="301.0" prefHeight="19.0" prefWidth="96.0" text="800" textFill="#1adf0c">
                <font>
                   <Font size="13.0" />
                </font>
@@ -139,8 +139,8 @@
             </LineChart>
             <ComboBox fx:id="cbbType" layoutX="524.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
             <ComboBox fx:id="cbbLevel" layoutX="398.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="Level" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
-            <ComboBox fx:id="cbbResult" layoutX="650.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="Type" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
-            <Button layoutX="784.0" layoutY="339.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Show" />
+            <ComboBox fx:id="cbbResult" layoutX="650.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <Button layoutX="784.0" layoutY="339.0" mnemonicParsing="false" onMouseClicked="#btnShowClicked" prefHeight="25.0" prefWidth="93.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Show" />
          </children>
          <effect>
             <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />

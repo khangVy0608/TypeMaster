@@ -162,11 +162,11 @@ public class StatsAllController {
             s1[4] = (Double.parseDouble(s1[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[0].split("-")[4].split("%")[0]))+"";
         }
         for (int i = 0; i < logs.size(); i++) {
-            s1[0] = (Double.parseDouble(s1[0]) + Double.parseDouble(details.get(i).getChartData().split("_")[0].split("-")[0]))+"";
-            s1[1] = (Double.parseDouble(s1[1]) + Double.parseDouble(details.get(i).getChartData().split("_")[0].split("-")[1]))+"";
-            s1[2] = (Double.parseDouble(s1[2]) + Double.parseDouble(details.get(i).getChartData().split("_")[0].split("-")[2]))+"";
-            s1[3] = (Double.parseDouble(s1[3]) + Double.parseDouble(details.get(i).getChartData().split("_")[0].split("-")[3]))+"";
-            s1[4] = (Double.parseDouble(s1[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[0].split("-")[4].split("%")[0]))+"";
+            s1[0] = (Double.parseDouble(s1[0]) + Double.parseDouble(logs.get(i).getChartData().split("_")[0].split("-")[0]))+"";
+            s1[1] = (Double.parseDouble(s1[1]) + Double.parseDouble(logs.get(i).getChartData().split("_")[0].split("-")[1]))+"";
+            s1[2] = (Double.parseDouble(s1[2]) + Double.parseDouble(logs.get(i).getChartData().split("_")[0].split("-")[2]))+"";
+            s1[3] = (Double.parseDouble(s1[3]) + Double.parseDouble(logs.get(i).getChartData().split("_")[0].split("-")[3]))+"";
+            s1[4] = (Double.parseDouble(s1[4]) + Double.parseDouble(logs.get(i).getChartData().split("_")[0].split("-")[4].split("%")[0]))+"";
         }
         s1[0] = (Double.parseDouble(s1[0])/(details.size()+logs.size()))+"";
         s1[1] = (Double.parseDouble(s1[1])/(details.size()+logs.size()))+"";
@@ -183,11 +183,11 @@ public class StatsAllController {
             s2[4] = (Double.parseDouble(s2[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[1].split("-")[4].split("%")[0]))+"";
         }
         for (int i = 0; i < logs.size(); i++) {
-            s2[0] = (Double.parseDouble(s2[0]) + Double.parseDouble(details.get(i).getChartData().split("_")[1].split("-")[0]))+"";
-            s2[1] = (Double.parseDouble(s2[1]) + Double.parseDouble(details.get(i).getChartData().split("_")[1].split("-")[1]))+"";
-            s2[2] = (Double.parseDouble(s2[2]) + Double.parseDouble(details.get(i).getChartData().split("_")[1].split("-")[2]))+"";
-            s2[3] = (Double.parseDouble(s2[3]) + Double.parseDouble(details.get(i).getChartData().split("_")[1].split("-")[3]))+"";
-            s2[4] = (Double.parseDouble(s2[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[1].split("-")[4].split("%")[0]))+"";
+            s2[0] = (Double.parseDouble(s2[0]) + Double.parseDouble(logs.get(i).getChartData().split("_")[1].split("-")[0]))+"";
+            s2[1] = (Double.parseDouble(s2[1]) + Double.parseDouble(logs.get(i).getChartData().split("_")[1].split("-")[1]))+"";
+            s2[2] = (Double.parseDouble(s2[2]) + Double.parseDouble(logs.get(i).getChartData().split("_")[1].split("-")[2]))+"";
+            s2[3] = (Double.parseDouble(s2[3]) + Double.parseDouble(logs.get(i).getChartData().split("_")[1].split("-")[3]))+"";
+            s2[4] = (Double.parseDouble(s2[4]) + Double.parseDouble(logs.get(i).getChartData().split("_")[1].split("-")[4].split("%")[0]))+"";
         }
         s2[0] = (Double.parseDouble(s2[0])/(details.size()+logs.size()))+"";
         s2[1] = (Double.parseDouble(s2[1])/(details.size()+logs.size()))+"";
@@ -204,11 +204,11 @@ public class StatsAllController {
             s3[4] = (Double.parseDouble(s3[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[2].split("-")[4].split("%")[0]))+"";
         }
         for (int i = 0; i < logs.size(); i++) {
-            s3[0] = (Double.parseDouble(s3[0]) + Double.parseDouble(details.get(i).getChartData().split("_")[2].split("-")[0]))+"";
-            s3[1] = (Double.parseDouble(s3[1]) + Double.parseDouble(details.get(i).getChartData().split("_")[2].split("-")[1]))+"";
-            s3[2] = (Double.parseDouble(s3[2]) + Double.parseDouble(details.get(i).getChartData().split("_")[2].split("-")[2]))+"";
-            s3[3] = (Double.parseDouble(s3[3]) + Double.parseDouble(details.get(i).getChartData().split("_")[2].split("-")[3]))+"";
-            s3[4] = (Double.parseDouble(s3[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[2].split("-")[4].split("%")[0]))+"";
+            s3[0] = (Double.parseDouble(s3[0]) + Double.parseDouble(logs.get(i).getChartData().split("_")[2].split("-")[0]))+"";
+            s3[1] = (Double.parseDouble(s3[1]) + Double.parseDouble(logs.get(i).getChartData().split("_")[2].split("-")[1]))+"";
+            s3[2] = (Double.parseDouble(s3[2]) + Double.parseDouble(logs.get(i).getChartData().split("_")[2].split("-")[2]))+"";
+            s3[3] = (Double.parseDouble(s3[3]) + Double.parseDouble(logs.get(i).getChartData().split("_")[2].split("-")[3]))+"";
+            s3[4] = (Double.parseDouble(s3[4]) + Double.parseDouble(logs.get(i).getChartData().split("_")[2].split("-")[4].split("%")[0]))+"";
         }
         s3[0] = (Double.parseDouble(s3[0])/(details.size()+logs.size()))+"";
         s3[1] = (Double.parseDouble(s3[1])/(details.size()+logs.size()))+"";
@@ -225,11 +225,11 @@ public class StatsAllController {
             s4[4] = (Double.parseDouble(s4[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[3].split("-")[4].split("%")[0]))+"";
         }
         for (int i = 0; i < logs.size(); i++) {
-            s4[0] = (Double.parseDouble(s4[0]) + Double.parseDouble(details.get(i).getChartData().split("_")[3].split("-")[0]))+"";
-            s4[1] = (Double.parseDouble(s4[1]) + Double.parseDouble(details.get(i).getChartData().split("_")[3].split("-")[1]))+"";
-            s4[2] = (Double.parseDouble(s4[2]) + Double.parseDouble(details.get(i).getChartData().split("_")[3].split("-")[2]))+"";
-            s4[3] = (Double.parseDouble(s4[3]) + Double.parseDouble(details.get(i).getChartData().split("_")[3].split("-")[3]))+"";
-            s4[4] = (Double.parseDouble(s4[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[3].split("-")[4].split("%")[0]))+"";
+            s4[0] = (Double.parseDouble(s4[0]) + Double.parseDouble(logs.get(i).getChartData().split("_")[3].split("-")[0]))+"";
+            s4[1] = (Double.parseDouble(s4[1]) + Double.parseDouble(logs.get(i).getChartData().split("_")[3].split("-")[1]))+"";
+            s4[2] = (Double.parseDouble(s4[2]) + Double.parseDouble(logs.get(i).getChartData().split("_")[3].split("-")[2]))+"";
+            s4[3] = (Double.parseDouble(s4[3]) + Double.parseDouble(logs.get(i).getChartData().split("_")[3].split("-")[3]))+"";
+            s4[4] = (Double.parseDouble(s4[4]) + Double.parseDouble(logs.get(i).getChartData().split("_")[3].split("-")[4].split("%")[0]))+"";
         }
         s4[0] = (Double.parseDouble(s4[0])/(details.size()+logs.size()))+"";
         s4[1] = (Double.parseDouble(s4[1])/(details.size()+logs.size()))+"";
@@ -246,11 +246,11 @@ public class StatsAllController {
             s5[4] = (Double.parseDouble(s5[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[4].split("-")[4].split("%")[0]))+"";
         }
         for (int i = 0; i < logs.size(); i++) {
-            s5[0] = (Double.parseDouble(s5[0]) + Double.parseDouble(details.get(i).getChartData().split("_")[4].split("-")[0]))+"";
-            s5[1] = (Double.parseDouble(s5[1]) + Double.parseDouble(details.get(i).getChartData().split("_")[4].split("-")[1]))+"";
-            s5[2] = (Double.parseDouble(s5[2]) + Double.parseDouble(details.get(i).getChartData().split("_")[4].split("-")[2]))+"";
-            s5[3] = (Double.parseDouble(s5[3]) + Double.parseDouble(details.get(i).getChartData().split("_")[4].split("-")[3]))+"";
-            s5[4] = (Double.parseDouble(s5[4]) + Double.parseDouble(details.get(i).getChartData().split("_")[4].split("-")[4].split("%")[0]))+"";
+            s5[0] = (Double.parseDouble(s5[0]) + Double.parseDouble(logs.get(i).getChartData().split("_")[4].split("-")[0]))+"";
+            s5[1] = (Double.parseDouble(s5[1]) + Double.parseDouble(logs.get(i).getChartData().split("_")[4].split("-")[1]))+"";
+            s5[2] = (Double.parseDouble(s5[2]) + Double.parseDouble(logs.get(i).getChartData().split("_")[4].split("-")[2]))+"";
+            s5[3] = (Double.parseDouble(s5[3]) + Double.parseDouble(logs.get(i).getChartData().split("_")[4].split("-")[3]))+"";
+            s5[4] = (Double.parseDouble(s5[4]) + Double.parseDouble(logs.get(i).getChartData().split("_")[4].split("-")[4].split("%")[0]))+"";
         }
         s5[0] = (Double.parseDouble(s5[0])/(details.size()+logs.size()))+"";
         s5[1] = (Double.parseDouble(s5[1])/(details.size()+logs.size()))+"";
