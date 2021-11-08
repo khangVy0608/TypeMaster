@@ -27,7 +27,7 @@ public class AccountDao implements Dao<Account> {
                 while (rs.next()) {
                     accounts.add(new Account(rs.getString("idAccount").trim(), rs.getString("username").trim(),
                             rs.getString("password"), rs.getString("email"), rs.getDate("createDate"), rs.getDate("latestLoginDate"), rs.getInt("countLoginDate"), rs.getString("pathImage"), rs.getString("fullName"),
-                            rs.getDate("dob"), rs.getBoolean("gender"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")));
+                            rs.getDate("dob"), rs.getBoolean("gender"), rs.getInt("coin"),rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")));
                 }
             }
             prepareStatement.close();
@@ -49,7 +49,7 @@ public class AccountDao implements Dao<Account> {
             while (rs.next()) {
                 acc = new Account(rs.getString("idAccount").trim(), rs.getString("username").trim(),
                         rs.getString("password"), rs.getString("email"), rs.getDate("createDate"), rs.getDate("latestLoginDate"), rs.getInt("countLoginDate"), rs.getString("pathImage"), rs.getString("fullName"),
-                        rs.getDate("dob"), rs.getBoolean("gender"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")); //namerole = null
+                        rs.getDate("dob"), rs.getBoolean("gender"),rs.getInt("coin"), rs.getString("verificationCode"), rs.getString("uud"), rs.getString("idRole").trim(), rs.getString("nameRole")); //namerole = null
             }
             prepareStatement.close();
             return acc;
@@ -61,7 +61,7 @@ public class AccountDao implements Dao<Account> {
 
     public void add(Account account) {
         try {
-            String query = "insert into Account values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
+            String query = "insert into Account values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, account.getIdAccount());
@@ -75,9 +75,10 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setString(9, account.getFullname());
             prepareStatement.setDate(10, account.getDob());
             prepareStatement.setBoolean(11, false);
-            prepareStatement.setString(12, account.getVerificationCode());
-            prepareStatement.setString(13, account.getUud());
-            prepareStatement.setString(14, account.getIdRole());
+            prepareStatement.setInt(12,account.getCoin());
+            prepareStatement.setString(13, account.getVerificationCode());
+            prepareStatement.setString(14, account.getUud());
+            prepareStatement.setString(15, account.getIdRole());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
@@ -86,7 +87,7 @@ public class AccountDao implements Dao<Account> {
 
     public void update(Account account) {
         try {
-            String query = "update Account set username = ?,password = ?,email = ?,createDate = ?,latestLoginDate = ?,countLoginDate = ?, pathImage = ?, fullName = ?,dob = ?,gender = ?,idRole = ?,verificationCode=?,uud=? where idAccount = ?";
+            String query = "update Account set username = ?,password = ?,email = ?,createDate = ?,latestLoginDate = ?,countLoginDate = ?, pathImage = ?, fullName = ?,dob = ?,gender = ?,coin = ?,idRole = ?,verificationCode=?,uud=? where idAccount = ?";
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, account.getUsername());
             prepareStatement.setString(2, account.getPassword());
@@ -98,11 +99,12 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setString(8, account.getFullname());
             prepareStatement.setDate(9, account.getDob());
             prepareStatement.setBoolean(10, account.isGender());
-            prepareStatement.setString(11, account.getIdRole());
-            prepareStatement.setString(12, account.getVerificationCode());
-            prepareStatement.setString(13, account.getUud());
+            prepareStatement.setInt(11,account.getCoin());
+            prepareStatement.setString(12, account.getIdRole());
+            prepareStatement.setString(13, account.getVerificationCode());
+            prepareStatement.setString(14, account.getUud());
             //Condition
-            prepareStatement.setString(14,account.getIdAccount());
+            prepareStatement.setString(15,account.getIdAccount());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
