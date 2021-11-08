@@ -45,6 +45,7 @@ public class LoginAsGuestController {
             acc.setCreateDate(Date.valueOf(LocalDate.now()));
             acc.setLatestLoginDate(Date.valueOf(LocalDate.now()));
             acc.setCountLoginDate(1);
+            acc.setCoin(0);
             accountDao.add(acc);
             ShowAlert.show("Notice","Signed up success");
             DisposeForm.Dispose(txtUsername);//Throw any control to get it's stage

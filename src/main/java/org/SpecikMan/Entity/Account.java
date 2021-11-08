@@ -15,6 +15,7 @@ public class Account extends Role {
     private String fullName;
     private Date dob;
     private Boolean gender;
+    private int coin;
     private String verificationCode;
     private String uud;
     //region get-set
@@ -118,13 +119,21 @@ public class Account extends Role {
     public void setGender(Boolean gender) {
         this.gender = gender;
     }
+
+    public int getCoin() {
+        return coin;
+    }
+
+    public void setCoin(int coin) {
+        this.coin = coin;
+    }
     //endregion
     //region Constructor
 
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String pathImage, String fullName, Date dob,boolean gender, String verificationCode,String uud,String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String pathImage, String fullName, Date dob,boolean gender,int coin, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -139,6 +148,7 @@ public class Account extends Role {
         this.latestLoginDate = latestLogin;
         this.countLoginDate = countLoginDate;
         this.gender = gender;
+        this.coin = coin;
     }
     public Account(String idAccount, String username, String password, String email,String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);

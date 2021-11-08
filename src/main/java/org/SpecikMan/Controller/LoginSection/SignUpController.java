@@ -65,6 +65,7 @@ public class SignUpController {
                 acc.setEmail(txtEmail.getText());
                 acc.setIdRole("RL2");
                 acc.setPathImage("D:\\Learning\\TypeMaster\\src\\main\\resources\\image\\General.png");
+                acc.setCoin(0);
                 accountDao.add(acc);
                 ShowAlert.show("Notice","Sign Up successfully");
                 LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
