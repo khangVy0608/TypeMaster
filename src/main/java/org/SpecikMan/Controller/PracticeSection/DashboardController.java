@@ -31,43 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DashboardController {
     @FXML
-    private FontAwesomeIconView btnAdd;
-    @FXML
-    private Button btnAll;
-    @FXML
-    private Button btnBack;
-    @FXML
-    private Button btnBlackout;
-    @FXML
-    private FontAwesomeIconView btnClose;
-    @FXML
-    private Button btnCopyAndModify;
-    @FXML
-    private Button btnDeathToken;
-    @FXML
-    private Button btnDefaultLevels;
-    @FXML
-    private Button btnDiffEasy;
-    @FXML
-    private Button btnDiffHard;
-    @FXML
-    private Button btnDiffNormal;
-    @FXML
-    private Button btnHighestLikedLevels;
-    @FXML
-    private Button btnInstantDeath;
-    @FXML
     private Button btnLike;
-    @FXML
-    private Button btnNormal;
-    @FXML
-    private Button btnOtherPlayersLevel;
-    @FXML
-    private Button btnPlay;
-    @FXML
-    private Button btnRecentPlayed;
-    @FXML
-    private Button btnYourLevels;
     @FXML
     private Hyperlink hlAuthorLink;
     @FXML
@@ -135,9 +99,9 @@ public class DashboardController {
     @FXML
     private TextField txtSearch;
     @FXML
-    private Label lbIdLevel;
+    private Label lbWPM;
     @FXML
-    private Button btnAddLevel;
+    private Label lbAccuracy;
     private boolean[] isSelected;
 
     @FXML
@@ -217,11 +181,15 @@ public class DashboardController {
                             lbHighestScore.setText(String.valueOf(userDetail.getScore()));
                             lbTimeLeft.setText(userDetail.getTimeLeft());
                             lbPlayedDate.setText(userDetail.getDatePlayed().toString());
+                            lbWPM.setText(userDetail.getWpm()+"");
+                            lbAccuracy.setText(userDetail.getAccuracy());
                         } else {
                             lbNo.setText("---");
                             lbHighestScore.setText("---");
                             lbTimeLeft.setText("---");
                             lbPlayedDate.setText("---");
+                            lbWPM.setText("---");
+                            lbAccuracy.setText("---");
                         }
                         AccountLevelDetails removeEle = new AccountLevelDetails();
                         for (AccountLevelDetails z : levelDetail) {
@@ -407,7 +375,6 @@ public class DashboardController {
     }
     @FXML
     void btnBackClicked(MouseEvent event) {
-        LoadForm.load("/fxml/Home.fxml","Home",false);
         DisposeForm.Dispose(lbTime);
     }
     @FXML

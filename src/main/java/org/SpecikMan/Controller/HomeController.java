@@ -17,7 +17,11 @@ public class HomeController
 
     @FXML
     void btnStatClicked(MouseEvent event) {
-        LoadForm.load("/fxml/SatisticsFXMLs/HomeUser.fxml","Play Dashboard",false);
+        LoadForm.load("/fxml/SatisticsFXMLs/HomeUser.fxml","Account Statistics",false);
+    }
+    @FXML
+    void btnShopClicked(){
+        LoadForm.load("/fxml/ShopFXMLs/Shop.fxml","Shop",false);
     }
 
 }

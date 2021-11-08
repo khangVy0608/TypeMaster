@@ -63,7 +63,7 @@
                   <FontAwesomeIconView fill="#2d75e8" glyphName="EXCHANGE" size="50" />
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Shop" GridPane.rowIndex="1">
+            <Button contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#btnShopClicked" prefHeight="181.0" prefWidth="242.0" text="Shop" GridPane.rowIndex="1">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="INDENT" size="50" />
                </graphic>
