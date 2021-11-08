@@ -18,319 +18,451 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="933.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PracticeSection.DashboardController">
-   <children>
-      <BorderPane prefHeight="620.0" prefWidth="934.0">
-         <left>
-            <VBox prefHeight="510.0" prefWidth="223.0" style="-fx-background-color: #c7c7c7;" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="btnAll" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#onBtnAllClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="All">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="GLOBE" size="15" />
-                     </graphic>
-                     <font>
-                        <Font name="System Bold Italic" size="17.0" />
-                     </font></Button>
-                  <Button fx:id="btnRecentPlayed" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnRecentPlayedClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Recent Played Levels">
-                     <font>
-                        <Font name="System Bold Italic" size="17.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="HISTORY" size="17" />
-                     </graphic>
-                  </Button>
-                  <Label text="Modes">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnNormal" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font></Button>
-                  <Button fx:id="btnInstantDeath" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnInstantDeathClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Instant Death">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font></Button>
-                  <Button fx:id="btnBlackout" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnBlackoutClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Blackout">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnDeathToken" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDeathTokenClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hidden">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Label text="Levels">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnYourLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnYourLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Your Levels">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnOtherPlayersLevel" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnOtherPlayerLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Other Player Levels">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnDefaultLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDefaultLevelClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Default Levels">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Label text="Difficulties">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnDiffEasy" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDiffEasyClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Easy" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="STAR" wrappingWidth="57.79998970031738" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnDiffNormal" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDiffNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <Pane prefHeight="27.0" prefWidth="58.0">
-                           <children>
-                              <FontAwesomeIconView glyphName="STAR" layoutY="18.0" />
-                              <FontAwesomeIconView glyphName="STAR" layoutX="19.0" layoutY="18.0" />
-                           </children>
-                        </Pane>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnDiffHard" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDiffHardClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hard">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <Pane prefHeight="27.0" prefWidth="59.0">
-                           <children>
-                              <FontAwesomeIconView glyphName="STAR" layoutY="18.0" />
-                              <FontAwesomeIconView glyphName="STAR" layoutX="19.0" layoutY="18.0" />
-                              <FontAwesomeIconView glyphName="STAR" layoutX="39.0" layoutY="18.0" />
-                           </children>
-                        </Pane>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnLikeLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Liked Levels">
-                     <font>
-                        <Font name="System Bold Italic" size="17.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="HEART" size="17" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnHighestLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnHighestLikedLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Highest Liked Levels">
-                     <font>
-                        <Font name="System Bold Italic" size="17.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="HEART" size="17" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnBack" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnBackClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Back">
-                     <font>
-                        <Font name="System Bold Italic" size="17.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="ANGLE_DOUBLE_LEFT" size="25" />
-                     </graphic>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </VBox>
-         </left>
-         <right>
-            <Pane fx:id="rightPane" prefHeight="587.0" prefWidth="416.0" style="-fx-background-color: #9e9e9e;" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="68.0" fitWidth="77.0" layoutX="11.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="lbLevelName" layoutX="93.0" layoutY="39.0" text="Level Name">
-                     <font>
-                        <Font name="System Bold" size="19.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="94.0" layoutY="75.0" text="Create by:">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Hyperlink fx:id="hlAuthorLink" layoutX="151.0" layoutY="72.0" onMouseClicked="#onHlAuthorClicked" text="Author Link" />
-                  <Button fx:id="btnLike" layoutX="323.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#btnLikeClicked" prefHeight="31.0" prefWidth="82.0" text="Like">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="HEART" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnPlay" layoutX="316.0" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#btnPlayClicked" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #4498e9;" text="Play">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="PLAY" wrappingWidth="11.0" />
-                     </graphic>
-                  </Button>
-                  <Label layoutX="46.0" layoutY="114.0" text="Details">
-                     <font>
-                        <Font name="System Bold Italic" size="13.0" />
-                     </font>
-                  </Label>
-                  <Line endX="286.00006103515625" layoutX="115.0" layoutY="123.0" startX="-18.79998779296875" stroke="#484848" />
-                  <Line endX="-71.5999755859375" layoutX="111.0" layoutY="123.0" startX="-104.39996337890625" startY="7.62939453125E-6" stroke="#484848" />
-                  <Label layoutX="13.0" layoutY="141.0" text="Create Time:" />
-                  <Label layoutX="14.0" layoutY="168.0" text="Updated Time:" />
-                  <Label layoutX="13.0" layoutY="195.0" text="Difficulty:" />
-                  <Label fx:id="lbCreateTime" layoutX="83.0" layoutY="141.0" text="Date">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbUpdatedTime" layoutX="97.0" layoutY="168.0" text="Date">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Label>
-                  <FontAwesomeIconView fx:id="iconEasy" glyphName="STAR" layoutX="115.0" layoutY="207.0" />
-                  <FontAwesomeIconView fx:id="iconNormal" glyphName="STAR" layoutX="133.0" layoutY="207.0" text="" />
-                  <FontAwesomeIconView fx:id="iconHard" glyphName="STAR" layoutX="151.0" layoutY="207.0" text="" />
-                  <Line endX="43.20001220703125" endY="-51.600006103515625" layoutX="143.0" layoutY="192.0" startX="43.20001220703125" startY="20.0" stroke="#484848" />
-                  <Label fx:id="lbDifficulty" layoutX="65.0" layoutY="195.0" text="Normal">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="208.0" layoutY="141.0" text="Total Words:" />
-                  <Label layoutX="207.0" layoutY="168.0" text="Time:" />
-                  <Label fx:id="lbTotalWords" layoutX="281.0" layoutY="141.0" text="?">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbTime" layoutX="243.0" layoutY="168.0" text="?">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Label>
-                  <Label layoutX="208.0" layoutY="195.0" text="Mode:" />
-                  <Label fx:id="lbModeName" layoutX="248.0" layoutY="195.0" text="Mode Name">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="46.0" layoutY="217.0" text="Scoreboard">
-                     <font>
-                        <Font name="System Bold Italic" size="13.0" />
-                     </font>
-                  </Label>
-                  <Line endX="286.00006103515625" layoutX="113.0" layoutY="226.0" startX="8.00006103515625" stroke="#484848" />
-                  <Line endX="-71.5999755859375" layoutX="113.0" layoutY="226.0" startX="-105.5999755859375" stroke="#484848" />
-                  <Label layoutX="89.0" layoutY="235.0" text="Your highest score:" />
-                  <Label fx:id="lbHighestScore" layoutX="191.0" layoutY="236.0" text="300000">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="239.0" layoutY="236.0" text="Time:" />
-                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="192.0" layoutY="232.0" startX="43.20001220703125" startY="25.0" stroke="#484848" />
-                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="262.0" layoutY="232.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
-                  <Label fx:id="lbTimeLeft" layoutX="269.0" layoutY="236.0" text="03:00">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="309.0" layoutY="235.0" text="Date:" />
-                  <Label fx:id="lbPlayedDate" layoutX="340.0" layoutY="235.0" text="03/03/2000">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="10.0" layoutY="232.0" text="No:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbNo" layoutX="37.0" layoutY="232.0" text="#001">
-                     <font>
-                        <Font name="System Bold Italic" size="16.0" />
-                     </font>
-                  </Label>
-                  <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="232.0" startX="43.20001220703125" startY="23.399993896484375" stroke="#484848" />
-                  <Button fx:id="btnCopyAndModify" layoutX="276.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#onBtnCopyClicked" prefHeight="31.0" prefWidth="128.0" text="Copy &amp; Modify">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="COPY" size="15" />
-                     </graphic>
-                  </Button>
-                  <TableView fx:id="tvDetail" layoutX="3.0" layoutY="258.0" prefHeight="173.0" prefWidth="410.0" stylesheets="@../../css/dashboard.css">
-                    <columns>
-                      <TableColumn fx:id="tcNo" prefWidth="57.600035190582275" text="No" />
-                      <TableColumn fx:id="tcUsername" prefWidth="133.60004425048828" text="Username" />
-                        <TableColumn fx:id="tcScore" prefWidth="75.19989013671875" text="Score" />
-                        <TableColumn fx:id="tcTime" prefWidth="60.0" text="Time" />
-                        <TableColumn fx:id="tcDate" prefWidth="83.9998779296875" text="Date" />
-                    </columns>
-                  </TableView>
-                  <Label layoutX="47.0" layoutY="432.0" text="Your Attempts">
-                     <font>
-                        <Font name="System Bold Italic" size="13.0" />
-                     </font>
-                  </Label>
-                  <Line endX="294.9999694824219" layoutX="111.0" layoutY="442.0" startX="32.600006103515625" stroke="#484848" />
-                  <Line endX="-71.5999755859375" layoutX="114.0" layoutY="441.0" startX="-105.5999755859375" stroke="#484848" />
-                  <TableView fx:id="tvAttempts" layoutX="2.0" layoutY="451.0" prefHeight="167.0" prefWidth="410.0" stylesheets="@../../css/dashboard.css">
-                     <columns>
-                        <TableColumn fx:id="tcDateA" prefWidth="76.79998636245728" text="Date" />
-                        <TableColumn fx:id="tcScoreA" prefWidth="54.39997100830078" text="Score" />
-                        <TableColumn fx:id="tcTimeA" prefWidth="64.7999267578125" text="Time Left" />
-                        <TableColumn fx:id="tcAccuracyA" prefWidth="65.60009765625" text="Accuracy" />
-                        <TableColumn fx:id="tcCorrectA" prefWidth="56.7999267578125" text="Correct" />
-                        <TableColumn fx:id="tcWrongA" minWidth="0.0" prefWidth="48.800048828125" text="Wrong" />
-                        <TableColumn fx:id="tcWPMA" prefWidth="40.400054931640625" text="WPM" />
-                     </columns>
-                  </TableView>
-               </children></Pane>
-         </right>
-         <center>
-            <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <content>
-                  <VBox prefHeight="618.0" prefWidth="298.0" style="-fx-background-color: #b4b4b4;">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="721.0"
+            prefWidth="1117.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.SpecikMan.Controller.PracticeSection.DashboardController">
+   <BorderPane prefHeight="721.0" prefWidth="934.0">
+      <left>
+         <VBox prefHeight="718.0" prefWidth="222.0" style="-fx-background-color: #c7c7c7;"
+               BorderPane.alignment="CENTER">
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+            <BorderPane.margin>
+               <Insets/>
+            </BorderPane.margin>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#onBtnAllClicked" prefHeight="26.0" prefWidth="238.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="All">
+               <graphic>
+                  <FontAwesomeIconView glyphName="GLOBE" size="15"/>
+               </graphic>
+               <font>
+                  <Font name="System Bold Italic" size="17.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnRecentPlayedClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css"
+                    text="Recent Played Levels">
+               <font>
+                  <Font name="System Bold Italic" size="17.0"/>
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="HISTORY" size="17"/>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Label text="Modes">
+               <font>
+                  <Font name="System Italic" size="15.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Label>
+            <Button fx:id="btnNormal" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnNormalClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnInstantDeath" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnInstantDeathClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css"
+                    text="Instant Death">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnBlackout" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnBlackoutClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Blackout">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnDeathToken" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnDeathTokenClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hidden">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Label text="Levels">
+               <font>
+                  <Font name="System Italic" size="15.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Label>
+            <Button fx:id="btnYourLevels" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnYourLevelsClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Your Levels">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnOtherPlayersLevel" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnOtherPlayerLevelsClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css"
+                    text="Other Player Levels">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnDefaultLevels" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnDefaultLevelClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css"
+                    text="Default Levels">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Label text="Difficulties">
+               <font>
+                  <Font name="System Italic" size="15.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Label>
+            <Button fx:id="btnDiffEasy" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnDiffEasyClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Easy"
+                    textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="STAR" wrappingWidth="57.79998970031738"/>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnDiffNormal" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnDiffNormalClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <graphic>
+                  <Pane prefHeight="27.0" prefWidth="58.0">
                      <children>
-                        <HBox prefHeight="30.0" prefWidth="258.0">
-                           <children>
-                              <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="166.0" promptText="Search" style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
-                                 <HBox.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Button fx:id="btnFind" mnemonicParsing="false" onMouseClicked="#btnFindClicked" style="-fx-background-color: #c7c7c7;" text="Find" textFill="#ff3636">
-                                 <HBox.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnAddLevel" mnemonicParsing="false" onMouseClicked="#btnAddLevelClicked" prefHeight="26.0" prefWidth="71.0" style="-fx-background-color: #c7c7c7;" text="Add Level" textFill="#ff3636">
-                                 <HBox.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <BorderPane prefHeight="582.0" prefWidth="298.0">
-                           <center>
-                              <VBox fx:id="vboxItems" prefHeight="593.0" prefWidth="298.0" BorderPane.alignment="CENTER" />
-                           </center>
-                        </BorderPane>
+                        <FontAwesomeIconView glyphName="STAR" layoutY="18.0"/>
+                        <FontAwesomeIconView glyphName="STAR" layoutX="19.0" layoutY="18.0"/>
                      </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
-         </center>
-      </BorderPane>
-   </children>
+                  </Pane>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnDiffHard" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnDiffHardClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hard">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <graphic>
+                  <Pane prefHeight="27.0" prefWidth="59.0">
+                     <children>
+                        <FontAwesomeIconView glyphName="STAR" layoutY="18.0"/>
+                        <FontAwesomeIconView glyphName="STAR" layoutX="19.0" layoutY="18.0"/>
+                        <FontAwesomeIconView glyphName="STAR" layoutX="39.0" layoutY="18.0"/>
+                     </children>
+                  </Pane>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnLikeLevelsClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css"
+                    text="Liked Levels">
+               <font>
+                  <Font name="System Bold Italic" size="17.0"/>
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="HEART" size="17"/>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnHighestLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnHighestLikedLevelsClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css"
+                    text="Highest Liked Levels">
+               <font>
+                  <Font name="System Bold Italic" size="17.0"/>
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="HEART" size="17"/>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnBack" alignment="BASELINE_LEFT" mnemonicParsing="false"
+                    onMouseClicked="#btnBackClicked" prefHeight="34.0" prefWidth="214.0"
+                    style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Back">
+               <font>
+                  <Font name="System Bold Italic" size="17.0"/>
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="ANGLE_DOUBLE_LEFT" size="25"/>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="5.0"/>
+               </VBox.margin>
+            </Button>
+         </VBox>
+      </left>
+      <center>
+         <ScrollPane fx:id="scrollPane" prefHeight="722.0" prefWidth="352.0" BorderPane.alignment="CENTER">
+            <content>
+               <VBox prefHeight="720.0" prefWidth="298.0" style="-fx-background-color: #b4b4b4;">
+                  <children>
+                     <HBox prefHeight="30.0" prefWidth="258.0">
+                        <children>
+                           <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="166.0" promptText="Search"
+                                      style="-fx-background-color: #c7c7c7;" styleClass="txtSearch">
+                              <HBox.margin>
+                                 <Insets left="5.0" top="5.0"/>
+                              </HBox.margin>
+                           </TextField>
+                           <Button fx:id="btnFind" mnemonicParsing="false" onMouseClicked="#btnFindClicked"
+                                   style="-fx-background-color: #c7c7c7;" text="Find" textFill="#ff3636">
+                              <HBox.margin>
+                                 <Insets left="5.0" top="5.0"/>
+                              </HBox.margin>
+                           </Button>
+                           <Button fx:id="btnAddLevel" mnemonicParsing="false" onMouseClicked="#btnAddLevelClicked"
+                                   prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #c7c7c7;"
+                                   text="Add Level" textFill="#ff3636">
+                              <HBox.margin>
+                                 <Insets left="5.0" top="5.0"/>
+                              </HBox.margin>
+                           </Button>
+                        </children>
+                     </HBox>
+                     <BorderPane prefHeight="690.0" prefWidth="298.0">
+                        <center>
+                           <VBox fx:id="vboxItems" prefHeight="562.0" prefWidth="298.0" BorderPane.alignment="CENTER"/>
+                        </center>
+                     </BorderPane>
+                  </children>
+               </VBox>
+            </content>
+         </ScrollPane>
+      </center>
+   </BorderPane>
+   <Pane fx:id="rightPane" layoutX="522.0" layoutY="-1.0" prefHeight="722.0" prefWidth="595.0"
+         style="-fx-background-color: #9e9e9e;">
+      <children>
+         <ImageView fitHeight="68.0" fitWidth="77.0" layoutX="11.0" layoutY="33.0" pickOnBounds="true"
+                    preserveRatio="true"/>
+         <Label fx:id="lbLevelName" layoutX="93.0" layoutY="39.0" text="Level Name">
+            <font>
+               <Font name="System Bold" size="19.0"/>
+            </font>
+         </Label>
+         <Label layoutX="94.0" layoutY="75.0" text="Create by:">
+            <font>
+               <Font name="System Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Hyperlink fx:id="hlAuthorLink" layoutX="151.0" layoutY="72.0" onMouseClicked="#onHlAuthorClicked"
+                    text="Author Link"/>
+         <Button fx:id="btnLike" layoutX="503.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#btnLikeClicked"
+                 prefHeight="31.0" prefWidth="82.0" text="Like">
+            <graphic>
+               <FontAwesomeIconView glyphName="HEART"/>
+            </graphic>
+         </Button>
+         <Button fx:id="btnPlay" layoutX="458.0" layoutY="84.0" mnemonicParsing="false" onMouseClicked="#btnPlayClicked"
+                 prefHeight="30.0" prefWidth="128.0" style="-fx-background-color: #4498e9;" text="Play">
+            <font>
+               <Font name="System Bold" size="14.0"/>
+            </font>
+            <graphic>
+               <FontAwesomeIconView glyphName="PLAY" wrappingWidth="11.0"/>
+            </graphic>
+         </Button>
+         <Label layoutX="46.0" layoutY="114.0" text="Details">
+            <font>
+               <Font name="System Bold Italic" size="13.0"/>
+            </font>
+         </Label>
+         <Line endX="471.89990234375" endY="7.62939453125E-6" layoutX="115.0" layoutY="123.0"
+               startX="-18.79998779296875" stroke="#484848"/>
+         <Line endX="-71.5999755859375" layoutX="111.0" layoutY="123.0" startX="-104.39996337890625"
+               startY="7.62939453125E-6" stroke="#484848"/>
+         <Label layoutX="13.0" layoutY="141.0" text="Create Time:"/>
+         <Label layoutX="14.0" layoutY="168.0" text="Updated Time:"/>
+         <Label layoutX="13.0" layoutY="195.0" text="Difficulty:"/>
+         <Label fx:id="lbCreateTime" layoutX="83.0" layoutY="141.0" text="Date">
+            <font>
+               <Font name="System Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label fx:id="lbUpdatedTime" layoutX="97.0" layoutY="168.0" text="Date">
+            <font>
+               <Font name="System Italic" size="12.0"/>
+            </font>
+         </Label>
+         <FontAwesomeIconView fx:id="iconEasy" glyphName="STAR" layoutX="115.0" layoutY="207.0"/>
+         <FontAwesomeIconView fx:id="iconNormal" glyphName="STAR" layoutX="133.0" layoutY="207.0" text=""/>
+         <FontAwesomeIconView fx:id="iconHard" glyphName="STAR" layoutX="151.0" layoutY="207.0" text=""/>
+         <Line endX="43.20001220703125" endY="-51.600006103515625" layoutX="143.0" layoutY="192.0"
+               startX="43.20001220703125" startY="20.0" stroke="#484848"/>
+         <Label fx:id="lbDifficulty" layoutX="65.0" layoutY="195.0" text="Normal">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label layoutX="208.0" layoutY="141.0" text="Total Words:"/>
+         <Label layoutX="207.0" layoutY="168.0" text="Time:"/>
+         <Label fx:id="lbTotalWords" layoutX="281.0" layoutY="141.0" text="?">
+            <font>
+               <Font name="System Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label fx:id="lbTime" layoutX="243.0" layoutY="168.0" text="?">
+            <font>
+               <Font name="System Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label layoutX="208.0" layoutY="195.0" text="Mode:"/>
+         <Label fx:id="lbModeName" layoutX="248.0" layoutY="195.0" text="Mode Name">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label layoutX="46.0" layoutY="217.0" text="Scoreboard">
+            <font>
+               <Font name="System Bold Italic" size="13.0"/>
+            </font>
+         </Label>
+         <Line endX="473.89990234375" layoutX="113.0" layoutY="226.0" startX="8.00006103515625" stroke="#484848"/>
+         <Line endX="-71.5999755859375" layoutX="113.0" layoutY="226.0" startX="-105.5999755859375" stroke="#484848"/>
+         <Label layoutX="90.0" layoutY="236.0" text="Your highest score:"/>
+         <Label fx:id="lbHighestScore" layoutX="198.0" layoutY="236.0" text="300000">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label layoutX="252.0" layoutY="236.0" text="Time:"/>
+         <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="204.0" layoutY="230.0"
+               startX="43.20001220703125" startY="25.0" stroke="#484848"/>
+         <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="281.0" layoutY="231.0"
+               startX="43.20001220703125" startY="23.399993896484375" stroke="#484848"/>
+         <Label fx:id="lbTimeLeft" layoutX="284.0" layoutY="236.0" text="03:00">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label layoutX="331.0" layoutY="236.0" text="Date:"/>
+         <Label fx:id="lbPlayedDate" layoutX="364.0" layoutY="236.0" text="03/03/2000">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Label layoutX="10.0" layoutY="232.0" text="No:">
+            <font>
+               <Font name="System Bold" size="16.0"/>
+            </font>
+         </Label>
+         <Label fx:id="lbNo" layoutX="37.0" layoutY="232.0" text="#001">
+            <font>
+               <Font name="System Bold Italic" size="16.0"/>
+            </font>
+         </Label>
+         <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="40.0" layoutY="232.0"
+               startX="43.20001220703125" startY="23.399993896484375" stroke="#484848"/>
+         <Button fx:id="btnCopyAndModify" layoutX="458.0" layoutY="8.0" mnemonicParsing="false"
+                 onMouseClicked="#onBtnCopyClicked" prefHeight="31.0" prefWidth="128.0" text="Copy &amp; Modify">
+            <graphic>
+               <FontAwesomeIconView glyphName="COPY" size="15"/>
+            </graphic>
+         </Button>
+         <TableView fx:id="tvDetail" layoutX="3.0" layoutY="258.0" prefHeight="236.0" prefWidth="589.0"
+                    stylesheets="@../../css/dashboard.css">
+            <columns>
+               <TableColumn fx:id="tcNo" prefWidth="57.600035190582275" text="No"/>
+               <TableColumn fx:id="tcUsername" prefWidth="133.60004425048828" text="Username"/>
+               <TableColumn fx:id="tcScore" prefWidth="124.0" text="Score"/>
+               <TableColumn fx:id="tcTime" prefWidth="133.5999755859375" text="Time"/>
+               <TableColumn fx:id="tcDate" prefWidth="141.60003662109375" text="Date"/>
+            </columns>
+         </TableView>
+         <Label layoutX="45.0" layoutY="497.0" text="Your Attempts">
+            <font>
+               <Font name="System Bold Italic" size="13.0"/>
+            </font>
+         </Label>
+         <Line endX="486.2000732421875" layoutX="109.0" layoutY="507.0" startX="32.600006103515625" stroke="#484848"/>
+         <Line endX="-71.5999755859375" layoutX="112.0" layoutY="507.0" startX="-105.5999755859375" stroke="#484848"/>
+         <TableView fx:id="tvAttempts" layoutX="2.0" layoutY="522.0" prefHeight="198.0" prefWidth="589.0"
+                    stylesheets="@../../css/dashboard.css">
+            <columns>
+               <TableColumn fx:id="tcDateA" prefWidth="70.4000244140625" text="Date"/>
+               <TableColumn fx:id="tcScoreA" prefWidth="74.4000244140625" text="Score"/>
+               <TableColumn fx:id="tcTimeA" prefWidth="78.4000244140625" text="Time Left"/>
+               <TableColumn fx:id="tcAccuracyA" prefWidth="79.2000732421875" text="Accuracy"/>
+               <TableColumn fx:id="tcCorrectA" prefWidth="81.5999755859375" text="Correct"/>
+               <TableColumn fx:id="tcWrongA" minWidth="0.0" prefWidth="103.20001220703125" text="Wrong"/>
+               <TableColumn fx:id="tcWPMA" prefWidth="97.0" text="WPM"/>
+            </columns>
+         </TableView>
+         <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="392.0" layoutY="231.0"
+               startX="43.20001220703125" startY="23.399993896484375" stroke="#484848"/>
+         <Label layoutX="439.0" layoutY="236.0" text="WPM:"/>
+         <Label fx:id="lbWPM" layoutX="473.0" layoutY="236.0" text="100">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+         <Line endX="43.20001220703125" endY="1.79998779296875" layoutX="459.0" layoutY="231.0"
+               startX="43.20001220703125" startY="23.399993896484375" stroke="#484848"/>
+         <Label layoutX="505.0" layoutY="236.0" text="Accuracy:"/>
+         <Label fx:id="lbAccuracy" layoutX="558.0" layoutY="236.0" text="100%">
+            <font>
+               <Font name="System Bold Italic" size="12.0"/>
+            </font>
+         </Label>
+      </children>
+   </Pane>
 </AnchorPane>
