@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="108.0" prefWidth="440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.ShopSection.ItemController">
+   <children>
+      <ImageView fx:id="image" fitHeight="95.0" fitWidth="101.0" layoutX="5.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/CorrectX2.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbName" layoutX="105.0" layoutY="5.0" text="Item name">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbDescription" alignment="TOP_LEFT" layoutX="105.0" layoutY="53.0" prefHeight="53.0" prefWidth="326.0" text="When activate, in the next 10 words extends time by 2 seconds when type correctly a word. Cancel immediately when type wrongly a word" wrapText="true" />
+      <Label fx:id="lbDetail" layoutX="105.0" layoutY="31.0" text="Used - Effects by - In inventory">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

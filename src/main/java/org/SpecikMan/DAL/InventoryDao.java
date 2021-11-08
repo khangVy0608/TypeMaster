@@ -28,7 +28,8 @@ public class InventoryDao implements Dao<Inventory>{
                 while (rs.next()) {
                     items.add(new Inventory(rs.getString("idAccount"),rs.getString("username"),rs.getString("idInventory"),
                             new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                                    rs.getInt("cost"),rs.getInt("maxLimit")),rs.getInt("currentlyHave")));
+                                    rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
+                                    rs.getString("effectsBy")),rs.getInt("currentlyHave"),rs.getInt("timeUsed")));
                 }
             }
             prepareStatement.close();
@@ -50,7 +51,8 @@ public class InventoryDao implements Dao<Inventory>{
             while (rs.next()) {
                 inventory = new Inventory(rs.getString("idAccount"),rs.getString("username"),rs.getString("idInventory"),
                         new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                                rs.getInt("cost"),rs.getInt("maxLimit")),rs.getInt("currentlyHave"));
+                                rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
+                                rs.getString("effectsBy")),rs.getInt("currentlyHave"),rs.getInt("timeUsed"));
             }
             prepareStatement.close();
             return inventory;
@@ -62,13 +64,14 @@ public class InventoryDao implements Dao<Inventory>{
 
     public void add(Inventory inventory) {
         try {
-            String query = "insert into Inventory values (?,?,?,?)"; //Full name - Dob null
+            String query = "insert into Inventory values (?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, inventory.getIdInventory());
             prepareStatement.setString(2, inventory.getIdAccount());
             prepareStatement.setString(3,inventory.getItem().getIdItem());
             prepareStatement.setInt(4, inventory.getCurrentlyHave());
+            prepareStatement.setInt(5, inventory.getTimeUsed());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
@@ -77,14 +80,15 @@ public class InventoryDao implements Dao<Inventory>{
 
     public void update(Inventory inventory) {
         try {
-            String query = "update Inventory set idAccount = ?,idItem = ?, currentlyHave = ? where idInventory = ?";
+            String query = "update Inventory set idAccount = ?,idItem = ?, currentlyHave = ?, timeUsed = ? where idInventory = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, inventory.getIdAccount());
             prepareStatement.setString(2,inventory.getItem().getIdItem());
             prepareStatement.setInt(3,inventory.getCurrentlyHave());
+            prepareStatement.setInt(4,inventory.getTimeUsed());
             //Condition
-            prepareStatement.setString(4, inventory.getIdInventory());
+            prepareStatement.setString(5, inventory.getIdInventory());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

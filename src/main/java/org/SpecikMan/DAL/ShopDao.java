@@ -27,7 +27,8 @@ public class ShopDao implements Dao<Shop> {
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     items.add(new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                            rs.getInt("cost"),rs.getInt("maxLimit")));
+                            rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
+                            rs.getString("effectsBy")));
                 }
             }
             prepareStatement.close();
@@ -48,7 +49,8 @@ public class ShopDao implements Dao<Shop> {
             Shop shop = new Shop();
             while (rs.next()) {
                 shop = new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                        rs.getInt("cost"),rs.getInt("maxLimit"));
+                        rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
+                        rs.getString("effectsBy"));
             }
             prepareStatement.close();
             return shop;
@@ -60,7 +62,7 @@ public class ShopDao implements Dao<Shop> {
 
     public void add(Shop shop) {
         try {
-            String query = "insert into Shop values (?,?,?,?,?)"; //Full name - Dob null
+            String query = "insert into Shop values (?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, shop.getIdItem());
@@ -68,6 +70,10 @@ public class ShopDao implements Dao<Shop> {
             prepareStatement.setString(3,shop.getDescription());
             prepareStatement.setInt(4, shop.getCost());
             prepareStatement.setInt(5,shop.getMaxLimit());
+            prepareStatement.setString(6,shop.getImagePath());
+            prepareStatement.setInt(7, shop.getTimeUsed());
+            prepareStatement.setString(8,shop.getTips());
+            prepareStatement.setString(9, shop.getEffectsBy());
             prepareStatement.execute();
         }catch(SQLException ex) {
             ex.printStackTrace();
@@ -76,15 +82,19 @@ public class ShopDao implements Dao<Shop> {
 
     public void update(Shop shop) {
         try {
-            String query = "update Shop set nameShop = ?,description = ?,cost = ?,maxLimit = ? where idItem = ?";
+            String query = "update Shop set nameShop = ?,description = ?,cost = ?,maxLimit = ?,imagePath = ?,timeUsed = ?,tips = ?,effectsBy = ? where idItem = ?";
             assert connection != null;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setString(1, shop.getItemName());
             prepareStatement.setString(2,shop.getDescription());
             prepareStatement.setInt(3,shop.getCost());
             prepareStatement.setInt(4,shop.getMaxLimit());
+            prepareStatement.setString(5,shop.getImagePath());
+            prepareStatement.setInt(6, shop.getTimeUsed());
+            prepareStatement.setString(7,shop.getTips());
+            prepareStatement.setString(8, shop.getEffectsBy());
             //Condition
-            prepareStatement.setString(5, shop.getIdItem());
+            prepareStatement.setString(9, shop.getIdItem());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
