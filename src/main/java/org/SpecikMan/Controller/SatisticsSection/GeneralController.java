@@ -97,7 +97,7 @@ public class GeneralController {
     void onClickSave(MouseEvent event) {
         AccountDao accountDao = new AccountDao();
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
-        account.setFullname(txtFullNameChange.getText());
+        account.setFullName(txtFullNameChange.getText());
         account.setDob(Date.valueOf(dpDobChange.getValue()));
         account.setGender(cbbSexChange.getValue().equals("Male"));
         accountDao.update(account);
@@ -137,10 +137,10 @@ public class GeneralController {
             cbbSexChange.getSelectionModel().select("Female");
         }
         cbbSexChange.setEditable(false);
-        if (account.getFullname() == null) {
+        if (account.getFullName() == null) {
             txtFullNameChange.setText("Your name");
         } else {
-            txtFullNameChange.setText(account.getFullname() + "");
+            txtFullNameChange.setText(account.getFullName() + "");
         }
         if(account.getDob()==null){
             dpDobChange.setValue(LocalDate.now());

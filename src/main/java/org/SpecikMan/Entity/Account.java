@@ -56,14 +56,6 @@ public class Account extends Role {
 
     public void setPathImage(String pathImage) { this.pathImage = pathImage; }
 
-    public String getFullname() {
-        return fullName;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullName = fullname;
-    }
-
     public Date getDob() {
         return dob;
     }
@@ -118,6 +110,14 @@ public class Account extends Role {
 
     public void setGender(Boolean gender) {
         this.gender = gender;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public int getCoin() {

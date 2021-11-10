@@ -64,7 +64,7 @@ public class ModifyLevelController {
             level.setNameLevel(txtLevelName.getText());
             level.setUpdatedDate(Date.valueOf(LocalDate.now()));
             level.setLevelContent(txtContent.getText());
-            level.setTotalWords(txtContent.getText().split(" ").length);
+            level.setTotalWords(txtContent.getText().toCharArray().length);
             level.setTime(txtMinute.getText() + ":" + txtSecond.getText());
             level.setDifficulty(new Difficulty(diff.getIdDifficulty(), diff.getNameDifficulty()));
             level.setMode(new Mode(mode.getIdMode(), mode.getNameMode()));
@@ -90,7 +90,7 @@ public class ModifyLevelController {
         cbbDifficulty.setItems(diffs);
         cbbMode.setItems(modes);
         Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
-        txtContent.setText(level.getLevelContent());
+        txtContent.setText(level.getLevelContent().trim());
         txtLevelName.setText(level.getNameLevel());
         txtMinute.setText(level.getTime().split(":")[0]);
         txtSecond.setText(level.getTime().split(":")[1]);

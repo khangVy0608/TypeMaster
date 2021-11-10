@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,14 +17,14 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1219.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.ShopSection.ShopController">
    <right>
-      <AnchorPane prefHeight="774.0" prefWidth="553.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="rightPane" prefHeight="774.0" prefWidth="553.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="124.0" fitWidth="129.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="124.0" fitWidth="129.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../image/ShopItem/ImmuneLv3.png" />
                </image>
             </ImageView>
-            <Label layoutX="161.0" layoutY="42.0" text="Combo Inquisitor">
+            <Label fx:id="lbItemName" layoutX="161.0" layoutY="42.0" text="Combo Inquisitor">
                <font>
                   <Font name="System Bold" size="46.0" />
                </font>
@@ -35,7 +34,7 @@
                   <Font name="System Italic" size="18.0" />
                </font>
             </Label>
-            <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="185.0" prefHeight="85.0" prefWidth="519.0" text="When activate, in the next 10 words extends time by 2 seconds when type correctly a word. Cancel immediately when type wrongly a word" wrapText="true">
+            <Label fx:id="lbDetails" alignment="TOP_LEFT" layoutX="16.0" layoutY="185.0" prefHeight="85.0" prefWidth="519.0" text="When activate, in the next 10 words extends time by 2 seconds when type correctly a word. Cancel immediately when type wrongly a word" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -49,7 +48,7 @@
             </Label>
             <Line endX="100.0" layoutX="-35.0" layoutY="286.0" startX="49.600013732910156" />
             <Line endX="462.60009765625" layoutX="78.0" layoutY="286.0" startX="28.200050354003906" />
-            <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="299.0" prefHeight="85.0" prefWidth="519.0" text="When activate, in the next 10 words extends time by 2 seconds when type correctly a word. Cancel immediately when type wrongly a word" wrapText="true">
+            <Label fx:id="lbTips" alignment="TOP_LEFT" layoutX="16.0" layoutY="299.0" prefHeight="85.0" prefWidth="519.0" text="When activate, in the next 10 words extends time by 2 seconds when type correctly a word. Cancel immediately when type wrongly a word" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -66,7 +65,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="105.0" layoutY="419.0" text="Time">
+            <Label fx:id="lbEffectsBy" layoutX="105.0" layoutY="419.0" text="Time">
                <font>
                   <Font size="18.0" />
                </font>
@@ -76,7 +75,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="141.0" layoutY="466.0" prefHeight="27.0" prefWidth="34.0" text="50">
+            <Label fx:id="lbLimit" layoutX="141.0" layoutY="466.0" prefHeight="27.0" prefWidth="34.0" text="50">
                <font>
                   <Font size="18.0" />
                </font>
@@ -86,7 +85,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="181.0" layoutY="518.0" prefHeight="27.0" prefWidth="35.0" text="50">
+            <Label fx:id="lbUsedAll" layoutX="181.0" layoutY="518.0" prefHeight="27.0" prefWidth="35.0" text="50">
                <font>
                   <Font size="18.0" />
                </font>
@@ -96,7 +95,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="422.0" layoutY="419.0" prefHeight="27.0" prefWidth="38.0" text="50">
+            <Label fx:id="lbUsedOne" layoutX="422.0" layoutY="419.0" prefHeight="27.0" prefWidth="38.0" text="50">
                <font>
                   <Font size="18.0" />
                </font>
@@ -106,7 +105,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="422.0" layoutY="466.0" prefHeight="27.0" prefWidth="35.0" text="50">
+            <Label fx:id="lbHave" layoutX="422.0" layoutY="466.0" prefHeight="27.0" prefWidth="35.0" text="50">
                <font>
                   <Font size="18.0" />
                </font>
@@ -128,28 +127,28 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="107.0" layoutY="612.0" prefHeight="38.0" prefWidth="58.0" text="1200" textFill="#0077ff">
+            <Label fx:id="lbCostEach" layoutX="107.0" layoutY="612.0" prefHeight="38.0" prefWidth="58.0" text="0" textFill="#0077ff">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
             <Line endX="16.399993896484375" endY="89.4000244140625" layoutX="249.0" layoutY="466.0" startX="16.399993896484375" startY="-44.999969482421875" />
-            <Label layoutX="14.0" layoutY="712.0" text="Cost All:">
+            <Label layoutX="14.0" layoutY="701.0" text="Cost All:">
                <font>
                   <Font size="23.0" />
                </font>
             </Label>
-            <Label layoutX="102.0" layoutY="698.0" prefHeight="62.0" prefWidth="126.0" text="12000" textFill="#0077ff">
+            <Label fx:id="lbCostTotal" layoutX="104.0" layoutY="687.0" prefHeight="62.0" prefWidth="126.0" text="0" textFill="#0077ff">
                <font>
                   <Font name="System Bold" size="42.0" />
                </font>
             </Label>
-            <ImageView fitHeight="52.0" fitWidth="53.0" layoutX="228.0" layoutY="703.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="52.0" fitWidth="53.0" layoutX="228.0" layoutY="692.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../image/ShopItem/coin.png" />
                </image>
             </ImageView>
-            <Button layoutX="336.0" layoutY="619.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="49.0" style="-fx-background-color: #75f4ff;">
+            <Button fx:id="btnMinus" layoutX="336.0" layoutY="619.0" mnemonicParsing="false" onMouseClicked="#btnMinusClicked" prefHeight="24.0" prefWidth="49.0" style="-fx-background-color: #75f4ff;">
                <graphic>
                   <FontAwesomeIconView glyphName="MINUS" />
                </graphic>
@@ -159,22 +158,22 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button layoutX="491.0" layoutY="619.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="49.0" style="-fx-background-color: #75f4ff;">
+            <Button fx:id="btnPlus" layoutX="491.0" layoutY="619.0" mnemonicParsing="false" onMouseClicked="#btnPlusClicked" prefHeight="24.0" prefWidth="49.0" style="-fx-background-color: #75f4ff;">
                <graphic>
                   <FontAwesomeIconView glyphName="PLUS" wrappingWidth="11.028547286987305" />
                </graphic>
             </Button>
-            <Label alignment="TOP_CENTER" layoutX="400.0" layoutY="608.0" prefHeight="46.0" prefWidth="78.0" text="1200" textFill="#ff00e5">
+            <Label fx:id="lbAmount" alignment="TOP_CENTER" layoutX="400.0" layoutY="608.0" prefHeight="46.0" prefWidth="78.0" text="0" textFill="#ff00e5">
                <font>
                   <Font name="System Italic" size="30.0" />
                </font>
             </Label>
-            <Button layoutX="301.0" layoutY="661.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="242.0" style="-fx-background-color: #82deff;" text="Try">
+            <Button fx:id="btnTry" layoutX="301.0" layoutY="661.0" mnemonicParsing="false" onMouseClicked="#btnTryClicked" prefHeight="40.0" prefWidth="242.0" style="-fx-background-color: #82deff;" text="Try">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="301.0" layoutY="705.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="102.0" style="-fx-background-color: #ff8a8a;" text="Reset">
+            <Button fx:id="btnReset" layoutX="301.0" layoutY="705.0" mnemonicParsing="false" onMouseClicked="#btnResetClicked" prefHeight="75.0" prefWidth="102.0" style="-fx-background-color: #ff8a8a;" text="Reset">
                <graphic>
                   <FontAwesomeIconView glyphName="REFRESH" />
                </graphic>
@@ -182,7 +181,7 @@
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button layoutX="406.0" layoutY="705.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="138.0" style="-fx-background-color: #9cff75;" text="Purchase">
+            <Button fx:id="btnPurchase" layoutX="406.0" layoutY="705.0" mnemonicParsing="false" onMouseClicked="#btnPurchaseClicked" prefHeight="75.0" prefWidth="138.0" style="-fx-background-color: #9cff75;" text="Purchase">
                <graphic>
                   <FontAwesomeIconView glyphName="CHECK" />
                </graphic>
@@ -190,6 +189,11 @@
                   <Font size="17.0" />
                </font>
             </Button>
+            <Label fx:id="lbEnough" layoutX="17.0" layoutY="751.0" text="NOT ENOUGH COIN TO BUY" textFill="RED" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
          </children>
          <BorderPane.margin>
             <Insets left="5.0" />
@@ -219,7 +223,7 @@
                               <Font name="System Bold" size="45.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="66.0" prefWidth="191.0" text="200000">
+                        <Label fx:id="lbCoin" prefHeight="66.0" prefWidth="208.0" text="200000">
                            <HBox.margin>
                               <Insets left="-20.0" top="10.0" />
                            </HBox.margin>
@@ -227,15 +231,23 @@
                               <Font name="System Bold" size="45.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="66.0" prefWidth="161.0" text="-50000" textFill="RED">
+                        <Label fx:id="lbMinus" prefHeight="18.0" prefWidth="38.0" text="-" textFill="RED">
                            <font>
                               <Font name="System Bold" size="45.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="-25.0" top="10.0" />
+                              <Insets left="-20.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Hyperlink alignment="TOP_RIGHT" prefHeight="60.0" prefWidth="93.0" text="Get more coin?" wrapText="true">
+                        <Label fx:id="lbMinusCoin" prefHeight="66.0" prefWidth="146.0" text="0" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="45.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="-15.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Hyperlink alignment="TOP_RIGHT" onMouseClicked="#hlGetMoreCoinClicked" prefHeight="60.0" prefWidth="93.0" text="Get more coin?" wrapText="true">
                            <HBox.margin>
                               <Insets top="12.0" />
                            </HBox.margin>
@@ -264,7 +276,7 @@
                         <Font name="System Bold Italic" size="23.0" />
                      </font>
                   </Label>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Most Used">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnMostUsedClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Most Used">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -280,7 +292,7 @@
                         <Insets left="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Highest Cost">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnHighestClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Highest Cost">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -288,7 +300,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Lowest Cost">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnLowestClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Lowest Cost">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -304,7 +316,7 @@
                         <Insets left="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Correctness">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnCorrectnessClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Correctness">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -312,7 +324,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Speed">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnSpeedClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Speed">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -320,7 +332,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Time">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnTimeClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Time">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -328,7 +340,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Combo">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnComboClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Combo">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -344,7 +356,7 @@
                         <Insets left="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Affordable">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnAffordableClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Affordable">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -352,7 +364,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Back">
+                  <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#btnBackClicked" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #ffffff;" text="Back">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -366,26 +378,9 @@
          <center>
             <VBox prefHeight="691.0" prefWidth="466.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="63.0" prefWidth="498.0">
-                     <children>
-                        <TextField prefHeight="34.0" prefWidth="343.0" promptText="Search" styleClass="tf_box" stylesheets="@../../css/Login_Register.css">
-                           <HBox.margin>
-                              <Insets left="5.0" top="5.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Find">
-                           <HBox.margin>
-                              <Insets left="10.0" top="5.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <ScrollPane fx:id="scrollPane" prefHeight="666.0" prefWidth="498.0">
+                  <ScrollPane fx:id="scrollPane" prefHeight="707.0" prefWidth="438.0">
                      <content>
-                        <VBox fx:id="vboxItems" prefHeight="638.0" prefWidth="440.0" style="-fx-background-color: #ffffff;" />
+                        <VBox fx:id="vboxItems" prefHeight="706.0" prefWidth="440.0" style="-fx-background-color: #ffffff;" />
                      </content>
                   </ScrollPane>
                </children>

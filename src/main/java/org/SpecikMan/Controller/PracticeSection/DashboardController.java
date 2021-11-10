@@ -129,7 +129,7 @@ public class DashboardController {
                     nodes[i] = loader.load();
                     Level level = listLevel.get(i);
                     ItemController controller = loader.getController();
-                    controller.setItemInfo(level.getNameLevel(), accountDao.get(level.getIdAccount()).getUsername(), level.getDifficulty().getIdDifficulty(), level.getTotalWords(),level.getNumLike(), level.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())));
+                    controller.setItemInfo(level.getNameLevel(), accountDao.get(level.getIdAccount()).getUsername(), level.getDifficulty().getIdDifficulty(), level.getTotalWords(),level.getNumLike(), level.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())),accountDao.get(level.getIdAccount()).getPathImage());
                     final int h = i;
                     nodes[i].setOnMouseEntered(evt -> {
                         if (!isSelected[h]) {
