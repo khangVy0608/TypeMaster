@@ -8,6 +8,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.DetailLogDao;
 import org.SpecikMan.DAL.DetailsDao;
@@ -17,6 +18,8 @@ import org.SpecikMan.Entity.DetailLog;
 import org.SpecikMan.Entity.FilePath;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.ShowAlert;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.util.*;
 
@@ -1620,5 +1623,22 @@ public class StatsOneController {
                 }
             }
         }
+    }
+    public void chartZooming(){
+        ChartPanManager panner = new ChartPanManager(lineChart);
+        panner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {//set your custom combination to trigger navigation
+                // let it through
+            } else {
+                mouseEvent.consume();
+            }
+        });
+        panner.start();
+
+        //holding the right mouse button will draw a rectangle to zoom to desired location
+        JFXChartUtil.setupZooming(lineChart, mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY)//set your custom combination to trigger rectangle zooming
+                mouseEvent.consume();
+        });
     }
 }
