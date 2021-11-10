@@ -9,13 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
+import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.DetailLogDao;
 import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
-import org.SpecikMan.Entity.AccountLevelDetails;
-import org.SpecikMan.Entity.DetailLog;
-import org.SpecikMan.Entity.FilePath;
-import org.SpecikMan.Entity.Level;
+import org.SpecikMan.Entity.*;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.GenerateID;
@@ -107,13 +105,15 @@ public class LevelClearedController {
         lbPlayerName.setText(data[11]);
         lbLevelName.setText(data[12]);
         lbxMulti.setText(data[13]);
-        lbCoinEarned.setText(Integer.parseInt(lbAccuracy.getText().split("%")[0])+Integer.parseInt(lbWPM.getText())+" ");
+        lbCoinEarned.setText(Integer.parseInt(lbAccuracy.getText().split("%")[0])+Integer.parseInt(lbWPM.getText())+"");
         LevelDao levelDao = new LevelDao();
         DetailsDao detailsDao = new DetailsDao();
         DetailLogDao logDao = new DetailLogDao();
         DetailLog log = new DetailLog();
         Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
         AccountLevelDetails detail = new AccountLevelDetails();
+        AccountDao accountDao = new AccountDao();
+        Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         for (AccountLevelDetails i : detailsDao.getAll()) {
             if (i.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel())) && i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
                 detail = i;
@@ -183,6 +183,8 @@ public class LevelClearedController {
                 logDao.add(log);
             }
         }
+        account.setCoin(account.getCoin()+Integer.parseInt(lbCoinEarned.getText()));
+        accountDao.update(account);
         BindDataToChart();
         BindDataToCombobox();
         chartZooming();
