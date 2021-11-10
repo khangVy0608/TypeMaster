@@ -98,7 +98,7 @@ public class HomeUserController {
         AccountDao accountDao = new AccountDao();
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         lbUserName.setText(account.getUsername());
-        lbFullname.setText(account.getFullname());
+        lbFullname.setText(account.getFullName());
         Image image = new Image(new FileInputStream(account.getPathImage()),123,123,false,false);
         imUser.setImage(image);
     }

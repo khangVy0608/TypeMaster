@@ -98,4 +98,7 @@ public class Shop {
         this.tips = tips;
         this.effectsBy = effectsBy;
     }
+    public Shop(String idItem){
+        this.idItem = idItem;
+    }
 }

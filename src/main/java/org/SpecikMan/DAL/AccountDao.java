@@ -72,7 +72,7 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setDate(6,account.getLatestLoginDate());
             prepareStatement.setInt(7,account.getCountLoginDate());
             prepareStatement.setString(8, account.getPathImage());
-            prepareStatement.setString(9, account.getFullname());
+            prepareStatement.setString(9, account.getFullName());
             prepareStatement.setDate(10, account.getDob());
             prepareStatement.setBoolean(11, false);
             prepareStatement.setInt(12,account.getCoin());
@@ -96,7 +96,7 @@ public class AccountDao implements Dao<Account> {
             prepareStatement.setDate(5,account.getLatestLoginDate());
             prepareStatement.setInt(6,account.getCountLoginDate());
             prepareStatement.setString(7, account.getPathImage());
-            prepareStatement.setString(8, account.getFullname());
+            prepareStatement.setString(8, account.getFullName());
             prepareStatement.setDate(9, account.getDob());
             prepareStatement.setBoolean(10, account.isGender());
             prepareStatement.setInt(11,account.getCoin());

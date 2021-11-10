@@ -76,7 +76,7 @@ public class CopyLevelController {
              level.setCreateDate(Date.valueOf(LocalDate.now()));
              level.setUpdatedDate(Date.valueOf(LocalDate.now()));
              level.setLevelContent(txtContent.getText());
-             level.setTotalWords(txtContent.getText().split(" ").length);
+             level.setTotalWords(txtContent.getText().toCharArray().length);
              level.setTime(txtMinute.getText()+":"+txtSecond.getText());
              level.setDifficulty(new Difficulty(diff.getIdDifficulty(),diff.getNameDifficulty()));
              level.setMode(new Mode(mode.getIdMode(),mode.getNameMode()));

@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.SpecikMan.DAL.DetailLogDao;
 import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
@@ -17,6 +19,8 @@ import org.SpecikMan.Tools.GenerateID;
 import org.SpecikMan.Tools.LoadForm;
 import org.SpecikMan.Tools.ShowAlert;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,24 +40,32 @@ public class ItemController {
     private Label lbDetails;
     @FXML
     private Label lbLevelName;
+    @FXML
+    private ImageView imageView;
 
-    public void setItemInfo(String levelName,String publisher,String difficulty,int totalWords,int like,boolean isEdit){
-        lbLevelName.setText(levelName);
-        lbDetails.setText(publisher+" - "+totalWords+" words - "+like+" likes");
-        iconReload.setVisible(isEdit);
-        iconClose.setVisible(isEdit);
-        if(difficulty.equals("DF1")){
-            iconEasy.setVisible(true);
-            iconNormal.setVisible(false);
-            iconHard.setVisible(false);
-        } else if (difficulty.equals("DF2")){
-            iconEasy.setVisible(true);
-            iconNormal.setVisible(true);
-            iconHard.setVisible(false);
-        } else {
-            iconEasy.setVisible(true);
-            iconNormal.setVisible(true);
-            iconHard.setVisible(true);
+    public void setItemInfo(String levelName,String publisher,String difficulty,int totalWords,int like,boolean isEdit,String imagePath){
+        try {
+            lbLevelName.setText(levelName);
+            lbDetails.setText(publisher + " - " + totalWords + " letters - " + like + " likes");
+            iconReload.setVisible(isEdit);
+            iconClose.setVisible(isEdit);
+            if (difficulty.equals("DF1")) {
+                iconEasy.setVisible(true);
+                iconNormal.setVisible(false);
+                iconHard.setVisible(false);
+            } else if (difficulty.equals("DF2")) {
+                iconEasy.setVisible(true);
+                iconNormal.setVisible(true);
+                iconHard.setVisible(false);
+            } else {
+                iconEasy.setVisible(true);
+                iconNormal.setVisible(true);
+                iconHard.setVisible(true);
+            }
+            Image image = new Image(new FileInputStream(imagePath));
+            imageView.setImage(image);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
         }
     }
     public void onIconReloadClicked(){

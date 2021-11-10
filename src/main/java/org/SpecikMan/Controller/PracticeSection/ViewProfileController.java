@@ -131,10 +131,10 @@ public class ViewProfileController {
             } else if (!account.isGender()) {
                 lbSex.setText("Female");
             }
-            if (account.getFullname() == null) {
+            if (account.getFullName() == null) {
                 lbFullName.setText("Your name");
             } else {
-                lbFullName.setText(account.getFullname() + "");
+                lbFullName.setText(account.getFullName() + "");
             }
             if (account.getDob() == null) {
                 lbDob.setText("Your DoB");

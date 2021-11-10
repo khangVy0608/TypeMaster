@@ -8,18 +8,18 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.DetailLogDao;
 import org.SpecikMan.DAL.DetailsDao;
 import org.SpecikMan.DAL.LevelDao;
-import org.SpecikMan.Entity.AccountLevelDetails;
-import org.SpecikMan.Entity.DetailLog;
-import org.SpecikMan.Entity.FilePath;
-import org.SpecikMan.Entity.Level;
+import org.SpecikMan.Entity.*;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.GenerateID;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 
-import java.io.File;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -79,6 +79,12 @@ public class LevelClearedController {
     private LineChart<Number, Number> lineChart;
     @FXML
     private ComboBox<String> cbbChartElement;
+    @FXML
+    private Label lbxMulti;
+    @FXML
+    private Label lbComboScore;
+    @FXML
+    private Label lbCoinEarned;
 
     public void initialize() {
         String[] data = Objects.requireNonNull(FileRW.Read(FilePath.getPlayResult())).split("-");
@@ -94,15 +100,20 @@ public class LevelClearedController {
         lbTimeUsed.setText(data[9]);
         lbTotalScore.setText(data[10]);
         lbTimeScore.setText(((Integer.parseInt(data[8].split(":")[0]) * 60 + Integer.parseInt(data[8].split(":")[1])) * 1000) + "");
-        lbCorrectnessScore.setText(Integer.parseInt(lbTotalScore.getText()) - Integer.parseInt(lbTimeScore.getText()) + "");
+        lbComboScore.setText(data[14]);
+        lbCorrectnessScore.setText(Integer.parseInt(lbTotalScore.getText()) - Integer.parseInt(lbTimeScore.getText()) -Integer.parseInt(lbComboScore.getText())+"");
         lbPlayerName.setText(data[11]);
         lbLevelName.setText(data[12]);
+        lbxMulti.setText(data[13]);
+        lbCoinEarned.setText(Integer.parseInt(lbAccuracy.getText().split("%")[0])+Integer.parseInt(lbWPM.getText())+"");
         LevelDao levelDao = new LevelDao();
         DetailsDao detailsDao = new DetailsDao();
         DetailLogDao logDao = new DetailLogDao();
         DetailLog log = new DetailLog();
         Level level = levelDao.get(FileRW.Read(FilePath.getPlayLevel()));
         AccountLevelDetails detail = new AccountLevelDetails();
+        AccountDao accountDao = new AccountDao();
+        Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         for (AccountLevelDetails i : detailsDao.getAll()) {
             if (i.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel())) && i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
                 detail = i;
@@ -172,8 +183,11 @@ public class LevelClearedController {
                 logDao.add(log);
             }
         }
+        account.setCoin(account.getCoin()+Integer.parseInt(lbCoinEarned.getText()));
+        accountDao.update(account);
         BindDataToChart();
         BindDataToCombobox();
+        chartZooming();
         cbbChartElement.getSelectionModel().select("All");
     }
 
@@ -274,6 +288,23 @@ public class LevelClearedController {
                     BindDataToChart();
                     break;
             }
+        });
+    }
+    public void chartZooming(){
+        ChartPanManager panner = new ChartPanManager(lineChart);
+        panner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {//set your custom combination to trigger navigation
+                // let it through
+            } else {
+                mouseEvent.consume();
+            }
+        });
+        panner.start();
+
+        //holding the right mouse button will draw a rectangle to zoom to desired location
+        JFXChartUtil.setupZooming(lineChart, mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY)//set your custom combination to trigger rectangle zooming
+                mouseEvent.consume();
         });
     }
 }
