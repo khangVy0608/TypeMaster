@@ -120,6 +120,7 @@ public class LevelClearedController {
             }
         }
         if (detail.getIdLevelDetails() == null) {
+            System.out.println("them vao detail");
             detail.setIdLevelDetails(GenerateID.genDetails());
             detail.setLevel(new Level(FileRW.Read(FilePath.getPlayLevel())));
             detail.setIdAccount(FileRW.Read(FilePath.getLoginAcc()));
@@ -136,6 +137,7 @@ public class LevelClearedController {
             detailsDao.add(detail);
         } else {
             if(detail.getScore()<Integer.parseInt(lbTotalScore.getText())){
+                System.out.println("them detail vao log, them hien tai vao detail");
                 log.setIdLog(GenerateID.genLog());
                 log.setIdLevel(level.getIdLevel());
                 log.setLevelName(level.getNameLevel());
@@ -164,6 +166,7 @@ public class LevelClearedController {
                 detail.setChartData(FileRW.Read(FilePath.getChartData()));
                 detailsDao.update(detail);
             } else {
+                System.out.println("them hien tai vao log");
                 log.setIdLog(GenerateID.genLog());
                 log.setIdLevel(level.getIdLevel());
                 log.setLevelName(level.getNameLevel());

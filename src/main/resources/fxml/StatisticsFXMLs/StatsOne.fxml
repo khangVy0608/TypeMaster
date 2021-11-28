@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="399.0" prefWidth="949.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.StatisticsSection.StatsOneController">
+   <children>
+      <Pane layoutX="21.0" layoutY="14.0" prefHeight="379.0" prefWidth="906.0" style="-fx-background-color: #fff;">
+         <children>
+            <ImageView fx:id="imRanksViewProfile" fitHeight="70.0" fitWidth="76.0" layoutX="41.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/bronze.png" />
+               </image>
+            </ImageView>
+            <Separator layoutX="-104.0" layoutY="84.0" prefHeight="3.0" prefWidth="998.0" />
+            <Label fx:id="lbUsername" layoutX="123.0" layoutY="18.0" text="KhangJS" textFill="#3a1c9d">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="682.0" layoutY="4.0" text="Date Created" textFill="#3a1c9d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCreateDay" layoutX="682.0" layoutY="26.0" text="16" textFill="#aeacac">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCreateMonth" layoutX="731.0" layoutY="34.0" text="APR" textFill="#3a1c9d" />
+            <Label fx:id="lbCreateYear" layoutX="731.0" layoutY="52.0" text="2018" textFill="#aeacac" />
+            <Separator layoutX="668.0" layoutY="11.0" orientation="VERTICAL" prefHeight="64.0" prefWidth="0.0" />
+            <Label layoutX="590.0" layoutY="4.0" text="Total Date" textFill="#3a1c9d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalDate" layoutX="601.0" layoutY="26.0" text="25" textFill="#aeacac">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbPoint" layoutX="123.0" layoutY="51.0" text="Points: 0" textFill="#b2b0b0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbWPM" layoutX="142.0" layoutY="126.0" prefHeight="19.0" prefWidth="96.0" text="20" textFill="#a11818">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbWrong" layoutX="142.0" layoutY="301.0" prefHeight="19.0" prefWidth="96.0" text="200" textFill="#d01d1d">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="32.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/WPM_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="32.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/TotalWrong_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="32.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/AccuracyTotal_icon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbAccuracy" layoutX="142.0" layoutY="214.0" prefHeight="19.0" prefWidth="96.0" text="80%" textFill="#1122b9">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="799.0" layoutY="4.0" text="Recent Login" textFill="#3a1c9d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbRecentDay" layoutX="798.0" layoutY="27.0" text="16" textFill="#aeacac">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbRecentMonth" layoutX="847.0" layoutY="35.0" text="APR" textFill="#3a1c9d" />
+            <Label fx:id="lbRecentYear" layoutX="847.0" layoutY="53.0" text="2018" textFill="#aeacac" />
+            <Separator layoutX="784.0" layoutY="12.0" orientation="VERTICAL" prefHeight="64.0" prefWidth="0.0" />
+            <Label fx:id="lbScore" layoutX="315.0" layoutY="126.0" prefHeight="19.0" prefWidth="96.0" text="Level 3" textFill="#4d4c4c">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="213.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/z2886795141350_b8d79cb897fe3d2da275525c7e7c4b9e.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="213.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/TotalWords_icon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbWord" layoutX="315.0" layoutY="212.0" prefHeight="19.0" prefWidth="96.0" text="1000" textFill="#4d4c4c">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="213.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/TotalCorrect_icon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbCorrect" layoutX="315.0" layoutY="301.0" prefHeight="19.0" prefWidth="96.0" text="800" textFill="#1adf0c">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <LineChart fx:id="lineChart" layoutX="371.0" layoutY="93.0" prefHeight="250.0" prefWidth="515.0" title="RESULT LINE CHART">
+               <xAxis>
+                  <NumberAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
+            </LineChart>
+            <ComboBox fx:id="cbbType" layoutX="524.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <ComboBox fx:id="cbbLevel" layoutX="398.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="Level" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <ComboBox fx:id="cbbResult" layoutX="650.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <Button layoutX="784.0" layoutY="339.0" mnemonicParsing="false" onMouseClicked="#btnShowClicked" prefHeight="25.0" prefWidth="93.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Show" />
+         </children>
+         <effect>
+            <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />
+         </effect>
+      </Pane>
+   </children>
+</AnchorPane>

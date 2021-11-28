@@ -278,6 +278,9 @@ public class ShopController {
                             inventory = j;
                         }
                     }
+                    if(inventory.getCurrentlyHave()==null){
+                        inventory.setCurrentlyHave(0);
+                    }
                     ItemController controller = loader.getController();
                     controller.transferData(item.getItemName(), item.getTimeUsed(), item.getCost(), inventory.getCurrentlyHave(),
                             item.getDescription(), item.getImagePath());

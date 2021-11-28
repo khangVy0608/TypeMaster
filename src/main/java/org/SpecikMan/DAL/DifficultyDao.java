@@ -1,97 +1,88 @@
 package org.SpecikMan.DAL;
 
 import org.SpecikMan.DB.DBConnection;
+import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.Difficulty;
+import org.SpecikMan.Entity.apiURL;
+import org.SpecikMan.Tools.crudAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DifficultyDao implements Dao<Difficulty>{
-    private final Connection connection = DBConnection.getConnection();
-    private final List<Difficulty> difficulties = new ArrayList<>();
+    private final String url = apiURL.getApiURL() + "/diff";
 
     public DifficultyDao() {
     }
 
     public List<Difficulty> getAll() {
         try {
-            String query = "select * from Difficulty"; //SQL Query
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            ResultSet rs = prepareStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    difficulties.add(new Difficulty(rs.getString("idDifficulty"),rs.getString("nameDifficulty")));
-                }
+            List<Difficulty> diffs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "s"));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                diffs.add(new Difficulty(
+                        obj.getString("idDifficulty"),
+                        obj.getString("nameDifficulty")
+                ));
             }
-            prepareStatement.close();
-            return difficulties;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return diffs;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public Difficulty get(String id) {
         try {
-            String query = "select * Difficulty where idDifficulty = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
-            Difficulty difficulty = new Difficulty();
-            while (rs.next()) {
-                difficulty = new Difficulty(rs.getString("idDifficulty"), rs.getString("nameDifficulty"));
+            List<Difficulty> diffs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "/"+id));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                diffs.add(new Difficulty(
+                        obj.getString("idDifficulty"),
+                        obj.getString("nameDifficulty")
+                ));
             }
-            prepareStatement.close();
-            return difficulty;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return diffs.get(0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public void add(Difficulty difficulty) {
+    public void add(Difficulty d) {
         try {
-            String query = "insert into Difficulty values (?,?)"; //Full name - Dob null
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, difficulty.getIdDifficulty());
-            prepareStatement.setString(2, difficulty.getNameDifficulty());
-            prepareStatement.execute();
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void update(Difficulty difficulty) {
-        try {
-            String query = "update Difficulty set name = ? where idDifficulty = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, difficulty.getNameDifficulty());
-            //Condition
-            prepareStatement.setString(2, difficulty.getIdDifficulty());
-            prepareStatement.executeUpdate();
-        } catch (SQLException e) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idDifficulty", d.getIdDifficulty());
+            jsonObject.put("nameDifficulty", d.getNameDifficulty());
+            crudAPI.post(jsonObject, url);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Difficulty difficulty) {
+    public void update(Difficulty d) {
         try {
-            String query = "delete from Difficulty where idDifficulty = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            //Condition
-            prepareStatement.setString(1, difficulty.getIdDifficulty());
-            prepareStatement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idDifficulty", d.getIdDifficulty());
+            jsonObject.put("nameDifficulty", d.getNameDifficulty());
+            crudAPI.put(jsonObject, url + "/" + d.getIdDifficulty());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Difficulty d) {
+        try {
+            crudAPI.delete(url + "/" + d.getIdDifficulty());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

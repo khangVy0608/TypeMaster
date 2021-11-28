@@ -1,116 +1,117 @@
 package org.SpecikMan.DAL;
 
 import org.SpecikMan.DB.DBConnection;
+import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.Mode;
 import org.SpecikMan.Entity.Shop;
+import org.SpecikMan.Entity.apiURL;
+import org.SpecikMan.Tools.crudAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShopDao implements Dao<Shop> {
-    private final Connection connection = DBConnection.getConnection();
-    private final List<Shop> items = new ArrayList<>();
+    private final String url = apiURL.getApiURL() + "/item";
 
     public ShopDao() {
     }
 
     public List<Shop> getAll() {
         try {
-            String query = "select * from Shop"; //SQL Query
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            ResultSet rs = prepareStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    items.add(new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                            rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
-                            rs.getString("effectsBy")));
-                }
+            List<Shop> accounts = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "s"));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                accounts.add(new Shop(
+                        obj.getString("idItem"),
+                        obj.getString("itemName"),
+                        obj.getString("description").equals("null") ? null : obj.getString("description"),
+                        obj.getString("cost").equals("null") ? null : obj.getInt("cost"),
+                        obj.getString("maxLimit").equals("null") ? null : obj.getInt("maxLimit"),
+                        obj.getString("imagePath").equals("null") ? null : obj.getString("imagePath"),
+                        obj.getString("timeUsed").equals("null") ? null : obj.getInt("timeUsed"),
+                        obj.getString("tips").equals("null") ? null : obj.getString("tips"),
+                        obj.getString("effectsBy").equals("null") ? null : obj.getString("effectsBy")
+                ));
             }
-            prepareStatement.close();
-            return items;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return accounts;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public Shop get(String id) {
         try {
-            String query = "select * Shop where idItem = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
-            Shop shop = new Shop();
-            while (rs.next()) {
-                shop = new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                        rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
-                        rs.getString("effectsBy"));
+            List<Shop> accounts = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "/" + id));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                accounts.add(new Shop(
+                        obj.getString("idItem"),
+                        obj.getString("itemName"),
+                        obj.getString("description").equals("null") ? null : obj.getString("description"),
+                        obj.getString("cost").equals("null") ? null : obj.getInt("cost"),
+                        obj.getString("maxLimit").equals("null") ? null : obj.getInt("maxLimit"),
+                        obj.getString("imagePath").equals("null") ? null : obj.getString("imagePath"),
+                        obj.getString("timeUsed").equals("null") ? null : obj.getInt("timeUsed"),
+                        obj.getString("tips").equals("null") ? null : obj.getString("tips"),
+                        obj.getString("effectsBy").equals("null") ? null : obj.getString("effectsBy")
+                ));
             }
-            prepareStatement.close();
-            return shop;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return accounts.get(0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public void add(Shop shop) {
+    public void add(Shop s) {
         try {
-            String query = "insert into Shop values (?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, shop.getIdItem());
-            prepareStatement.setString(2, shop.getItemName());
-            prepareStatement.setString(3,shop.getDescription());
-            prepareStatement.setInt(4, shop.getCost());
-            prepareStatement.setInt(5,shop.getMaxLimit());
-            prepareStatement.setString(6,shop.getImagePath());
-            prepareStatement.setInt(7, shop.getTimeUsed());
-            prepareStatement.setString(8,shop.getTips());
-            prepareStatement.setString(9, shop.getEffectsBy());
-            prepareStatement.execute();
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void update(Shop shop) {
-        try {
-            String query = "update Shop set nameShop = ?,description = ?,cost = ?,maxLimit = ?,imagePath = ?,timeUsed = ?,tips = ?,effectsBy = ? where idItem = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, shop.getItemName());
-            prepareStatement.setString(2,shop.getDescription());
-            prepareStatement.setInt(3,shop.getCost());
-            prepareStatement.setInt(4,shop.getMaxLimit());
-            prepareStatement.setString(5,shop.getImagePath());
-            prepareStatement.setInt(6, shop.getTimeUsed());
-            prepareStatement.setString(7,shop.getTips());
-            prepareStatement.setString(8, shop.getEffectsBy());
-            //Condition
-            prepareStatement.setString(9, shop.getIdItem());
-            prepareStatement.executeUpdate();
-        } catch (SQLException e) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idItem", s.getIdItem());
+            jsonObject.put("itemName", s.getItemName());
+            jsonObject.put("description", s.getDescription());
+            jsonObject.put("cost", s.getCost());
+            jsonObject.put("maxLimit", s.getMaxLimit());
+            jsonObject.put("imagePath", s.getImagePath());
+            jsonObject.put("timeUsed", s.getTimeUsed());
+            jsonObject.put("tips", s.getTips());
+            jsonObject.put("effectsBy", s.getEffectsBy());
+            crudAPI.post(jsonObject, url);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Shop shop) {
+    public void update(Shop s) {
         try {
-            String query = "delete from Mode where idItem = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            //Condition
-            prepareStatement.setString(1, shop.getIdItem());
-            prepareStatement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idItem", s.getIdItem());
+            jsonObject.put("itemName", s.getItemName());
+            jsonObject.put("description", s.getDescription());
+            jsonObject.put("cost", s.getCost());
+            jsonObject.put("maxLimit", s.getMaxLimit());
+            jsonObject.put("imagePath", s.getImagePath());
+            jsonObject.put("timeUsed", s.getTimeUsed());
+            jsonObject.put("tips", s.getTips());
+            jsonObject.put("effectsBy", s.getEffectsBy());
+            crudAPI.put(jsonObject, url + "/" + s.getIdItem());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Shop s) {
+        try {
+            crudAPI.delete(url + "/" + s.getIdItem());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

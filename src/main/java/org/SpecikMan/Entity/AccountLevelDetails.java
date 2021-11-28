@@ -4,14 +4,14 @@ import java.sql.Date;
 
 public class AccountLevelDetails extends Account{
     private String idLevelDetails;
-    private int score;
+    private Integer score;
     private String timeLeft;
     private Date datePlayed;
-    private boolean isLike;
-    private float wpm;
-    private float wps;
-    private int correct;
-    private int wrong;
+    private Boolean isLike;
+    private Float wpm;
+    private Float wps;
+    private Integer correct;
+    private Integer wrong;
     private String accuracy;
     private Level level;
     private String chartData;
@@ -24,11 +24,11 @@ public class AccountLevelDetails extends Account{
         this.idLevelDetails = idLevelDetails;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
@@ -48,43 +48,43 @@ public class AccountLevelDetails extends Account{
         this.datePlayed = datePlayed;
     }
 
-    public boolean isLike() {
+    public Boolean getLike() {
         return isLike;
     }
 
-    public void setLike(boolean like) {
+    public void setLike(Boolean like) {
         isLike = like;
     }
 
-    public float getWpm() {
+    public Float getWpm() {
         return wpm;
     }
 
-    public void setWpm(float wpm) {
+    public void setWpm(Float wpm) {
         this.wpm = wpm;
     }
 
-    public float getWps() {
+    public Float getWps() {
         return wps;
     }
 
-    public void setWps(float wps) {
+    public void setWps(Float wps) {
         this.wps = wps;
     }
 
-    public int getCorrect() {
+    public Integer getCorrect() {
         return correct;
     }
 
-    public void setCorrect(int correct) {
+    public void setCorrect(Integer correct) {
         this.correct = correct;
     }
 
-    public int getWrong() {
+    public Integer getWrong() {
         return wrong;
     }
 
-    public void setWrong(int wrong) {
+    public void setWrong(Integer wrong) {
         this.wrong = wrong;
     }
 
@@ -107,6 +107,7 @@ public class AccountLevelDetails extends Account{
     public String getChartData() {
         return chartData;
     }
+
     @Override
     public String toString() {
         return this.level.getNameLevel();
@@ -118,7 +119,7 @@ public class AccountLevelDetails extends Account{
     public AccountLevelDetails() {
     }
 
-    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level,String chartData) {
+    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, Integer score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level,String chartData) {
         super(idAccount, username, password, email, fullName, dob, verificationCode, uud, idRole, nameRole);
         this.idLevelDetails = idLevelDetails;
         this.score = score;
@@ -134,7 +135,7 @@ public class AccountLevelDetails extends Account{
         this.chartData = chartData;
     }
 
-    public AccountLevelDetails(String idAccount,String username, String idLevelDetails, int score, String timeLeft, Date datePlayed, boolean isLike, float wpm, float wps, int correct, int wrong, String accuracy, Level level) {
+    public AccountLevelDetails(String idAccount,String username, String idLevelDetails, Integer score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level) {
         super(idAccount,username);
         this.idLevelDetails = idLevelDetails;
         this.score = score;

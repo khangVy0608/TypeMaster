@@ -168,14 +168,14 @@ public class DashboardController {
                         List<AccountLevelDetails> levelDetail = new ArrayList<>();
                         AccountLevelDetails userDetail = new AccountLevelDetails();
                         for (AccountLevelDetails detail : details) {
-                            if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel())) {
+                            if (detail.getLevel().getIdLevel().equals(listLevel.get(h).getIdLevel())&&detail.getScore()!=null) {
                                 levelDetail.add(detail);
                             }
-                            if (detail.getLevel().getNameLevel().equals(listLevel.get(h).getNameLevel()) && detail.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
+                            if (detail.getLevel().getIdLevel().equals(listLevel.get(h).getIdLevel()) && detail.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
                                 userDetail = detail;
                             }
                         }
-                        levelDetail.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
+                            levelDetail.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
                         if (userDetail.getDatePlayed() != null) {
                             lbNo.setText("#" + (levelDetail.indexOf(userDetail) + 1));
                             lbHighestScore.setText(String.valueOf(userDetail.getScore()));
@@ -209,12 +209,17 @@ public class DashboardController {
                         logs.add(new DetailLog(userDetail.getScore(), userDetail.getWpm(), userDetail.getCorrect(),
                                 userDetail.getWrong(), userDetail.getAccuracy(), userDetail.getTimeLeft(), userDetail.getDatePlayed()));
                         BindingDataToTableAttempts(logs);
-                        if (userDetail.isLike()) {
-                            btnLike.setText("Liked");
-                            btnLike.setStyle("-fx-background-color:  #4498e9;");
-                        } else {
+                        if(userDetail.getIdLevelDetails()==null){
                             btnLike.setText("Like");
                             btnLike.setStyle("-fx-background-color:  #aeadad;");
+                        } else {
+                            if (userDetail.getLike()) {
+                                btnLike.setText("Liked");
+                                btnLike.setStyle("-fx-background-color:  #4498e9;");
+                            } else {
+                                btnLike.setText("Like");
+                                btnLike.setStyle("-fx-background-color:  #aeadad;");
+                            }
                         }
                     });
                     vboxItems.getChildren().add(nodes[i]);
@@ -382,7 +387,6 @@ public class DashboardController {
         LevelDao levelDao = new LevelDao();
         List<Level> list = new ArrayList<>();
         for(Level i: levelDao.getAll()){
-            System.out.println(i.getIdAccount().split("AC")[1]);
             if(Integer.parseInt(i.getIdAccount().split("AC")[1])<10){
                 list.add(i);
             }
@@ -483,7 +487,7 @@ public class DashboardController {
         List<AccountLevelDetails> details = new ArrayList<>();
         List<Level> levels = new ArrayList<>();
         for (AccountLevelDetails i : detailsDao.getAll()) {
-            if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())) && i.isLike()) {
+            if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())) && i.getLike()) {
                 details.add(i);
             }
         }

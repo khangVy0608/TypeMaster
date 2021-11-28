@@ -3,16 +3,8 @@ package org.SpecikMan.Entity;
 public class Inventory extends Account{
     private String idInventory;
     private Shop item;
-    private int currentlyHave;
-    private int timeUsed;
-
-    public int getTimeUsed() {
-        return timeUsed;
-    }
-
-    public void setTimeUsed(int timeUsed) {
-        this.timeUsed = timeUsed;
-    }
+    private Integer currentlyHave;
+    private Integer timeUsed;
 
     public String getIdInventory() {
         return idInventory;
@@ -30,15 +22,23 @@ public class Inventory extends Account{
         this.item = item;
     }
 
-    public int getCurrentlyHave() {
+    public Integer getCurrentlyHave() {
         return currentlyHave;
     }
 
-    public void setCurrentlyHave(int currentlyHave) {
+    public void setCurrentlyHave(Integer currentlyHave) {
         this.currentlyHave = currentlyHave;
     }
 
-    public Inventory(String idAccount, String username, String idInventory, Shop item, int currentlyHave,int timeUsed) {
+    public Integer getTimeUsed() {
+        return timeUsed;
+    }
+
+    public void setTimeUsed(Integer timeUsed) {
+        this.timeUsed = timeUsed;
+    }
+
+    public Inventory(String idAccount, String username, String idInventory, Shop item, Integer currentlyHave, Integer timeUsed) {
         super(idAccount, username);
         this.idInventory = idInventory;
         this.item = item;

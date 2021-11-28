@@ -118,6 +118,73 @@ public class PlayController {
             timer2.start();
         }
     }
+    public void resetStatus() {
+        try {
+            btnRetry.setVisible(false);
+            textflow.getChildren().clear();
+            correct = 0;
+            wrong = 0;
+            total = 0;
+            combo = 0;
+            maxCombo = 0;
+            FileRW.Write(FilePath.getChartData(), "");
+            btnPause.setText("Start");
+            btnPause.setDisable(false);
+            LevelDao levelDao2 = new LevelDao();
+            Level level2 = levelDao2.get(FileRW.Read(FilePath.getPlayLevel()));
+            AccountDao accountDao = new AccountDao();
+            Account accountPlay = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
+            Account publisher = accountDao.get(level2.getIdAccount());
+            FileRW.Write(FilePath.getORIGINAL(), level2.getLevelContent().trim() + "_");
+            hlPublisher.setText(publisher.getUsername());
+            lbLevelName.setText(level2.getNameLevel());
+            lbUsername.setText(accountPlay.getUsername());
+            Image image = new Image(new FileInputStream(publisher.getPathImage()));
+            imagePublisher.setImage(image);
+            Image image2 = new Image(new FileInputStream(accountPlay.getPathImage()));
+            imagePlayer.setImage(image2);
+            char[] chars2 = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
+            FileRW.Write(NOT_TYPED_PATH, String.valueOf(chars2));
+            FileRW.Write(TYPED_PATH, "");
+            chars2 = Arrays.copyOfRange(chars2, 0, chars2.length - 1);
+            for (char c : chars2) {
+                Label l = new Label(String.valueOf(c));
+                l.setStyle("-fx-font-size: 17;-fx-text-fill: gray");
+                textflow.getChildren().add(l);
+            }
+            lbCorrect.setText("0");
+            lbWrong.setText("0");
+            lbTotal.setText("0");
+            lbAccuracy.setText("100%");
+            lbTime.setText("00:00");
+            lbTimeUp.setText("00:00");
+            lbCombo.setText("0");
+            lbScore.setText("0");
+            lbWPM.setText("0");
+            lbWPS.setText("0");
+            lbMaxCombo.setText("0");
+            lbAccuracyScore.setText("0");
+            lbXMulti.setText("1x");
+            lbTimeScore.setText("0");
+            lbTime.setStyle("-fx-text-fill: black");
+            if (level2.getMode().getNameMode().equals("Death Token")) {
+                for (int i = 0; i < tokens.length / 2; i++) {
+                    int random = getRandomNumber(3, tokens.length);
+                    for (int j = 0; j < tokens.length / 2; j++) {
+                        if (tokens[j] != random) {
+                            tokens[i] = random;
+                            break;
+                        }
+                    }
+                }
+                for (int i : tokens) {
+                    System.out.println(i);
+                }
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
     @FXML
     public void onBtnRetryClicked(){
         initialize();
@@ -125,7 +192,7 @@ public class PlayController {
         timer.stop();
         btnRetry.setVisible(false);
     }
-    public void initialize() {
+    public void initialize(){
         try {
             btnRetry.setVisible(false);
             textflow.getChildren().clear();
@@ -245,7 +312,7 @@ public class PlayController {
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
                                         if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            initialize();
+                                            resetStatus();
                                             btnRetry.setVisible(false);
                                         } else {
                                             DisposeForm.Dispose(lbScore);
@@ -484,23 +551,20 @@ public class PlayController {
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
                                         if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            initialize();
+                                            resetStatus();
                                         } else {
                                             DisposeForm.Dispose(lbScore);
                                         }
                                     } else {
-                                        wrong++;
-                                        total++;
-                                        combo = 0;
-                                        lbWrong.setText(String.valueOf(wrong));
-                                        lbTotal.setText(String.valueOf(total));
-                                        lbCombo.setText(String.valueOf(combo));
-                                        lbMaxCombo.setText(maxCombo + "");
-                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                        lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
-                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                        System.out.println("end 1");
+                                        timer.stop();
+                                        timer2.stop();
+                                        LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                        if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                resetStatus();
+                                        } else {
+                                            DisposeForm.Dispose(lbScore);
+                                        }
                                     }
                                 } else {
                                     if (notTyped[0] != notTyped[notTyped.length - 1]) {
@@ -543,11 +607,12 @@ public class PlayController {
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
+                                                System.out.println("end 2");
                                                 timer.stop();
                                                 timer2.stop();
                                                 LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
                                                 if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                    initialize();
+                                                    resetStatus();
                                                 } else {
                                                     DisposeForm.Dispose(lbScore);
                                                 }
@@ -592,11 +657,12 @@ public class PlayController {
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
+                                                System.out.println("end 3");
                                                 timer.stop();
                                                 timer2.stop();
                                                 LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
                                                 if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                    initialize();
+                                                    resetStatus();
                                                 } else {
                                                     DisposeForm.Dispose(lbScore);
                                                 }
@@ -641,11 +707,12 @@ public class PlayController {
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         } else {
+                                            System.out.println("end 4");
                                             timer.stop();
                                             timer2.stop();
                                             LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
                                             if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                initialize();
+                                                resetStatus();
                                             } else {
                                                 DisposeForm.Dispose(lbScore);
                                             }
@@ -718,7 +785,7 @@ public class PlayController {
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
                                         if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            initialize();
+                                            resetStatus();
                                         } else {
                                             DisposeForm.Dispose(lbScore);
                                         }
@@ -963,7 +1030,7 @@ public class PlayController {
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
                                         if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            initialize();
+                                            resetStatus();
                                         } else {
                                             DisposeForm.Dispose(lbScore);
                                         }
@@ -1234,7 +1301,7 @@ public class PlayController {
                 timer2.stop();
                 LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
                 if(Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")){
-                    initialize();
+                    resetStatus();
                 } else {
                     DisposeForm.Dispose(lbScore);
                 }

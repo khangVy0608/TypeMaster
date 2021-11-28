@@ -1,136 +1,186 @@
 package org.SpecikMan.DAL;
 
-import org.SpecikMan.DB.DBConnection;
-import org.SpecikMan.Entity.AccountLevelDetails;
-import org.SpecikMan.Entity.Difficulty;
-import org.SpecikMan.Entity.Level;
-import org.SpecikMan.Entity.Mode;
+import org.SpecikMan.Entity.*;
+import org.SpecikMan.Tools.crudAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailsDao implements Dao<AccountLevelDetails> {
-    private final Connection connection = DBConnection.getConnection();
-    private final List<AccountLevelDetails> details = new ArrayList<>();
+    private final String url = apiURL.getApiURL() + "/detail";
 
     public DetailsDao() {
+
     }
 
     public List<AccountLevelDetails> getAll() {
         try {
-            String query = "select * from AccountLevelDetails, Level,Account where AccountLevelDetails.idLevel = Level.idLevel and AccountLevelDetails.idAccount = Account.idAccount"; //SQL Query
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            ResultSet rs = prepareStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    details.add(new AccountLevelDetails(rs.getString("idAccount"),rs.getString("username").trim(),rs.getString("password"),
-                            rs.getString("email"),rs.getString("fullName"),rs.getDate("dob"),rs.getString("verificationCode"),
-                            rs.getString("uud"),rs.getString("idRole"),null,rs.getString("idLevelDetails"),
-                            rs.getInt("score"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getBoolean("isLike"),rs.getFloat("wpm"),
-                            rs.getFloat("wps"),rs.getInt("correct"),rs.getInt("wrong"),rs.getString("accuracy"),
-                            new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
-                                    rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                                    new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username")),rs.getString("chartData")));
-                }
+            List<AccountLevelDetails> details = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "s"));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                details.add(new AccountLevelDetails(
+                        obj.getString("idAccount") == "null" ? null : obj.getString("idAccount"),
+                        obj.getString("username") == "null" ? null : obj.getString("username"),
+                        obj.getString("password") == "null" ? null : obj.getString("password"),
+                        obj.getString("email") == "null" ? null : obj.getString("email"),
+                        obj.getString("fullName") == "null" ? null : obj.getString("fullName"),
+                        obj.getString("dob") == "null" ? null : Date.valueOf(obj.getString("dob")),
+                        obj.getString("verificationCode") == "null" ? null : obj.getString("verificationCode"),
+                        obj.getString("uud") == "null" ? null : obj.getString("uud"),
+                        obj.getString("idRole") == "null" ? null : obj.getString("idRole"),
+                        null,
+                        obj.getString("idLevelDetails") == "null" ? null : obj.getString("idLevelDetails"),
+                        obj.getString("score") == "null" ? null : obj.getInt("score"),
+                        obj.getString("timeLeft") == "null" ? null : obj.getString("timeLeft"),
+                        obj.getString("datePlayed") == "null" ? null : Date.valueOf(obj.getString("datePlayed")),
+                        obj.getString("isLike") == "null" ? null : obj.getBoolean("isLike"),
+                        obj.getString("wpm") == "null" ? null : Float.valueOf(obj.getString("wpm")),
+                        obj.getString("wps") == "null" ? null : Float.valueOf(obj.getString("wps")),
+                        obj.getString("correct") == "null" ? null : Integer.valueOf(obj.getString("correct")),
+                        obj.getString("wrong") == "null" ? null : Integer.valueOf(obj.getString("wrong")),
+                        obj.getString("accuracy") == "null" ? null : obj.getString("accuracy"),
+                        new Level(
+                                obj.getString("idLevel") == "null" ? null : obj.getString("idLevel"),
+                                obj.getString("nameLevel") == "null" ? null : obj.getString("nameLevel"),
+                                obj.getString("numLike") == "null" ? null : obj.getInt("numLike"),
+                                obj.getString("createDate") == "null" ? null : Date.valueOf(obj.getString("createDate")),
+                                obj.getString("updatedDate") == "null" ? null : Date.valueOf(obj.getString("updatedDate")),
+                                obj.getString("levelContent") == "null" ? null : obj.getString("levelContent"),
+                                obj.getString("totalWords") == "null" ? null : obj.getInt("totalWords"),
+                                obj.getString("time") == "null" ? null : obj.getString("time"),
+                                new Difficulty(
+                                        obj.getString("idDifficulty") == "null" ? null : obj.getString("idDifficulty"),
+                                        null
+                                ),
+                                new Mode(
+                                        obj.getString("idMode") == "null" ? null : obj.getString("idMode"),
+                                        null
+                                ),
+                                obj.getString("idPublisher") == "null" ? null : obj.getString("idPublisher"),
+                                null
+                        ),
+                        obj.getString("chartData") == "null" ? null : obj.getString("chartData")
+                ));
             }
-            prepareStatement.close();
             return details;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public AccountLevelDetails get(String id) {
         try {
-            String query = "select * from AccountLevelDetails, Level,Account where AccountLevelDetails.idLevel = Level.idLevel and AccountLevelDetails.idAccount = Account.idAccount and idLevelDetails = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
-            AccountLevelDetails detail = new AccountLevelDetails();
-            while (rs.next()) {
-                detail = new AccountLevelDetails(rs.getString("idAccount"),rs.getString("username"),rs.getString("password"),
-                        rs.getString("email"),rs.getString("fullName"),rs.getDate("dob"),rs.getString("verificationCode"),
-                        rs.getString("uud"),rs.getString("idRole"),null,rs.getString("idLevelDetails"),
-                        rs.getInt("score"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getBoolean("isLike"),rs.getFloat("wpm"),
-                        rs.getFloat("wps"),rs.getInt("correct"),rs.getInt("wrong"),rs.getString("accuracy"),
-                        new Level(rs.getString("idLevel"),rs.getString("nameLevel"),rs.getInt("numLike"),rs.getDate("createDate"),
-                                rs.getDate("updatedDate"),rs.getString("levelContent"),rs.getInt("totalWords"),rs.getString("time"),
-                                new Difficulty(rs.getString("idDifficulty"),null),new Mode(rs.getString("idMode"),null),rs.getString("idAccount"),rs.getString("username")),rs.getString("chartData"));
+            List<AccountLevelDetails> details = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "/" + id));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                details.add(new AccountLevelDetails(
+                        obj.getString("idAccount") == "null" ? null : obj.getString("idAccount"),
+                        obj.getString("username") == "null" ? null : obj.getString("username"),
+                        obj.getString("password") == "null" ? null : obj.getString("password"),
+                        obj.getString("email") == "null" ? null : obj.getString("email"),
+                        obj.getString("fullName") == "null" ? null : obj.getString("fullName"),
+                        obj.getString("dob") == "null" ? null : Date.valueOf(obj.getString("dob")),
+                        obj.getString("verificationCode") == "null" ? null : obj.getString("veridicationCode"),
+                        obj.getString("uud") == "null" ? null : obj.getString("uud"),
+                        obj.getString("idRole") == "null" ? null : obj.getString("idRole"),
+                        null,
+                        obj.getString("idLevelDetails") == "null" ? null : obj.getString("idLevelDetails"),
+                        obj.getString("score") == "null" ? null : obj.getInt("score"),
+                        obj.getString("timeLeft") == "null" ? null : obj.getString("timeLeft"),
+                        obj.getString("datePlayed") == "null" ? null : Date.valueOf(obj.getString("datePlayed")),
+                        obj.getString("isLike") == "null" ? null : obj.getBoolean("isLike"),
+                        obj.getString("wpm") == "null" ? null : Float.valueOf(obj.getString("wpm")),
+                        obj.getString("wps") == "null" ? null : Float.valueOf(obj.getString("wps")),
+                        obj.getString("correct") == "null" ? null : Integer.valueOf(obj.getString("correct")),
+                        obj.getString("wrong") == "null" ? null : Integer.valueOf(obj.getString("wrong")),
+                        obj.getString("accuracy") == "null" ? null : obj.getString("accuracy"),
+                        new Level(
+                                obj.getString("idLevel") == "null" ? null : obj.getString("idLevel"),
+                                obj.getString("nameLevel") == "null" ? null : obj.getString("nameLevel"),
+                                obj.getString("numLike") == "null" ? null : obj.getInt("numLike"),
+                                obj.getString("createDate") == "null" ? null : Date.valueOf(obj.getString("createDate")),
+                                obj.getString("updatedDate") == "null" ? null : Date.valueOf(obj.getString("updatedDate")),
+                                obj.getString("levelContent") == "null" ? null : obj.getString("levelContent"),
+                                obj.getString("totalWords") == "null" ? null : obj.getInt("totalWords"),
+                                obj.getString("time") == "null" ? null : obj.getString("time"),
+                                new Difficulty(
+                                        obj.getString("idDifficulty") == "null" ? null : obj.getString("idDifficulty"),
+                                        null
+                                ),
+                                new Mode(
+                                        obj.getString("idMode") == "null" ? null : obj.getString("idMode"),
+                                        null
+                                ),
+                                obj.getString("idPublisher") == "null" ? null : obj.getString("idPublisher"),
+                                null
+                        ),
+                        obj.getString("chartData") == "null" ? null : obj.getString("chartData")
+                ));
             }
-            prepareStatement.close();
-            return detail;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return details.get(0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public void add(AccountLevelDetails detail) {
+    public void add(AccountLevelDetails d) {
         try {
-            String query = "insert into AccountLevelDetails values (?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, detail.getIdLevelDetails());
-            prepareStatement.setString(2, detail.getIdAccount());
-            prepareStatement.setString(3,detail.getLevel().getIdLevel());
-            prepareStatement.setInt(4,detail.getScore());
-            prepareStatement.setString(5,detail.getTimeLeft());
-            prepareStatement.setDate(6,detail.getDatePlayed());
-            prepareStatement.setBoolean(7,detail.isLike());
-            prepareStatement.setFloat(8,detail.getWpm());
-            prepareStatement.setFloat(9,detail.getWps());
-            prepareStatement.setInt(10,detail.getCorrect());
-            prepareStatement.setInt(11,detail.getWrong());
-            prepareStatement.setString(12,detail.getAccuracy());
-            prepareStatement.setString(13,detail.getChartData());
-            prepareStatement.execute();
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void update(AccountLevelDetails detail) {
-        try {
-            String query = "update AccountLevelDetails set idAccount = ?,idLevel = ?,score = ?,timeLeft = ?,datePlayed = ?,isLike = ?,wpm = ?,wps = ?,correct = ?,wrong = ?,accuracy = ?,chartData = ? where idLevelDetails = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, detail.getIdAccount());
-            prepareStatement.setString(2,detail.getLevel().getIdLevel());
-            prepareStatement.setInt(3,detail.getScore());
-            prepareStatement.setString(4,detail.getTimeLeft());
-            prepareStatement.setDate(5,detail.getDatePlayed());
-            prepareStatement.setBoolean(6,detail.isLike());
-            prepareStatement.setFloat(7,detail.getWpm());
-            prepareStatement.setFloat(8,detail.getWps());
-            prepareStatement.setInt(9,detail.getCorrect());
-            prepareStatement.setInt(10,detail.getWrong());
-            prepareStatement.setString(11,detail.getAccuracy());
-            prepareStatement.setString(12,detail.getChartData());
-            //Condition
-            prepareStatement.setString(13, detail.getIdLevelDetails());
-            prepareStatement.executeUpdate();
-        } catch (SQLException e) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idLevelDetails", d.getIdLevelDetails());
+            jsonObject.put("idAccount", d.getIdAccount());
+            jsonObject.put("idLevel", d.getLevel().getIdLevel());
+            jsonObject.put("score", d.getScore());
+            jsonObject.put("timeLeft", d.getTimeLeft());
+            jsonObject.put("datePlayed", d.getDatePlayed());
+            jsonObject.put("isLike", d.getLike());
+            jsonObject.put("wpm", d.getWpm());
+            jsonObject.put("wps", d.getWps());
+            jsonObject.put("correct", d.getCorrect());
+            jsonObject.put("wrong", d.getWrong());
+            jsonObject.put("accuracy", d.getAccuracy());
+            jsonObject.put("chartData", d.getChartData());
+            crudAPI.post(jsonObject, url);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(AccountLevelDetails detail) {
+    public void update(AccountLevelDetails d) {
         try {
-            String query = "delete from AccountLevelDetails where idLevelDetails = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            //Condition
-            prepareStatement.setString(1, detail.getIdLevelDetails());
-            prepareStatement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idLevelDetails", d.getIdLevelDetails());
+            jsonObject.put("idAccount", d.getIdAccount());
+            jsonObject.put("idLevel", d.getLevel().getIdLevel());
+            jsonObject.put("score", d.getScore());
+            jsonObject.put("timeLeft", d.getTimeLeft());
+            jsonObject.put("datePlayed", d.getDatePlayed());
+            jsonObject.put("isLike", d.getLike());
+            jsonObject.put("wpm", d.getWpm());
+            jsonObject.put("wps", d.getWps());
+            jsonObject.put("correct", d.getCorrect());
+            jsonObject.put("wrong", d.getWrong());
+            jsonObject.put("accuracy", d.getAccuracy());
+            jsonObject.put("chartData", d.getChartData());
+            crudAPI.put(jsonObject, url + "/" + d.getIdLevelDetails());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(AccountLevelDetails d) {
+        try {
+            crudAPI.delete(url + "/" + d.getIdLevelDetails());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

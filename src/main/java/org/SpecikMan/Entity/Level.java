@@ -5,11 +5,11 @@ import java.sql.Date;
 public class Level extends Account{
     private String idLevel;
     private String nameLevel;
-    private int numLike;
+    private Integer numLike;
     private Date createDate;
     private Date updatedDate;
     private String levelContent;
-    private int totalWords;
+    private Integer totalWords;
     private String time;
     private Difficulty difficulty;
     private Mode mode;
@@ -30,18 +30,20 @@ public class Level extends Account{
         this.nameLevel = nameLevel;
     }
 
-    public int getNumLike() {
+    public Integer getNumLike() {
         return numLike;
     }
 
-    public void setNumLike(int numLike) {
+    public void setNumLike(Integer numLike) {
         this.numLike = numLike;
     }
 
+    @Override
     public Date getCreateDate() {
         return createDate;
     }
 
+    @Override
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
@@ -62,11 +64,11 @@ public class Level extends Account{
         this.levelContent = levelContent;
     }
 
-    public int getTotalWords() {
+    public Integer getTotalWords() {
         return totalWords;
     }
 
-    public void setTotalWords(int totalWords) {
+    public void setTotalWords(Integer totalWords) {
         this.totalWords = totalWords;
     }
 
@@ -93,6 +95,7 @@ public class Level extends Account{
     public void setMode(Mode mode) {
         this.mode = mode;
     }
+
     @Override
     public String toString() {
         return this.nameLevel;
@@ -100,7 +103,7 @@ public class Level extends Account{
     public Level() {
     }
     //change when use
-    public Level(String idLevel, String name, int numLike, Date createDate, Date updatedDate, String levelContent, int totalWords, String time, Difficulty difficulty, Mode mode,String idAccount,String username) {
+    public Level(String idLevel, String name, Integer numLike, Date createDate, Date updatedDate, String levelContent, Integer totalWords, String time, Difficulty difficulty, Mode mode,String idAccount,String username) {
         super(idAccount,username);
         this.idLevel = idLevel;
         this.nameLevel = name;
@@ -114,7 +117,7 @@ public class Level extends Account{
         this.mode = mode;
     }
 
-    public Level(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevel, String name, int numLike, Date createDate, Date updatedDate, String levelContent, int totalWords, String time, Difficulty difficulty, Mode mode) {
+    public Level(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevel, String name, Integer numLike, Date createDate, Date updatedDate, String levelContent, Integer totalWords, String time, Difficulty difficulty, Mode mode) {
         super(idAccount, username, password, email, fullName, dob, verificationCode, uud, idRole, nameRole);
         this.idLevel = idLevel;
         this.nameLevel = name;
@@ -128,7 +131,7 @@ public class Level extends Account{
         this.mode = mode;
     }
 
-    public Level(String idLevel, String nameLevel, int numLike, Date createDate, Date updatedDate, String levelContent, int totalWords, String time, Difficulty difficulty, Mode mode) {
+    public Level(String idLevel, String nameLevel, Integer numLike, Date createDate, Date updatedDate, String levelContent, Integer totalWords, String time, Difficulty difficulty, Mode mode) {
         this.idLevel = idLevel;
         this.nameLevel = nameLevel;
         this.numLike = numLike;
