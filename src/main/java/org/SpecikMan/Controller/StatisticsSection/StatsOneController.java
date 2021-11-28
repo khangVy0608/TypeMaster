@@ -88,6 +88,7 @@ public class StatsOneController {
         lbWord.setText("---");
         lbCorrect.setText("---");
         BindDataToComboBox();
+        chartZooming();
     }
 
     public void BindDataToComboBox() {
@@ -1645,4 +1646,5 @@ public class StatsOneController {
                 mouseEvent.consume();
         });
     }
+
 }

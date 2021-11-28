@@ -100,4 +100,11 @@ public class Shop {
     public Shop(String idItem){
         this.idItem = idItem;
     }
+    public Shop(String itemName,String test){
+        this.itemName = itemName;
+    }
+    @Override
+    public String toString() {
+        return this.getItemName();
+    }
 }

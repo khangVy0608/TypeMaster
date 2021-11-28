@@ -23,9 +23,6 @@ public class ItemController {
     @FXML
     private Label lbName;
 
-    public void initialize() {
-
-    }
     public void transferData(String itemName,int timeUsed,int cost,int inInventory,String description,String imagePath) throws IOException {
         image.setImage(new Image(String.valueOf(getClass().getResource(imagePath))));
         lbName.setText(itemName);
