@@ -129,18 +129,22 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <LineChart fx:id="lineChart" layoutX="371.0" layoutY="93.0" prefHeight="250.0" prefWidth="515.0" title="RESULT LINE CHART">
-               <xAxis>
-                  <NumberAxis side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis side="LEFT" />
-               </yAxis>
-            </LineChart>
-            <ComboBox fx:id="cbbType" layoutX="524.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
-            <ComboBox fx:id="cbbLevel" layoutX="398.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="Level" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
-            <ComboBox fx:id="cbbResult" layoutX="650.0" layoutY="339.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
-            <Button layoutX="784.0" layoutY="339.0" mnemonicParsing="false" onMouseClicked="#btnShowClicked" prefHeight="25.0" prefWidth="93.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Show" />
+            <ComboBox fx:id="cbbType" layoutX="524.0" layoutY="344.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <ComboBox fx:id="cbbLevel" layoutX="398.0" layoutY="344.0" prefHeight="26.0" prefWidth="122.0" promptText="Level" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <ComboBox fx:id="cbbResult" layoutX="650.0" layoutY="344.0" prefHeight="26.0" prefWidth="122.0" promptText="All" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+            <Button layoutX="784.0" layoutY="344.0" mnemonicParsing="false" onMouseClicked="#btnShowClicked" prefHeight="25.0" prefWidth="93.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Show" />
+            <AnchorPane layoutX="376.0" layoutY="93.0" prefHeight="250.0" prefWidth="537.0">
+               <children>
+                  <LineChart fx:id="lineChart" prefHeight="250.0" prefWidth="530.0" title="RESULT LINE CHART">
+                     <xAxis>
+                        <NumberAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </LineChart>
+               </children>
+            </AnchorPane>
          </children>
          <effect>
             <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />

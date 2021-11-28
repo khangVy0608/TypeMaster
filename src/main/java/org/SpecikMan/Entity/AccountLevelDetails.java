@@ -149,4 +149,9 @@ public class AccountLevelDetails extends Account{
         this.accuracy = accuracy;
         this.level = level;
     }
+    public AccountLevelDetails(String idLevelDetails,String username,Integer score){
+        super(username);
+        this.idLevelDetails = idLevelDetails;
+        this.score = score;
+    }
 }

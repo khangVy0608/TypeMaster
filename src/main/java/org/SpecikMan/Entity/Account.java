@@ -165,5 +165,8 @@ public class Account extends Role {
         this.idAccount = idAccount;
         this.username = username;
     }
+    public Account(String username){
+        this.username = username;
+    }
     //endregion
 }

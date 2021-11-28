@@ -216,30 +216,34 @@ public class ShopController {
 
     @FXML
     void btnPurchaseClicked() {
-        InventoryDao inventoryDao = new InventoryDao();
-        AccountDao accountDao = new AccountDao();
-        Inventory inventory = new Inventory();
-        Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
-        for(Inventory i:inventoryDao.getAll()){
-            if(i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))&&i.getItem().getItemName().equals(lbItemName.getText())){
-                inventory = i;
-            }
-        }
-        if(inventory.getIdInventory()==null){
-            inventory.setIdInventory(GenerateID.genInventory());
-            inventory.setIdAccount(FileRW.Read(FilePath.getLoginAcc()));
-            inventory.setItem(new Shop(idItem));
-            inventory.setCurrentlyHave(1);
-            inventory.setTimeUsed(0);
-            inventoryDao.add(inventory);
+        if(lbAmount.getText().equals("0")){
+            ShowAlert.show("Notice","Select amount");
         } else {
-            inventory.setCurrentlyHave(inventory.getCurrentlyHave()+Integer.parseInt(lbAmount.getText()));
-            inventoryDao.update(inventory);
+            InventoryDao inventoryDao = new InventoryDao();
+            AccountDao accountDao = new AccountDao();
+            Inventory inventory = new Inventory();
+            Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
+            for (Inventory i : inventoryDao.getAll()) {
+                if (i.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc())) && i.getItem().getItemName().equals(lbItemName.getText())) {
+                    inventory = i;
+                }
+            }
+            if (inventory.getIdInventory() == null) {
+                inventory.setIdInventory(GenerateID.genInventory());
+                inventory.setIdAccount(FileRW.Read(FilePath.getLoginAcc()));
+                inventory.setItem(new Shop(idItem));
+                inventory.setCurrentlyHave(1);
+                inventory.setTimeUsed(0);
+                inventoryDao.add(inventory);
+            } else {
+                inventory.setCurrentlyHave(inventory.getCurrentlyHave() + Integer.parseInt(lbAmount.getText()));
+                inventoryDao.update(inventory);
+            }
+            account.setCoin(account.getCoin() - Integer.parseInt(lbCostTotal.getText()));
+            accountDao.update(account);
+            ShowAlert.show("Notice", "Buy Success");
+            initialize();
         }
-        account.setCoin(account.getCoin()-Integer.parseInt(lbCostTotal.getText()));
-        accountDao.update(account);
-        ShowAlert.show("Notice","Buy Success");
-        initialize();
     }
 
     @FXML

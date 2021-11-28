@@ -1,33 +1,37 @@
 package org.SpecikMan.Controller.PracticeSection;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
-import org.SpecikMan.DAL.AccountDao;
-import org.SpecikMan.DAL.LevelDao;
-import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Entity.FilePath;
-import org.SpecikMan.Entity.Level;
+import org.SpecikMan.DAL.*;
+import org.SpecikMan.Entity.*;
 import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.GenerateRandomNumbers;
 import org.SpecikMan.Tools.LoadForm;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlayController {
     @FXML
@@ -78,9 +82,21 @@ public class PlayController {
     private AnchorPane anchorPane;
     @FXML
     private Label lbTimeScore;
+    @FXML
+    private ScrollPane scrollPaneLeaderboard;
+    @FXML
+    private VBox vbLeaderboard;
+    @FXML
+    private ComboBox<Shop> cbbPassive;
+    @FXML
+    private ComboBox<Shop> cbbActive;
+    @FXML
+    private AnchorPane apYour;
     private static final String NOT_TYPED_PATH = FilePath.getNotTyped();
     private static final String TYPED_PATH = FilePath.getTYPED();
     private static final String ORIGINAL_PATH = FilePath.getORIGINAL();
+    private DetailsDao detailsDao = new DetailsDao();
+    private List<AccountLevelDetails> details = detailsDao.getAll().stream().filter(p -> p.getScore() != null && p.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel()))).collect(Collectors.toList());
     int correct = 0;
     int wrong = 0;
     int total = 0;
@@ -106,6 +122,8 @@ public class PlayController {
             btnPause.setDisable(true);
             second4 = 5;
             minute4 = 0;
+            cbbActive.setDisable(true);
+            cbbPassive.setDisable(true);
             CountDownTimer();
             timer4.start();
         } else if (btnPause.getText().equals("Pause")) {
@@ -118,8 +136,13 @@ public class PlayController {
             timer2.start();
         }
     }
+
     public void resetStatus() {
         try {
+            DetailsDao tmpDao = new DetailsDao();
+            details = tmpDao.getAll().stream().filter(p -> p.getScore() != null && p.getLevel().getIdLevel().equals(FileRW.Read(FilePath.getPlayLevel()))).collect(Collectors.toList());
+            showLeaderboard();
+            BindDataToCombobox();
             btnRetry.setVisible(false);
             textflow.getChildren().clear();
             correct = 0;
@@ -185,6 +208,7 @@ public class PlayController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onBtnRetryClicked(){
         initialize();
@@ -192,6 +216,7 @@ public class PlayController {
         timer.stop();
         btnRetry.setVisible(false);
     }
+
     public void initialize(){
         try {
             btnRetry.setVisible(false);
@@ -213,6 +238,8 @@ public class PlayController {
             hlPublisher.setText(publisher.getUsername());
             lbLevelName.setText(level2.getNameLevel());
             lbUsername.setText(accountPlay.getUsername());
+            showLeaderboard();
+            BindDataToCombobox();
             Image image = new Image(new FileInputStream(publisher.getPathImage()));
             imagePublisher.setImage(image);
             Image image2 = new Image(new FileInputStream(accountPlay.getPathImage()));
@@ -241,20 +268,15 @@ public class PlayController {
             lbXMulti.setText("1x");
             lbTimeScore.setText("0");
             lbTime.setStyle("-fx-text-fill: black");
-            if (level2.getMode().getNameMode().equals("Death Token")) {
-                for (int i = 0; i < tokens.length / 2; i++) {
-                    int random = getRandomNumber(3, tokens.length);
-                    for (int j = 0; j < tokens.length / 2; j++) {
-                        if (tokens[j] != random) {
-                            tokens[i] = random;
-                            break;
-                        }
+            scrollPaneLeaderboard.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPaneLeaderboard.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            hlPublisher.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.SPACE) {
+                        event.consume(); // to cancel space key
                     }
                 }
-                for (int i : tokens) {
-                    System.out.println(i);
-                }
-            }
+            });
             anchorPane.addEventHandler(KeyEvent.KEY_TYPED, event -> {
                 event.consume();
                 LevelDao levelDao = new LevelDao();
@@ -262,6 +284,9 @@ public class PlayController {
                 char[] typed = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).toCharArray();
                 char[] notTyped = Objects.requireNonNull(FileRW.Read(NOT_TYPED_PATH)).toCharArray();
                 String input = event.getCharacter();
+                if (input.equals(" ")) {
+                    System.out.println("Spacebar");
+                }
                 double total_minutes = (((double) second2 / 60) + minute2);
                 int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
                 if (!input.equals(" ")) {
@@ -305,6 +330,7 @@ public class PlayController {
                                         lbCombo.setText(String.valueOf(combo));
                                         lbMaxCombo.setText(maxCombo + "");
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100) + "");
+                                        showLeaderboard();
                                         timer.stop();
                                         timer2.stop();
                                         transferData();
@@ -329,6 +355,7 @@ public class PlayController {
                                         lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                         lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                        showLeaderboard();
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                     }
                                 } else {
@@ -370,6 +397,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0].split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 wrong++;
@@ -383,6 +411,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             }
                                         } else {
@@ -423,6 +452,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 wrong++;
@@ -436,6 +466,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             }
                                         }
@@ -476,6 +507,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         } else {
                                             wrong++;
@@ -489,6 +521,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         }
                                     }
@@ -544,6 +577,7 @@ public class PlayController {
                                         lbCombo.setText(String.valueOf(combo));
                                         lbMaxCombo.setText(maxCombo + "");
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100) + "");
+                                        showLeaderboard();
                                         timer.stop();
                                         timer2.stop();
                                         transferData();
@@ -561,7 +595,7 @@ public class PlayController {
                                         timer2.stop();
                                         LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
                                         if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                resetStatus();
+                                            resetStatus();
                                         } else {
                                             DisposeForm.Dispose(lbScore);
                                         }
@@ -605,6 +639,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 System.out.println("end 2");
@@ -655,6 +690,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 System.out.println("end 3");
@@ -705,6 +741,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         } else {
                                             System.out.println("end 4");
@@ -778,6 +815,7 @@ public class PlayController {
                                         lbCombo.setText(String.valueOf(combo));
                                         lbMaxCombo.setText(maxCombo + "");
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100) + "");
+                                        showLeaderboard();
                                         timer.stop();
                                         timer2.stop();
                                         transferData();
@@ -801,6 +839,7 @@ public class PlayController {
                                         lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                         lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                        showLeaderboard();
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                     }
                                 } else {
@@ -842,6 +881,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 wrong++;
@@ -855,6 +895,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             }
                                         } else {
@@ -895,6 +936,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 wrong++;
@@ -908,6 +950,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             }
                                         }
@@ -948,6 +991,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         } else {
                                             wrong++;
@@ -961,6 +1005,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         }
                                     }
@@ -1023,6 +1068,7 @@ public class PlayController {
                                         lbCombo.setText(String.valueOf(combo));
                                         lbMaxCombo.setText(maxCombo + "");
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100) + "");
+                                        showLeaderboard();
                                         timer.stop();
                                         timer2.stop();
                                         transferData();
@@ -1046,6 +1092,7 @@ public class PlayController {
                                         lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                         lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                         lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                        showLeaderboard();
                                         lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                     }
                                 } else {
@@ -1093,6 +1140,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 wrong++;
@@ -1106,6 +1154,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             }
                                         } else {
@@ -1152,6 +1201,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
                                                 wrong++;
@@ -1165,6 +1215,7 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                                showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             }
                                         }
@@ -1211,6 +1262,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) + (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         } else {
                                             wrong++;
@@ -1224,6 +1276,7 @@ public class PlayController {
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                             lbScore.setText(Integer.parseInt(lbScore.getText()) - (500) + (combo * 50) + "");
+                                            showLeaderboard();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                         }
                                     }
@@ -1247,7 +1300,18 @@ public class PlayController {
             e.printStackTrace();
         }
     }
-
+    @FXML
+    void hlPublisherClicked(){
+        AccountDao accountDao = new AccountDao();
+        Account account = new Account();
+        for(Account i: accountDao.getAll()){
+            if(i.getUsername().trim().equals(hlPublisher.getText().trim())){
+                account = i;
+            }
+        }
+        FileRW.Write(FilePath.getChooseProfile(),account.getIdAccount());
+        LoadForm.load("/fxml/PracticeFXMLs/Profile.fxml","Profile",false);
+    }
 
     public void CountDownTimer() {
         timer4 = new Timer(1000, e -> Platform.runLater(() -> {
@@ -1322,6 +1386,7 @@ public class PlayController {
                     lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                     lbScore.setText(Integer.parseInt(lbScore.getText()) - 1000 + "");
                     lbTimeScore.setText(Integer.parseInt(lbTimeScore.getText()) - 1000 + "");
+                    showLeaderboard();
                     btnPause.setText("Pause");
                     btnRetry.setVisible(true);
                     btnPause.setDisable(false);
@@ -1336,6 +1401,7 @@ public class PlayController {
                 }
         ));
     }
+
     public void CountDownTimerBlackout() {
         timer3 = new Timer(1000, e -> Platform.runLater(() -> {
             //javaFX operations should go here
@@ -1356,10 +1422,96 @@ public class PlayController {
     }
 
     public void chartData() {
-        String data = lbWPM.getText() + "-" +lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbCombo.getText() + "-" + lbAccuracy.getText() + "_";
+        String data = lbWPM.getText() + "-" + lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbCombo.getText() + "-" + lbAccuracy.getText() + "_";
         FileRW.Write(FilePath.getChartData(), FileRW.Read(FilePath.getChartData()) + data);
     }
+
     public int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    public void showLeaderboard() {
+        try {
+            vbLeaderboard.getChildren().clear();
+            apYour.getChildren().clear();
+            AccountLevelDetails yourDetail = details.stream().filter(p -> p.getIdLevelDetails().equals("LDTest")).findFirst().orElse(null);
+            if (yourDetail == null) {
+                yourDetail = new AccountLevelDetails("LDTest", lbUsername.getText(), 0);
+                details.add(yourDetail);
+                String oldUsername = yourDetail.getUsername();
+                details.forEach(e -> {
+                    if (e.getUsername().equals(oldUsername) && e.getIdLevelDetails().equals("LDTest") == false)
+                        e.setUsername(oldUsername + "(old)");
+                });
+                details.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
+                Node[] nodes = new Node[details.size()];
+                for (int i = 0; i < details.size(); i++) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(DashboardController.class.getResource("/fxml/PracticeFXMLs/PlayLeaderboard.fxml"));
+                    nodes[i] = loader.load();
+                    PlayLeaderboardController controller = loader.getController();
+                    controller.set(String.valueOf(i + 1), details.get(i).getUsername(), details.get(i).getScore());
+                    vbLeaderboard.getChildren().add(nodes[i]);
+                }
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(DashboardController.class.getResource("/fxml/PracticeFXMLs/PlayLeaderboard.fxml"));
+                Node node = loader.load();
+                PlayLeaderboardController controller = loader.getController();
+                controller.set(String.valueOf(details.indexOf(yourDetail) + 1), yourDetail.getUsername(), yourDetail.getScore());
+                apYour.getChildren().add(node);
+            } else {
+                details.remove(yourDetail);
+                yourDetail.setScore(Integer.parseInt(lbScore.getText()));
+                details.add(yourDetail);
+                String oldUsername = yourDetail.getUsername();
+                details.forEach(e -> {
+                    if (e.getUsername().equals(oldUsername) && e.getIdLevelDetails().equals("LDTest") == false)
+                        e.setUsername(oldUsername + "(old)");
+                });
+                details.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
+                Node[] nodes = new Node[details.size()];
+                for (int i = 0; i < details.size(); i++) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(DashboardController.class.getResource("/fxml/PracticeFXMLs/PlayLeaderboard.fxml"));
+                    nodes[i] = loader.load();
+                    PlayLeaderboardController controller = loader.getController();
+                    controller.set(String.valueOf(i + 1), details.get(i).getUsername(), details.get(i).getScore());
+                    vbLeaderboard.getChildren().add(nodes[i]);
+                }
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(DashboardController.class.getResource("/fxml/PracticeFXMLs/PlayLeaderboard.fxml"));
+                Node node = loader.load();
+                PlayLeaderboardController controller = loader.getController();
+                controller.set(String.valueOf(details.indexOf(yourDetail) + 1), yourDetail.getUsername(), yourDetail.getScore());
+                apYour.getChildren().add(node);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void BindDataToCombobox() {
+        InventoryDao iDao = new InventoryDao();
+        ShopDao sDao = new ShopDao();
+        ObservableList<Shop> invPassive = FXCollections.observableList(new ArrayList<>(Arrays.asList(new Shop("None",""))));
+        ObservableList<Shop> invActive = FXCollections.observableList(new ArrayList<>(Arrays.asList(new Shop("None",""))));
+        List<Inventory> userInv = iDao.getAll().stream().filter(e -> e.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))).collect(Collectors.toList());
+        ObservableList<Shop> items = FXCollections.observableList(sDao.getAll().stream().filter(e -> {
+            Inventory inv = userInv.stream().filter(f -> f.getItem().getIdItem().equals(e.getIdItem()) && f.getCurrentlyHave() > 0).findFirst().orElse(null);
+            if (inv != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }).collect(Collectors.toList()));
+        for(Shop item: items){
+            if(item.getDescription().contains("activate")){
+                invActive.add(item);
+            } else {
+                invPassive.add(item);
+            }
+        }
+        cbbActive.setItems(invActive);
+        cbbPassive.setItems(invPassive);
     }
 }
