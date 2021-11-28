@@ -7,10 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Tools.DisposeForm;
-import org.SpecikMan.Tools.GenerateID;
-import org.SpecikMan.Tools.GetUUD;
-import org.SpecikMan.Tools.ShowAlert;
+import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Tools.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,10 +42,13 @@ public class LoginAsGuestController {
             acc.setIdRole("RL3"); //RL03 = Guest
             acc.setCreateDate(Date.valueOf(LocalDate.now()));
             acc.setLatestLoginDate(Date.valueOf(LocalDate.now()));
+            acc.setPathImage("D:\\Learning\\TypeMaster\\src\\main\\resources\\image\\General.png");
             acc.setCountLoginDate(1);
             acc.setCoin(0);
             accountDao.add(acc);
             ShowAlert.show("Notice","Signed up success");
+            FileRW.Write(FilePath.getLoginAcc(),acc.getIdAccount());
+            LoadForm.load("/fxml/Home.fxml","Home",false);
             DisposeForm.Dispose(txtUsername);//Throw any control to get it's stage
         }
     }

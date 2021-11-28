@@ -3,104 +3,142 @@ package org.SpecikMan.DAL;
 import org.SpecikMan.DB.DBConnection;
 import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.DetailLog;
+import org.SpecikMan.Entity.apiURL;
+import org.SpecikMan.Tools.crudAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailLogDao implements Dao<DetailLog>{
-    private final Connection connection = DBConnection.getConnection();
-    private final List<DetailLog> logs = new ArrayList<>();
-
+    private final String url = apiURL.getApiURL() + "/log";
     public DetailLogDao() {
     }
 
     public List<DetailLog> getAll() {
         try {
-            String query = "select * from DetailLog"; //SQL Query
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            ResultSet rs = prepareStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    logs.add(new DetailLog(rs.getString("idLog"),rs.getString("idLevel"),rs.getString("levelName"),rs.getString("idPublisher"),
-                            rs.getString("publisherName"),rs.getString("idPlayer"),rs.getString("playerName"),
-                            rs.getInt("score"),rs.getFloat("wpm"),rs.getFloat("wps"),rs.getInt("correct"),
-                            rs.getInt("wrong"),rs.getString("accuracy"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getString("chartData")));
-                }
+            List<DetailLog> logs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url+"s"));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                logs.add(new DetailLog(
+                        obj.getString("idLog"),
+                        obj.getString("idLevel").equals("null")?null:obj.getString("idLevel"),
+                        obj.getString("levelName").equals("null") ? null : obj.getString("levelName"),
+                        obj.getString("idPublisher").equals("null") ? null : obj.getString("idPublisher"),
+                        obj.getString("publisherName").equals("null")?null:obj.getString("publisherName"),
+                        obj.getString("idPlayer").equals("null")?null:obj.getString("idPlayer"),
+                        obj.getString("playerName").equals("null")?null:obj.getString("playerName"),
+                        obj.getString("score").equals("null")?null:obj.getInt("score"),
+                        obj.getString("wpm").equals("null")?null:Float.valueOf(obj.getString("wpm")),
+                        obj.getString("wps").equals("null")?null:Float.valueOf(obj.getString("wps")),
+                        obj.getString("correct").equals("null")?null:obj.getInt("correct"),
+                        obj.getString("wrong").equals("null")?null:obj.getInt("wrong"),
+                        obj.getString("accuracy").equals("null")?null:obj.getString("accuracy"),
+                        obj.getString("timeLeft").equals("null")?null:obj.getString("timeLeft"),
+                        obj.getString("datePlayed").equals("null")?null:Date.valueOf(obj.getString("datePlayed")),
+                        obj.getString("chartData").equals("null")?null:obj.getString("chartData")
+                ));
             }
-            prepareStatement.close();
             return logs;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public DetailLog get(String id) {
         try {
-            String query = "select * from DetailLog where idLog = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
-            DetailLog log = new DetailLog();
-            while (rs.next()) {
-                log = new DetailLog(rs.getString("idLog"),rs.getString("idLevel"),rs.getString("levelName"),rs.getString("idPublisher"),
-                        rs.getString("publisherName"),rs.getString("idPlayer"),rs.getString("playerName"),
-                        rs.getInt("score"),rs.getFloat("wpm"),rs.getFloat("wps"),rs.getInt("correct"),
-                        rs.getInt("wrong"),rs.getString("accuracy"),rs.getString("timeLeft"),rs.getDate("datePlayed"),rs.getString("chartData"));
+            List<DetailLog> logs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "/" + id.trim()));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                logs.add(new DetailLog(
+                        obj.getString("idLog"),
+                        obj.getString("idLevel").equals("null")?null:obj.getString("idLevel"),
+                        obj.getString("levelName").equals("null") ? null : obj.getString("levelName"),
+                        obj.getString("idPublisher").equals("null") ? null : obj.getString("idPublisher"),
+                        obj.getString("publisherName").equals("null")?null:obj.getString("publisherName"),
+                        obj.getString("idPlayer").equals("null")?null:obj.getString("idPlayer"),
+                        obj.getString("playerName").equals("null")?null:obj.getString("playerName"),
+                        obj.getString("score").equals("null")?null:obj.getInt("score"),
+                        obj.getString("wpm").equals("null")?null:Float.valueOf(obj.getString("wpm")),
+                        obj.getString("wps").equals("null")?null:Float.valueOf(obj.getString("wps")),
+                        obj.getString("correct").equals("null")?null:obj.getInt("correct"),
+                        obj.getString("wrong").equals("null")?null:obj.getInt("wrong"),
+                        obj.getString("accuracy").equals("null")?null:obj.getString("accuracy"),
+                        obj.getString("timeLeft").equals("null")?null:obj.getString("timeLeft"),
+                        obj.getString("datePlayed").equals("null")?null:Date.valueOf(obj.getString("datePlayed")),
+                        obj.getString("chartData").equals("null")?null:obj.getString("chartData")
+                ));
             }
-            prepareStatement.close();
-            return log;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return logs.get(0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public void add(DetailLog log) {
         try {
-            String query = "insert into DetailLog values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //Full name - Dob null
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, log.getIdLog());
-            prepareStatement.setString(2, log.getIdLevel());
-            prepareStatement.setString(3, log.getLevelName());
-            prepareStatement.setString(4, log.getIdPublisher());
-            prepareStatement.setString(5,log.getPublisherName());
-            prepareStatement.setString(6,log.getIdPlayer());
-            prepareStatement.setString(7,log.getPlayerName());
-            prepareStatement.setInt(8, log.getScore());
-            prepareStatement.setFloat(9, log.getWpm());
-            prepareStatement.setFloat(10, log.getWps());
-            prepareStatement.setInt(11, log.getCorrect());
-            prepareStatement.setInt(12, log.getWrong());
-            prepareStatement.setString(13, log.getAccuracy());
-            prepareStatement.setString(14, log.getTimeLeft());
-            prepareStatement.setDate(15, log.getDatePlayed());
-            prepareStatement.setString(16,log.getChartData());
-            prepareStatement.execute();
-        }catch(SQLException ex) {
-            ex.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idLog", log.getIdLog());
+            jsonObject.put("idLevel", log.getIdLevel());
+            jsonObject.put("levelName", log.getLevelName());
+            jsonObject.put("idPublisher", log.getIdPublisher());
+            jsonObject.put("publisherName", log.getPublisherName());
+            jsonObject.put("idPlayer", log.getIdPlayer());
+            jsonObject.put("playerName",log.getPlayerName());
+            jsonObject.put("score", log.getScore());
+            jsonObject.put("wpm", log.getWpm());
+            jsonObject.put("wps", log.getWps());
+            jsonObject.put("correct", log.getCorrect());
+            jsonObject.put("wrong", log.getWrong());
+            jsonObject.put("accuracy", log.getAccuracy());
+            jsonObject.put("timeLeft", log.getTimeLeft());
+            jsonObject.put("datePlayed",  log.getDatePlayed());
+            jsonObject.put("chartData",log.getChartData());
+            crudAPI.post(jsonObject, url);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public void update(DetailLog detailLog) {
+    public void update(DetailLog log) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idLog", log.getIdLog());
+            jsonObject.put("idLevel", log.getIdLevel());
+            jsonObject.put("levelName", log.getLevelName());
+            jsonObject.put("idPublisher", log.getIdPublisher());
+            jsonObject.put("publisherName", log.getPublisherName());
+            jsonObject.put("idPlayer", log.getIdPlayer());
+            jsonObject.put("playerName",log.getPlayerName());
+            jsonObject.put("score", log.getScore());
+            jsonObject.put("wpm", log.getWpm());
+            jsonObject.put("wps", log.getWps());
+            jsonObject.put("correct", log.getCorrect());
+            jsonObject.put("wrong", log.getWrong());
+            jsonObject.put("accuracy", log.getAccuracy());
+            jsonObject.put("timeLeft", log.getTimeLeft());
+            jsonObject.put("datePlayed",  log.getDatePlayed());
+            jsonObject.put("chartData",log.getChartData());
+            crudAPI.put(jsonObject, url + "/" + log.getIdLog());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(DetailLog log) {
         try {
-            String query = "delete from DetailLog where idLog = ?";
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            //Condition
-            prepareStatement.setString(1, log.getIdLog());
-            prepareStatement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            crudAPI.delete(url + "/" + log.getIdLog());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

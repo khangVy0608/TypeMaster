@@ -32,7 +32,7 @@ public class HomeController
 
     @FXML
     void btnStatClicked(MouseEvent event) {
-        LoadForm.load("/fxml/SatisticsFXMLs/HomeUser.fxml","Account Statistics",false);
+        LoadForm.load("/fxml/StatisticsFXMLs/HomeUser.fxml","Account Statistics",false);
     }
     @FXML
     void btnShopClicked(){

@@ -1,110 +1,122 @@
 package org.SpecikMan.DAL;
 
 import org.SpecikMan.DB.DBConnection;
+import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.Inventory;
 import org.SpecikMan.Entity.Shop;
+import org.SpecikMan.Entity.apiURL;
+import org.SpecikMan.Tools.crudAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryDao implements Dao<Inventory>{
-    private final Connection connection = DBConnection.getConnection();
-    private final List<Inventory> items = new ArrayList<>();
-
+    private final String url = apiURL.getApiURL() + "/inv";
     public InventoryDao() {
     }
 
     public List<Inventory> getAll() {
         try {
-            String query = "select * from Inventory,Account,Shop where Inventory.idItem = Shop.idItem and Inventory.idAccount = Account.idAccount"; //SQL Query
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            ResultSet rs = prepareStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    items.add(new Inventory(rs.getString("idAccount"),rs.getString("username"),rs.getString("idInventory"),
-                            new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                                    rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
-                                    rs.getString("effectsBy")),rs.getInt("currentlyHave"),rs.getInt("timeUsed")));
-                }
+            List<Inventory> invs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "s"));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                invs.add(new Inventory(
+                        obj.getString("idAccount"),
+                        obj.getString("username"),
+                        obj.getString("idInventory").equals("null") ? null : obj.getString("idInventory"),
+                        new Shop(
+                                obj.getString("idItem")==null ?null:obj.getString("idItem"),
+                                obj.getString("itemName")==null?null:obj.getString("itemName"),
+                                obj.getString("description")==null?null:obj.getString("description"),
+                                obj.getString("cost")==null?null:obj.getInt("cost"),
+                                obj.getString("maxLimit")==null?null:obj.getInt("maxLimit"),
+                                obj.getString("imagePath")==null?null:obj.getString("imagePath"),
+                                obj.getString("ShopTimeUsed")==null?null:obj.getInt("ShopTimeUsed"),
+                                obj.getString("tips")==null?null:obj.getString("tips"),
+                                obj.getString("effectsBy")==null?null:obj.getString("effectsBy")
+                        ),
+                        obj.getString("currentlyHave").equals("null") ? null : obj.getInt("currentlyHave"),
+                        obj.getString("InvTimeUsed").equals("null") ? null : obj.getInt("InvTimeUsed")
+                ));
             }
-            prepareStatement.close();
-            return items;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return invs;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public Inventory get(String id) {
         try {
-            String query = "select * from Inventory,Account,Shop where Inventory.idItem = Shop.idItem and Inventory.idAccount = Account.idAccount and Inventory.idInventory = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
-            Inventory inventory = new Inventory();
-            while (rs.next()) {
-                inventory = new Inventory(rs.getString("idAccount"),rs.getString("username"),rs.getString("idInventory"),
-                        new Shop(rs.getString("idItem"),rs.getString("itemName"),rs.getString("description"),
-                                rs.getInt("cost"),rs.getInt("maxLimit"),rs.getString("imagePath"),rs.getInt("timeUsed"),rs.getString("tips"),
-                                rs.getString("effectsBy")),rs.getInt("currentlyHave"),rs.getInt("timeUsed"));
+            List<Inventory> invs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "/"+id));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                invs.add(new Inventory(
+                        obj.getString("idAccount"),
+                        obj.getString("username"),
+                        obj.getString("idInventory").equals("null") ? null : obj.getString("idInventory"),
+                        new Shop(
+                                obj.getString("idItem")==null ?null:obj.getString("idItem"),
+                                obj.getString("itemName")==null?null:obj.getString("itemName"),
+                                obj.getString("description")==null?null:obj.getString("description"),
+                                obj.getString("cost")==null?null:obj.getInt("cost"),
+                                obj.getString("maxLimit")==null?null:obj.getInt("maxLimit"),
+                                obj.getString("imagePath")==null?null:obj.getString("imagePath"),
+                                obj.getString("ShopTimeUsed")==null?null:obj.getInt("ShopTimeUsed"),
+                                obj.getString("tips")==null?null:obj.getString("tips"),
+                                obj.getString("effectsBy")==null?null:obj.getString("effectsBy")
+                        ),
+                        obj.getString("currentlyHave").equals("null") ? null : obj.getInt("currentlyHave"),
+                        obj.getString("InvTimeUsed").equals("null") ? null : obj.getInt("InvTimeUsed")
+                ));
             }
-            prepareStatement.close();
-            return inventory;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return invs.get(0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public void add(Inventory inventory) {
+    public void add(Inventory i) {
         try {
-            String query = "insert into Inventory values (?,?,?,?,?)"; //Full name - Dob null
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, inventory.getIdInventory());
-            prepareStatement.setString(2, inventory.getIdAccount());
-            prepareStatement.setString(3,inventory.getItem().getIdItem());
-            prepareStatement.setInt(4, inventory.getCurrentlyHave());
-            prepareStatement.setInt(5, inventory.getTimeUsed());
-            prepareStatement.execute();
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void update(Inventory inventory) {
-        try {
-            String query = "update Inventory set idAccount = ?,idItem = ?, currentlyHave = ?, timeUsed = ? where idInventory = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, inventory.getIdAccount());
-            prepareStatement.setString(2,inventory.getItem().getIdItem());
-            prepareStatement.setInt(3,inventory.getCurrentlyHave());
-            prepareStatement.setInt(4,inventory.getTimeUsed());
-            //Condition
-            prepareStatement.setString(5, inventory.getIdInventory());
-            prepareStatement.executeUpdate();
-        } catch (SQLException e) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idInventory", i.getIdInventory());
+            jsonObject.put("idAccount", i.getIdAccount());
+            jsonObject.put("idItem", i.getItem().getIdItem());
+            jsonObject.put("currentlyHave", i.getCurrentlyHave());
+            jsonObject.put("timeUsed", i.getTimeUsed());
+            crudAPI.post(jsonObject, url);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Inventory inventory) {
+    public void update(Inventory i) {
         try {
-            String query = "delete from Inventory where idInventory = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            //Condition
-            prepareStatement.setString(1, inventory.getIdInventory());
-            prepareStatement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idInventory", i.getIdInventory());
+            jsonObject.put("idAccount", i.getIdAccount());
+            jsonObject.put("idItem", i.getItem().getIdItem());
+            jsonObject.put("currentlyHave", i.getCurrentlyHave());
+            jsonObject.put("timeUsed", i.getTimeUsed());
+            crudAPI.put(jsonObject, url + "/" + i.getIdInventory());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Inventory i) {
+        try {
+            crudAPI.delete(url + "/" + i.getIdInventory());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

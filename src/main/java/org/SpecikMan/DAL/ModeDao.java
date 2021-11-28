@@ -1,8 +1,15 @@
 package org.SpecikMan.DAL;
 
 import org.SpecikMan.DB.DBConnection;
+import org.SpecikMan.Entity.Difficulty;
 import org.SpecikMan.Entity.Mode;
+import org.SpecikMan.Entity.apiURL;
+import org.SpecikMan.Tools.crudAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,87 +18,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModeDao implements Dao<Mode>{
-    private final Connection connection = DBConnection.getConnection();
-    private final List<Mode> modes = new ArrayList<>();
+    private final String url = apiURL.getApiURL() + "/mode";
 
     public ModeDao() {
     }
 
     public List<Mode> getAll() {
         try {
-            String query = "select * from Mode"; //SQL Query
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            ResultSet rs = prepareStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    modes.add(new Mode(rs.getString("idMode"),rs.getString("nameMode")));
-                }
+            List<Mode> diffs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "s"));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                diffs.add(new Mode(
+                        obj.getString("idMode"),
+                        obj.getString("nameMode")
+                ));
             }
-            prepareStatement.close();
-            return modes;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return diffs;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public Mode get(String id) {
         try {
-            String query = "select * Mode where idMode = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, id);
-            ResultSet rs = prepareStatement.executeQuery();
-            Mode mode = new Mode();
-            while (rs.next()) {
-                mode = new Mode(rs.getString("idMode"), rs.getString("nameMode"));
+            List<Mode> diffs = new ArrayList<>();
+            JSONArray data = new JSONArray(crudAPI.get(url + "/" + id));
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject obj = (JSONObject) data.get(i);
+                diffs.add(new Mode(
+                        obj.getString("idMode"),
+                        obj.getString("nameMode")
+                ));
             }
-            prepareStatement.close();
-            return mode;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return diffs.get(0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public void add(Mode mode) {
+    public void add(Mode m) {
         try {
-            String query = "insert into Mode values (?,?)"; //Full name - Dob null
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, mode.getIdMode());
-            prepareStatement.setString(2, mode.getNameMode());
-            prepareStatement.execute();
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void update(Mode mode) {
-        try {
-            String query = "update Mode set name = ? where idMode = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1, mode.getNameMode());
-            //Condition
-            prepareStatement.setString(2, mode.getIdMode());
-            prepareStatement.executeUpdate();
-        } catch (SQLException e) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idMode", m.getIdMode());
+            jsonObject.put("nameMode", m.getNameMode());
+            crudAPI.post(jsonObject, url);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Mode mode) {
+    public void update(Mode m) {
         try {
-            String query = "delete from Mode where idMode = ?";
-            assert connection != null;
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            //Condition
-            prepareStatement.setString(1, mode.getIdMode());
-            prepareStatement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idMode", m.getIdMode());
+            jsonObject.put("nameMode", m.getNameMode());
+            crudAPI.put(jsonObject, url + "/" + m.getIdMode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Mode m) {
+        try {
+            crudAPI.delete(url + "/" + m.getIdMode());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

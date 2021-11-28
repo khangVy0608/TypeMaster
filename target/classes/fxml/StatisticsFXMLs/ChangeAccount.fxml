@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="399.0" prefWidth="949.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.StatisticsSection.ChangeAccountController">
+   <children>
+      <Pane layoutX="29.0" layoutY="22.0" prefHeight="359.0" prefWidth="896.0" style="-fx-background-color: #fff;">
+         <children>
+            <ImageView fx:id="imRanks" fitHeight="70.0" fitWidth="76.0" layoutX="41.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/bronze.png" />
+               </image>
+            </ImageView>
+            <Separator layoutX="-104.0" layoutY="84.0" prefHeight="3.0" prefWidth="998.0" />
+            <Label fx:id="lbTitleUserName" layoutX="123.0" layoutY="18.0" text="KhangJS" textFill="#3a1c9d">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="682.0" layoutY="4.0" text="Date Created" textFill="#3a1c9d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbDateCreated" layoutX="682.0" layoutY="26.0" text="16" textFill="#aeacac">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbMonthCreated" layoutX="731.0" layoutY="34.0" text="APR" textFill="#3a1c9d" />
+            <Label fx:id="lbYearCreated" layoutX="731.0" layoutY="52.0" text="2018" textFill="#aeacac" />
+            <Separator layoutX="668.0" layoutY="11.0" orientation="VERTICAL" prefHeight="64.0" prefWidth="0.0" />
+            <Label layoutX="590.0" layoutY="4.0" text="Total Date" textFill="#3a1c9d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalDate" layoutX="601.0" layoutY="26.0" text="25" textFill="#aeacac">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbPoint" layoutX="123.0" layoutY="51.0" text="Points: 0" textFill="#b2b0b0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="41.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/Fullname_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="41.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/MaleFemale_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="41.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/Date_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="473.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/UserName_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="473.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/Email_icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="93.0" layoutX="473.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/Password_icon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="798.0" layoutY="5.0" text="Recent Login" textFill="#3a1c9d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbDateRecentLogin" layoutX="798.0" layoutY="27.0" text="16" textFill="#aeacac">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbMonthRecentLogin" layoutX="847.0" layoutY="35.0" text="APR" textFill="#3a1c9d" />
+            <Label fx:id="lbYearRecentLogin" layoutX="847.0" layoutY="53.0" text="2018" textFill="#aeacac" />
+            <Separator layoutX="784.0" layoutY="12.0" orientation="VERTICAL" prefHeight="64.0" prefWidth="0.0" />
+            <Hyperlink fx:id="changeFullName" layoutX="276.0" layoutY="132.0" text="Change" />
+            <TextField fx:id="txtFullNameChange" layoutX="149.0" layoutY="131.0" prefHeight="25.0" prefWidth="129.0" />
+            <Hyperlink fx:id="changeDob" layoutX="278.0" layoutY="216.0" text="Change" />
+            <Hyperlink fx:id="changeSex" layoutX="278.0" layoutY="305.0" text="Change" />
+            <Hyperlink fx:id="changeUserName" layoutX="721.0" layoutY="130.0" text="Change" />
+            <TextField fx:id="txtUserNameChange" layoutX="594.0" layoutY="129.0" prefHeight="25.0" prefWidth="129.0" />
+            <Hyperlink fx:id="changePassword" layoutX="721.0" layoutY="218.0" text="Change" />
+            <TextField fx:id="txtNewPasswordChange" layoutX="594.0" layoutY="198.0" prefHeight="25.0" prefWidth="129.0" promptText="New Password" />
+            <TextField fx:id="txtConfirmPasswordChange" layoutX="594.0" layoutY="235.0" prefHeight="25.0" prefWidth="129.0" promptText="Conform Password" />
+            <Label layoutX="731.0" layoutY="202.0" />
+            <Hyperlink fx:id="changeEmail" layoutX="723.0" layoutY="304.0" text="Change" />
+            <TextField fx:id="txtEmailChange" layoutX="596.0" layoutY="303.0" prefHeight="25.0" prefWidth="129.0" />
+            <DatePicker fx:id="dpDobChange" layoutX="150.0" layoutY="217.0" prefHeight="25.0" prefWidth="129.0" />
+            <ComboBox fx:id="cbbSexChange" layoutX="150.0" layoutY="306.0" prefHeight="25.0" prefWidth="129.0" />
+            <Button fx:id="btnSaveChange" layoutX="829.0" layoutY="315.0" mnemonicParsing="false" text="Save">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+         </children>
+         <effect>
+            <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />
+         </effect>
+      </Pane>
+   </children>
+</AnchorPane>

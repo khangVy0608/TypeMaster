@@ -4,12 +4,52 @@ public class Shop {
     private String idItem;
     private String itemName;
     private String description;
-    private int cost;
-    private int maxLimit;
+    private Integer cost;
+    private Integer maxLimit;
     private String imagePath;
-    private int timeUsed;
+    private Integer timeUsed;
     private String tips;
     private String effectsBy;
+
+    public String getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(String idItem) {
+        this.idItem = idItem;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public Integer getMaxLimit() {
+        return maxLimit;
+    }
+
+    public void setMaxLimit(Integer maxLimit) {
+        this.maxLimit = maxLimit;
+    }
 
     public String getImagePath() {
         return imagePath;
@@ -19,11 +59,11 @@ public class Shop {
         this.imagePath = imagePath;
     }
 
-    public int getTimeUsed() {
+    public Integer getTimeUsed() {
         return timeUsed;
     }
 
-    public void setTimeUsed(int timeUsed) {
+    public void setTimeUsed(Integer timeUsed) {
         this.timeUsed = timeUsed;
     }
 
@@ -43,51 +83,10 @@ public class Shop {
         this.effectsBy = effectsBy;
     }
 
-    public String getIdItem() {
-        return idItem;
-    }
-
-    public void setIdItem(String idItem) {
-        this.idItem = idItem;
-    }
-
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public int getMaxLimit() {
-        return maxLimit;
-    }
-
-    public void setMaxLimit(int maxLimit) {
-        this.maxLimit = maxLimit;
-    }
-
     public Shop() {
     }
 
-    public Shop(String idItem, String itemName, String description, int cost, int maxLimit,String imagePath,int timeUsed,String tips,String effectsBy) {
+    public Shop(String idItem, String itemName, String description, Integer cost, Integer maxLimit,String imagePath,Integer timeUsed,String tips,String effectsBy) {
         this.idItem = idItem;
         this.itemName = itemName;
         this.description = description;

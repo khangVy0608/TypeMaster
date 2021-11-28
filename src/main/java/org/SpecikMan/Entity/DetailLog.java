@@ -10,11 +10,11 @@ public class DetailLog {
     private String publisherName;
     private String idPlayer;
     private String playerName;
-    private int score;
-    private float wpm;
-    private float wps;
-    private int correct;
-    private int wrong;
+    private Integer score;
+    private Float wpm;
+    private Float wps;
+    private Integer correct;
+    private Integer wrong;
     private String accuracy;
     private String timeLeft;
     private Date datePlayed;
@@ -76,43 +76,43 @@ public class DetailLog {
         this.playerName = playerName;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
-    public float getWpm() {
+    public Float getWpm() {
         return wpm;
     }
 
-    public void setWpm(float wpm) {
+    public void setWpm(Float wpm) {
         this.wpm = wpm;
     }
 
-    public float getWps() {
+    public Float getWps() {
         return wps;
     }
 
-    public void setWps(float wps) {
+    public void setWps(Float wps) {
         this.wps = wps;
     }
 
-    public int getCorrect() {
+    public Integer getCorrect() {
         return correct;
     }
 
-    public void setCorrect(int correct) {
+    public void setCorrect(Integer correct) {
         this.correct = correct;
     }
 
-    public int getWrong() {
+    public Integer getWrong() {
         return wrong;
     }
 
-    public void setWrong(int wrong) {
+    public void setWrong(Integer wrong) {
         this.wrong = wrong;
     }
 
@@ -148,7 +148,7 @@ public class DetailLog {
         this.chartData = chartData;
     }
 
-    public DetailLog(String idLog, String idLevel, String levelName, String idPublisher, String publisherName, String idPlayer, String playerName, int score, float wpm, float wps, int correct, int wrong, String accuracy, String timeLeft, Date datePlayed,String chartData) {
+    public DetailLog(String idLog, String idLevel, String levelName, String idPublisher, String publisherName, String idPlayer, String playerName, Integer score, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, String timeLeft, Date datePlayed, String chartData) {
         this.idLog = idLog;
         this.idLevel = idLevel;
         this.levelName = levelName;
@@ -166,7 +166,7 @@ public class DetailLog {
         this.datePlayed = datePlayed;
         this.chartData = chartData;
     }
-    public DetailLog(int score, float wpm,int correct, int wrong, String accuracy, String timeLeft, Date datePlayed) {
+    public DetailLog(Integer score, Float wpm,Integer correct, Integer wrong, String accuracy, String timeLeft, Date datePlayed) {
         this.score = score;
         this.wpm = wpm;
         this.correct = correct;

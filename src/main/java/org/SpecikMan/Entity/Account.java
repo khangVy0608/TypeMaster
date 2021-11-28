@@ -10,12 +10,12 @@ public class Account extends Role {
     private String email;
     private Date createDate;
     private Date latestLoginDate;
-    private int countLoginDate;
+    private Integer countLoginDate;
     private String pathImage;
     private String fullName;
     private Date dob;
     private Boolean gender;
-    private int coin;
+    private Integer coin;
     private String verificationCode;
     private String uud;
     //region get-set
@@ -100,7 +100,7 @@ public class Account extends Role {
         return countLoginDate;
     }
 
-    public void setCountLoginDate(int countLoginDate) {
+    public void setCountLoginDate(Integer countLoginDate) {
         this.countLoginDate = countLoginDate;
     }
 
@@ -124,7 +124,7 @@ public class Account extends Role {
         return coin;
     }
 
-    public void setCoin(int coin) {
+    public void setCoin(Integer coin) {
         this.coin = coin;
     }
     //endregion
@@ -133,7 +133,7 @@ public class Account extends Role {
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,int countLoginDate ,String pathImage, String fullName, Date dob,boolean gender,int coin, String verificationCode,String uud,String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,Integer countLoginDate ,String pathImage, String fullName, Date dob,Boolean gender,Integer coin, String verificationCode,String uud,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
