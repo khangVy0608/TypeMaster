@@ -14,7 +14,7 @@ public class PlayLeaderboardController {
     @FXML
     private Label lbUsername;
 
-    public void set(String rank,String username,Integer score){
+    public void set(String rank,String username,Long score){
         lbRank.setText(rank);
         lbUsername.setText(username);
         lbScore.setText(String.valueOf(score));

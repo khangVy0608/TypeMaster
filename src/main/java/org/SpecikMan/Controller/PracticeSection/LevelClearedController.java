@@ -132,7 +132,7 @@ public class LevelClearedController {
             detail.setAccuracy(lbAccuracy.getText());
             detail.setTimeLeft(lbTimeLeft.getText());
             detail.setDatePlayed(Date.valueOf(LocalDate.now()));
-            detail.setScore(Integer.parseInt(lbTotalScore.getText()));
+            detail.setScore(Long.parseLong(lbTotalScore.getText()));
             detail.setChartData(FileRW.Read(FilePath.getChartData()));
             detailsDao.add(detail);
         } else {
@@ -162,7 +162,7 @@ public class LevelClearedController {
                 detail.setAccuracy(lbAccuracy.getText());
                 detail.setTimeLeft(lbTimeLeft.getText());
                 detail.setDatePlayed(Date.valueOf(LocalDate.now()));
-                detail.setScore(Integer.parseInt(lbTotalScore.getText()));
+                detail.setScore(Long.parseLong(lbTotalScore.getText()));
                 detail.setChartData(FileRW.Read(FilePath.getChartData()));
                 detailsDao.update(detail);
             } else {
@@ -174,7 +174,7 @@ public class LevelClearedController {
                 log.setPublisherName(level.getUsername());
                 log.setIdPlayer(detail.getIdAccount());
                 log.setPlayerName(detail.getUsername());
-                log.setScore(Integer.parseInt(lbTotalScore.getText()));
+                log.setScore(Long.parseLong(lbTotalScore.getText()));
                 log.setWpm(Float.parseFloat(lbWPM.getText()));
                 log.setWps(Float.parseFloat(lbWPS.getText()));
                 log.setCorrect(Integer.parseInt(lbCorrect.getText()));

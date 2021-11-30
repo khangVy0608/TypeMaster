@@ -103,6 +103,10 @@ public class Shop {
     public Shop(String itemName,String test){
         this.itemName = itemName;
     }
+    public Shop(String idItem,String itemName,String test){
+        this.idItem = idItem;
+        this.itemName = itemName;
+    }
     @Override
     public String toString() {
         return this.getItemName();

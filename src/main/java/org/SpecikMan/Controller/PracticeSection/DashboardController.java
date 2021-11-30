@@ -175,7 +175,7 @@ public class DashboardController {
                                 userDetail = detail;
                             }
                         }
-                            levelDetail.sort(Comparator.comparingInt(AccountLevelDetails::getScore).reversed());
+                            levelDetail.sort(Comparator.comparingLong(AccountLevelDetails::getScore).reversed());
                         if (userDetail.getDatePlayed() != null) {
                             lbNo.setText("#" + (levelDetail.indexOf(userDetail) + 1));
                             lbHighestScore.setText(String.valueOf(userDetail.getScore()));
