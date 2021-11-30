@@ -7,13 +7,13 @@ import java.sql.Date;
 public class TableViewItem {
     private int no;
     private Hyperlink username;
-    private int score;
+    private Long score;
     private String time;
     private Date date;
     public TableViewItem(){
 
     }
-    public TableViewItem(int no, Hyperlink username, int score, String time, Date date) {
+    public TableViewItem(int no, Hyperlink username, Long score, String time, Date date) {
         this.no = no;
         this.username = username;
         this.score = score;
@@ -37,11 +37,11 @@ public class TableViewItem {
         this.username = new Hyperlink(username);
     }
 
-    public int getScore() {
+    public Long getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Long score) {
         this.score = score;
     }
 

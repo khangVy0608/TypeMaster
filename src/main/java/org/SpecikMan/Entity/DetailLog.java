@@ -10,7 +10,7 @@ public class DetailLog {
     private String publisherName;
     private String idPlayer;
     private String playerName;
-    private Integer score;
+    private Long score;
     private Float wpm;
     private Float wps;
     private Integer correct;
@@ -76,11 +76,11 @@ public class DetailLog {
         this.playerName = playerName;
     }
 
-    public Integer getScore() {
+    public Long getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Long score) {
         this.score = score;
     }
 
@@ -148,7 +148,7 @@ public class DetailLog {
         this.chartData = chartData;
     }
 
-    public DetailLog(String idLog, String idLevel, String levelName, String idPublisher, String publisherName, String idPlayer, String playerName, Integer score, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, String timeLeft, Date datePlayed, String chartData) {
+    public DetailLog(String idLog, String idLevel, String levelName, String idPublisher, String publisherName, String idPlayer, String playerName, Long score, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, String timeLeft, Date datePlayed, String chartData) {
         this.idLog = idLog;
         this.idLevel = idLevel;
         this.levelName = levelName;
@@ -166,7 +166,7 @@ public class DetailLog {
         this.datePlayed = datePlayed;
         this.chartData = chartData;
     }
-    public DetailLog(Integer score, Float wpm,Integer correct, Integer wrong, String accuracy, String timeLeft, Date datePlayed) {
+    public DetailLog(Long score, Float wpm,Integer correct, Integer wrong, String accuracy, String timeLeft, Date datePlayed) {
         this.score = score;
         this.wpm = wpm;
         this.correct = correct;

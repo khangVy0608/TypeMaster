@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class AccountLevelDetails extends Account{
     private String idLevelDetails;
-    private Integer score;
+    private Long score;
     private String timeLeft;
     private Date datePlayed;
     private Boolean isLike;
@@ -24,11 +24,11 @@ public class AccountLevelDetails extends Account{
         this.idLevelDetails = idLevelDetails;
     }
 
-    public Integer getScore() {
+    public Long getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Long score) {
         this.score = score;
     }
 
@@ -119,7 +119,7 @@ public class AccountLevelDetails extends Account{
     public AccountLevelDetails() {
     }
 
-    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, Integer score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level,String chartData) {
+    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, Long score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level,String chartData) {
         super(idAccount, username, password, email, fullName, dob, verificationCode, uud, idRole, nameRole);
         this.idLevelDetails = idLevelDetails;
         this.score = score;
@@ -135,7 +135,7 @@ public class AccountLevelDetails extends Account{
         this.chartData = chartData;
     }
 
-    public AccountLevelDetails(String idAccount,String username, String idLevelDetails, Integer score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level) {
+    public AccountLevelDetails(String idAccount,String username, String idLevelDetails, Long score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level) {
         super(idAccount,username);
         this.idLevelDetails = idLevelDetails;
         this.score = score;
@@ -149,7 +149,7 @@ public class AccountLevelDetails extends Account{
         this.accuracy = accuracy;
         this.level = level;
     }
-    public AccountLevelDetails(String idLevelDetails,String username,Integer score){
+    public AccountLevelDetails(String idLevelDetails,String username,Long score){
         super(username);
         this.idLevelDetails = idLevelDetails;
         this.score = score;

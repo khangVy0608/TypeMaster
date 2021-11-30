@@ -109,7 +109,7 @@ public class StatsAllController {
             Double wpm = 0.0;
             Double accuracy = 0.0;
             Integer wrong = 0;
-            Integer score = 0;
+            Long score = 0L;
             Integer words = 0;
             Integer correct = 0;
             for (AccountLevelDetails i : details) {
