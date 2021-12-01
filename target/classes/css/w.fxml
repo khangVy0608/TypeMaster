@@ -17,9 +17,9 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="795.0" prefWidth="1539.0" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PracticeSection.PlayController">
    <children>
-      <AnchorPane prefHeight="795.0" prefWidth="1539.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;" stylesheets="@../../css/play.css">
+      <AnchorPane prefHeight="795.0" prefWidth="1539.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;" stylesheets="@play.css">
          <children>
-            <Pane layoutX="590.0" layoutY="-1.0" prefHeight="82.0" prefWidth="948.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@../../css/play.css">
+            <Pane layoutX="590.0" layoutY="-1.0" prefHeight="82.0" prefWidth="948.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@play.css">
                <children>
                   <Label fx:id="lbUsername" alignment="TOP_CENTER" contentDisplay="RIGHT" layoutX="486.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="178.0" text="khangkhangkhang" textAlignment="CENTER">
                      <font>
@@ -300,7 +300,7 @@
                   </Label>
                   <ImageView fitHeight="40.0" fitWidth="42.0" layoutX="1319.0" layoutY="652.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../image/ShopItem/coin.png" />
+                        <Image url="@../image/ShopItem/coin.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="1362.0" layoutY="658.0" text="Coin:">
@@ -331,7 +331,7 @@
                   </Label>
                   <ImageView fitHeight="40.0" fitWidth="42.0" layoutX="1318.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../image/ShopItem/coin.png" />
+                        <Image url="@../image/ShopItem/coin.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="1361.0" layoutY="606.0" text="Coin:">
@@ -403,19 +403,19 @@
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cbbPassive" layoutX="56.0" layoutY="543.0" prefHeight="27.0" prefWidth="124.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+                  <ComboBox fx:id="cbbPassive" layoutX="56.0" layoutY="543.0" prefHeight="27.0" prefWidth="124.0" styleClass="tf_box" stylesheets="@Login_Register.css" />
                   <Label layoutX="7.0" layoutY="630.0" text="Active:">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cbbActive" layoutX="55.0" layoutY="627.0" prefHeight="27.0" prefWidth="124.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+                  <ComboBox fx:id="cbbActive" layoutX="55.0" layoutY="627.0" prefHeight="27.0" prefWidth="124.0" styleClass="tf_box" stylesheets="@Login_Register.css" />
                   <Label fx:id="lbPassive" layoutX="5.0" layoutY="564.0" prefHeight="66.0" prefWidth="166.0" text="Passive perks are automatically used" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbActive" layoutX="5.0" layoutY="657.0" prefHeight="51.0" prefWidth="166.0" text="Press Shift+` to use active perks" textAlignment="CENTER" wrapText="true">
+                  <Label layoutX="5.0" layoutY="657.0" prefHeight="51.0" prefWidth="166.0" text="Press Shift+0 to use active perks" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="13.0" />
                      </font>

@@ -107,12 +107,16 @@ public class DashboardController {
     @FXML
     public void onBtnAllClicked() {
         LevelDao levelDao = new LevelDao();
-        showAll(levelDao.getAll());
+        List<Level> levels = levelDao.getAll();
+        levels.removeIf(e->e.getMode().getIdMode().equals("MD5"));
+        showAll(levels);
     }
 
     public void initialize() {
         LevelDao levelDao = new LevelDao();
-        showAll(levelDao.getAll());
+        List<Level> levels = levelDao.getAll();
+        levels.removeIf(e->e.getMode().getIdMode().equals("MD5"));
+        showAll(levels);
     }
 
     public void showAll(List<Level> listLevel) {
@@ -391,6 +395,7 @@ public class DashboardController {
                 list.add(i);
             }
         }
+        list.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(list);
     }
 
@@ -403,6 +408,7 @@ public class DashboardController {
                 list.add(i);
             }
         }
+        list.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(list);
     }
 
@@ -415,6 +421,7 @@ public class DashboardController {
                 list.add(i);
             }
         }
+        list.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(list);
     }
 
@@ -427,6 +434,7 @@ public class DashboardController {
                 list.add(i);
             }
         }
+        list.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(list);
     }
 
@@ -439,6 +447,7 @@ public class DashboardController {
                 list.add(i);
             }
         }
+        list.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(list);
     }
 
@@ -451,6 +460,7 @@ public class DashboardController {
                 list.add(i);
             }
         }
+        list.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(list);
     }
 
@@ -469,6 +479,7 @@ public class DashboardController {
         for (AccountLevelDetails i : details) {
             levels.add(levelDao.get(i.getLevel().getIdLevel()));
         }
+        levels.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(levels);
     }
 
@@ -476,6 +487,7 @@ public class DashboardController {
     void btnHighestLikedLevelsClicked() {
         LevelDao levelDao = new LevelDao();
         List<Level> levels = levelDao.getAll();
+        levels.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         levels.sort(Comparator.comparingInt(Level::getNumLike).reversed());
         showAll(levels);
     }
@@ -494,6 +506,7 @@ public class DashboardController {
         for (AccountLevelDetails i : details) {
             levels.add(levelDao.get(i.getLevel().getIdLevel()));
         }
+        levels.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(levels);
     }
 
@@ -515,6 +528,7 @@ public class DashboardController {
                 }
             }
         }
+        levels.removeIf(e->e.getMode().getIdMode().equals("MD5"));
         showAll(levels);
     }
     @FXML

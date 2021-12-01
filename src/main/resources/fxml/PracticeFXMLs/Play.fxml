@@ -403,19 +403,19 @@
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cbbPassive" layoutX="60.0" layoutY="543.0" prefHeight="27.0" prefWidth="120.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+                  <ComboBox fx:id="cbbPassive" layoutX="56.0" layoutY="543.0" prefHeight="27.0" prefWidth="124.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
                   <Label layoutX="7.0" layoutY="630.0" text="Active:">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cbbActive" layoutX="59.0" layoutY="627.0" prefHeight="27.0" prefWidth="120.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+                  <ComboBox fx:id="cbbActive" layoutX="55.0" layoutY="627.0" prefHeight="27.0" prefWidth="124.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
                   <Label fx:id="lbPassive" layoutX="5.0" layoutY="564.0" prefHeight="66.0" prefWidth="166.0" text="Passive perks are automatically used" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="5.0" layoutY="657.0" prefHeight="51.0" prefWidth="166.0" text="Press Shift+0 to use active perks" textAlignment="CENTER" wrapText="true">
+                  <Label fx:id="lbActive" layoutX="5.0" layoutY="657.0" prefHeight="51.0" prefWidth="166.0" text="Press Shift+` to use active perks" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="13.0" />
                      </font>
