@@ -115,7 +115,7 @@ public class GeneralController {
         Calendar c = Calendar.getInstance();
         c.setTime(account.getCreateDate());
         lbTitleUserName.setText(account.getUsername());
-        lbUserName.setText(account.getUsername());
+        lbUserName.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
         lbTotalDate.setText(account.getCountLoginDate() + "");
         lbDayCreated.setText(c.get(Calendar.DAY_OF_MONTH) + "");
         lbMonthCreated.setText(months[c.get(Calendar.MONTH)]);

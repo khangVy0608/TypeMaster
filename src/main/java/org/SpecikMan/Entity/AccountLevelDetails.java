@@ -119,8 +119,8 @@ public class AccountLevelDetails extends Account{
     public AccountLevelDetails() {
     }
 
-    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevelDetails, Long score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level,String chartData) {
-        super(idAccount, username, password, email, fullName, dob, verificationCode, uud, idRole, nameRole);
+    public AccountLevelDetails(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud,Integer accountLevel,Integer levelCap,Integer levelExp, String idRole, String nameRole, String idLevelDetails, Long score, String timeLeft, Date datePlayed, Boolean isLike, Float wpm, Float wps, Integer correct, Integer wrong, String accuracy, Level level,String chartData) {
+        super(idAccount, username, password, email, fullName, dob, verificationCode, uud,accountLevel,levelCap,levelExp, idRole, nameRole);
         this.idLevelDetails = idLevelDetails;
         this.score = score;
         this.timeLeft = timeLeft;

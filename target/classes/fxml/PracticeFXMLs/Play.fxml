@@ -17,11 +17,12 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="795.0" prefWidth="1539.0" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PracticeSection.PlayController">
    <children>
+      <AnchorPane fx:id="paneLightOff" prefHeight="795.0" prefWidth="1542.0" />
       <AnchorPane prefHeight="795.0" prefWidth="1539.0" style="-fx-background-color: #5eaaef; -fx-background-radius: 15;" stylesheets="@../../css/play.css">
          <children>
             <Pane layoutX="590.0" layoutY="-1.0" prefHeight="82.0" prefWidth="948.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@../../css/play.css">
                <children>
-                  <Label fx:id="lbUsername" alignment="TOP_CENTER" contentDisplay="RIGHT" layoutX="486.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="178.0" text="khangkhangkhang" textAlignment="CENTER">
+                  <Label fx:id="lbUsername" alignment="TOP_CENTER" contentDisplay="RIGHT" layoutX="681.0" layoutY="12.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="178.0" text="khangkhangkhang" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -32,11 +33,17 @@
                      </font>
                   </Button>
                   <ImageView fitHeight="66.0" fitWidth="75.0" layoutX="669.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imagePlayer" fitHeight="66.0" fitWidth="75.0" layoutX="664.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imagePlayer" fitHeight="66.0" fitWidth="75.0" layoutX="859.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lbAccountLevel" layoutX="652.0" layoutY="41.0" prefHeight="34.0" prefWidth="206.0" text="Lv.3 - 30/500">
+                     <font>
+                        <Font name="System Italic" size="23.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <AnchorPane layoutX="2.0" layoutY="79.0" prefHeight="716.0" prefWidth="1539.0" style="-fx-background-color: #bed7ed; -fx-background-radius: 10;">
                <children>
+                  <TextFlow fx:id="textflow" layoutX="187.0" layoutY="7.0" prefHeight="702.0" prefWidth="936.0" />
                   <Line endX="100.0" layoutX="1026.0" layoutY="18.0" startX="100.0" startY="679.2000122070312" strokeDashOffset="2.0" />
                   <FontAwesomeIconView glyphName="BOLT" layoutX="1145.0" layoutY="40.0" size="40" wrappingWidth="16.2000732421875">
                      <font>
@@ -111,7 +118,6 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
-                  <TextFlow fx:id="textflow" layoutX="187.0" layoutY="7.0" prefHeight="702.0" prefWidth="936.0" />
                   <Line endX="99.9998779296875" endY="-95.0" layoutX="1230.0" layoutY="402.0" startX="99.99993896484375" startY="36.00001525878906" />
                   <Label layoutX="1339.0" layoutY="8.0" text="WPS:">
                      <font>
@@ -134,7 +140,7 @@
                         <Font name="System Bold" size="31.0" />
                      </font>
                   </Label>
-                  <Line endX="100.0" layoutX="1242.0" layoutY="70.0" startX="100.0" startY="80.60000610351562" />
+                  <Line endX="100.0" endY="-8.400009155273438" layoutX="1242.0" layoutY="70.0" startX="100.0" startY="80.60000610351562" />
                   <Label layoutX="1378.0" layoutY="57.0" text="Combo:">
                      <font>
                         <Font name="System Bold" size="25.0" />

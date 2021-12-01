@@ -95,6 +95,8 @@ public class PlayController {
     private Label lbPassive;
     @FXML
     private Label lbActive;
+    @FXML
+    private Label lbAccountLevel;
     private static final String NOT_TYPED_PATH = FilePath.getNotTyped();
     private static final String TYPED_PATH = FilePath.getTYPED();
     private static final String ORIGINAL_PATH = FilePath.getORIGINAL();
@@ -156,8 +158,28 @@ public class PlayController {
             cbbPassive.setDisable(true);
             setItemToDefault();
             lbPassive.setStyle("-fx-text-fill: red");
+            lbActive.setStyle("-fx-text-fill: red;");
             Shop choosePassive = cbbPassive.getSelectionModel().getSelectedItem();
             Shop chooseActive = cbbActive.getSelectionModel().getSelectedItem();
+            InventoryDao inventoryDao = new InventoryDao();
+            List<Inventory> invs = inventoryDao.getAll();
+            invs = invs.stream().filter(ev->{
+                if(ev.getItem().getIdItem().equals(choosePassive.getIdItem())&&ev.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }).collect(Collectors.toList());
+            if(!invs.isEmpty()){
+                Inventory inv = invs.get(0);
+                inv.setCurrentlyHave(inv.getCurrentlyHave()-1);
+                inv.setTimeUsed(inv.getTimeUsed()+1);
+                inventoryDao.update(inv);
+                ShopDao shopDao = new ShopDao();
+                Shop item = shopDao.get(inv.getItem().getIdItem());
+                item.setTimeUsed(item.getTimeUsed()+1);
+                shopDao.update(item);
+            }
             switch (choosePassive.getIdItem()) {
                 case "IT1": {
                     shield += 1;//
@@ -269,6 +291,7 @@ public class PlayController {
                     break;
                 }
                 case "ITNone": {
+                    lbActive.setText("Not use");
                     break;
                 }
             }
@@ -311,6 +334,7 @@ public class PlayController {
             hlPublisher.setText(publisher.getUsername());
             lbLevelName.setText(level2.getNameLevel());
             lbUsername.setText(accountPlay.getUsername());
+            lbAccountLevel.setText("Lv."+accountPlay.getAccountLevel()+" - "+accountPlay.getLevelExp()+"/"+accountPlay.getLevelCap());
             Image image = new Image(new FileInputStream(publisher.getPathImage()));
             imagePublisher.setImage(image);
             Image image2 = new Image(new FileInputStream(accountPlay.getPathImage()));
@@ -387,6 +411,7 @@ public class PlayController {
             hlPublisher.setText(publisher.getUsername());
             lbLevelName.setText(level2.getNameLevel());
             lbUsername.setText(accountPlay.getUsername());
+            lbAccountLevel.setText("Lv."+accountPlay.getAccountLevel()+" - "+accountPlay.getLevelExp()+"/"+accountPlay.getLevelCap());
             showLeaderboard();
             BindDataToCombobox();
             Image image = new Image(new FileInputStream(publisher.getPathImage()));
@@ -436,7 +461,25 @@ public class PlayController {
                 double total_minutes = (((double) second2 / 60) + minute2);
                 int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
                 if (input.equals("~")) {
-                    lbActive.setStyle("-fx-text-fill: red;");
+                    InventoryDao inventoryDao = new InventoryDao();
+                    ShopDao shopDao = new ShopDao();
+                    List<Inventory> invs = inventoryDao.getAll();
+                    invs = invs.stream().filter(e->{
+                        if(e.getItem().getIdItem().equals(cbbActive.getSelectionModel().getSelectedItem().getIdItem())){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }).collect(Collectors.toList());
+                    if(!invs.isEmpty()){
+                        Inventory inv = invs.get(0);
+                        Shop item = shopDao.get(inv.getItem().getIdItem());
+                        inv.setCurrentlyHave(inv.getCurrentlyHave()-1);
+                        inv.setTimeUsed(inv.getTimeUsed()+1);
+                        inventoryDao.update(inv);
+                        item.setTimeUsed(item.getTimeUsed()+1);
+                        shopDao.update(item);
+                    }
                     if (immune1) {
                         secondPerk = 3;
                         CountDownTimerPerk();
