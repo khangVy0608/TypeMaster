@@ -17,6 +17,9 @@ public class Account extends Role {
     private Boolean gender;
     private Integer coin;
     private String verificationCode;
+    private Integer accountLevel;
+    private Integer levelCap;
+    private Integer levelExp;
     private String uud;
     //region get-set
 
@@ -127,13 +130,38 @@ public class Account extends Role {
     public void setCoin(Integer coin) {
         this.coin = coin;
     }
+
+    public Integer getAccountLevel() {
+        return accountLevel;
+    }
+
+    public void setAccountLevel(Integer accountLevel) {
+        this.accountLevel = accountLevel;
+    }
+
+    public Integer getLevelCap() {
+        return levelCap;
+    }
+
+    public void setLevelCap(Integer levelCap) {
+        this.levelCap = levelCap;
+    }
+
+    public Integer getLevelExp() {
+        return levelExp;
+    }
+
+    public void setLevelExp(Integer levelExp) {
+        this.levelExp = levelExp;
+    }
     //endregion
     //region Constructor
 
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,Integer countLoginDate ,String pathImage, String fullName, Date dob,Boolean gender,Integer coin, String verificationCode,String uud,String idRole, String nameRole) {
+    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,Integer countLoginDate ,String pathImage, String fullName, Date dob,Boolean gender,Integer coin, String verificationCode,String uud,Integer accountLevel,Integer levelCap
+                   ,Integer levelExp,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -149,8 +177,14 @@ public class Account extends Role {
         this.countLoginDate = countLoginDate;
         this.gender = gender;
         this.coin = coin;
+        this.accountLevel = accountLevel;
+        this.levelCap = levelCap;
+        this.levelExp = levelExp;
     }
-    public Account(String idAccount, String username, String password, String email,String fullName, Date dob, String verificationCode,String uud,String idRole, String nameRole) {
+
+
+    public Account(String idAccount, String username, String password, String email,String fullName, Date dob, String verificationCode,String uud,Integer accountLevel,Integer levelCap
+            ,Integer levelExp,String idRole, String nameRole) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -160,6 +194,9 @@ public class Account extends Role {
         this.dob = dob;
         this.verificationCode = verificationCode;
         this.uud = uud;
+        this.accountLevel = accountLevel;
+        this.levelCap = levelCap;
+        this.levelExp = levelExp;
     }
     public Account(String idAccount,String username) {
         this.idAccount = idAccount;

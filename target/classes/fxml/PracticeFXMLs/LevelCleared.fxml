@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1317.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PracticeSection.LevelClearedController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="793.0" prefWidth="1493.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.PracticeSection.LevelClearedController">
    <children>
       <Label layoutX="16.0" layoutY="28.0" text="Level Cleared" textFill="#215963">
          <font>
@@ -34,7 +34,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Line endX="417.0" endY="-1.52587890625E-5" layoutX="214.0" layoutY="178.0" startX="-199.59999084472656" startY="-1.52587890625E-5" />
+      <Line endX="508.0" endY="-1.52587890625E-5" layoutX="214.0" layoutY="178.0" startX="-199.59999084472656" startY="-1.52587890625E-5" />
       <Label layoutX="28.0" layoutY="365.0" text="WPM">
          <font>
             <Font size="22.0" />
@@ -183,7 +183,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="btnRetry" layoutX="1021.0" layoutY="647.0" mnemonicParsing="false" onMouseClicked="#btnRetryClicked" prefHeight="54.0" prefWidth="139.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Retry">
+      <Button fx:id="btnRetry" layoutX="1185.0" layoutY="724.0" mnemonicParsing="false" onMouseClicked="#btnRetryClicked" prefHeight="54.0" prefWidth="139.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Retry">
          <graphic>
             <FontAwesomeIconView glyphName="REFRESH" size="15" />
          </graphic>
@@ -191,7 +191,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnMenu" layoutX="1169.0" layoutY="647.0" mnemonicParsing="false" onMouseClicked="#btnMenuClicked" prefHeight="54.0" prefWidth="139.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Menu">
+      <Button fx:id="btnMenu" layoutX="1339.0" layoutY="724.0" mnemonicParsing="false" onMouseClicked="#btnMenuClicked" prefHeight="54.0" prefWidth="139.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Menu">
          <graphic>
             <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" />
          </graphic>
@@ -209,15 +209,15 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <LineChart fx:id="lineChart" layoutX="631.0" layoutY="8.0" prefHeight="637.0" prefWidth="681.0" title="RESULT CHART" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="631.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0">
+      <LineChart fx:id="lineChart" layoutX="722.0" layoutY="8.0" prefHeight="705.0" prefWidth="760.0" title="RESULT CHART" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="722.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="8.0">
         <xAxis>
-          <NumberAxis label="second(s)" side="BOTTOM" />
+          <NumberAxis label="second(s)" prefWidth="603.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis label="value" prefHeight="557.0" prefWidth="41.0" side="LEFT" />
         </yAxis>
       </LineChart>
-      <ComboBox fx:id="cbbChartElement" layoutX="684.0" layoutY="661.0" prefHeight="26.0" prefWidth="314.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+      <ComboBox fx:id="cbbChartElement" layoutX="766.0" layoutY="738.0" prefHeight="26.0" prefWidth="373.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
       <ImageView fitHeight="30.0" fitWidth="33.0" layoutX="303.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../image/ShopItem/TimeFlow.png" />
@@ -248,27 +248,27 @@
             <Font name="System Bold" size="34.0" />
          </font>
       </Label>
-      <ImageView fitHeight="74.0" fitWidth="86.0" layoutX="12.0" layoutY="615.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="74.0" fitWidth="86.0" layoutX="12.0" layoutY="705.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../image/ShopItem/coin.png" />
          </image>
       </ImageView>
-      <Label layoutX="92.0" layoutY="622.0" text="Coin Earned:">
+      <Label layoutX="92.0" layoutY="712.0" text="Coin Earned:">
          <font>
             <Font name="System Bold Italic" size="38.0" />
          </font>
       </Label>
-      <Label fx:id="lbCoinEarned" alignment="CENTER" layoutX="303.0" layoutY="611.0" prefHeight="74.0" prefWidth="162.0" text="3000">
+      <Label fx:id="lbCoinEarned" alignment="CENTER" layoutX="303.0" layoutY="701.0" prefHeight="74.0" prefWidth="162.0" text="3000">
          <font>
             <Font name="System Bold Italic" size="50.0" />
          </font>
       </Label>
-      <ImageView fitHeight="50.0" fitWidth="53.0" layoutX="449.0" layoutY="623.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="53.0" layoutX="449.0" layoutY="713.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../image/ShopItem/coin.png" />
          </image>
       </ImageView>
-      <Label layoutX="174.0" layoutY="440.0" text="Total">
+      <Label layoutX="139.0" layoutY="440.0" text="Total+Perks">
          <font>
             <Font name="System Italic" size="23.0" />
          </font>
@@ -281,6 +281,16 @@
       <Label layoutX="504.0" layoutY="440.0" text="Total">
          <font>
             <Font name="System Italic" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="622.0" text="Exp Earned:">
+         <font>
+            <Font name="System Bold Italic" size="38.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbExp" alignment="CENTER" layoutX="224.0" layoutY="612.0" prefHeight="74.0" prefWidth="526.0" text="3000">
+         <font>
+            <Font name="System Bold Italic" size="50.0" />
          </font>
       </Label>
    </children>

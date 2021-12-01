@@ -98,14 +98,16 @@ public class ViewProfileController {
             }
         }
         if(logs.isEmpty()&&details.isEmpty()){
-            lbUsername.setText(account.getUsername());
-            lbTotalDate.setText(account.getCountLoginDate()+"");
-            lbCreateDay.setText("---");
-            lbCreateMonth.setText("---");
-            lbCreateYear.setText("---");
-            lbRecentDay.setText("---");
-            lbRecentMonth.setText("---");
-            lbRecentYear.setText("---");
+            Calendar c = Calendar.getInstance();
+            lbUsername.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
+            lbTotalDate.setText(account.getCountLoginDate() + "");
+            lbCreateDay.setText(c.get(Calendar.DAY_OF_MONTH) + "");
+            lbCreateMonth.setText(months[c.get(Calendar.MONTH)]);
+            lbCreateYear.setText(String.valueOf(c.get(Calendar.YEAR)));
+            c.setTime(account.getLatestLoginDate());
+            lbRecentDay.setText(c.get(Calendar.DAY_OF_MONTH) + "");
+            lbRecentMonth.setText(months[c.get(Calendar.MONTH)]);
+            lbRecentYear.setText(String.valueOf(c.get(Calendar.YEAR)));
             lbWPM.setText("---");
             lbAccuracy.setText("---");
             lbWrong.setText("---");
@@ -115,7 +117,7 @@ public class ViewProfileController {
         } else {
             Calendar c = Calendar.getInstance();
             c.setTime(account.getCreateDate());
-            lbUsername.setText(account.getUsername());
+            lbUsername.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
             lbTotalDate.setText(account.getCountLoginDate() + "");
             lbCreateDay.setText(c.get(Calendar.DAY_OF_MONTH) + "");
             lbCreateMonth.setText(months[c.get(Calendar.MONTH)]);

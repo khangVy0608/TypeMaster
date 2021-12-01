@@ -40,6 +40,9 @@ public class AccountDao implements Dao<Account> {
                         obj.getString("coin").equals("null") ? null : Integer.valueOf(obj.getString("coin")),
                         obj.getString("verificationCode").equals("null") ? null : obj.getString("verificationCode"),
                         obj.getString("uud").equals("null") ? null : obj.getString("uud"),
+                        obj.getString("accountLevel").equals("null")?null:Integer.valueOf(obj.getString("accountLevel")),
+                        obj.getString("levelCap").equals("null")?null:Integer.valueOf(obj.getString("levelCap")),
+                        obj.getString("levelExp").equals("null")?null:Integer.valueOf(obj.getString("levelExp")),
                         obj.getString("idRole").equals("null") ? null : obj.getString("idRole"),
                         obj.getString("nameRole").equals("null") ? null : obj.getString("nameRole")
                 ));
@@ -72,6 +75,9 @@ public class AccountDao implements Dao<Account> {
                         obj.getString("coin").equals("null") ? null : Integer.valueOf(obj.getString("coin")),
                         obj.getString("verificationCode").equals("null") ? null : obj.getString("verificationCode"),
                         obj.getString("uud").equals("null") ? null : obj.getString("uud"),
+                        obj.getString("accountLevel").equals("null")?null:Integer.valueOf(obj.getString("accountLevel")),
+                        obj.getString("levelCap").equals("null")?null:Integer.valueOf(obj.getString("levelCap")),
+                        obj.getString("levelExp").equals("null")?null:Integer.valueOf(obj.getString("levelExp")),
                         obj.getString("idRole").equals("null") ? null : obj.getString("idRole"),
                         obj.getString("nameRole").equals("null") ? null : obj.getString("nameRole")
                 ));
@@ -100,6 +106,9 @@ public class AccountDao implements Dao<Account> {
             jsonObject.put("coin", acc.getCoin());
             jsonObject.put("verificationCode", acc.getVerificationCode());
             jsonObject.put("uud", acc.getUud());
+            jsonObject.put("accountLevel", acc.getAccountLevel());
+            jsonObject.put("levelCap", acc.getLevelCap());
+            jsonObject.put("levelExp", acc.getLevelExp());
             jsonObject.put("idRole", acc.getIdRole());
             crudAPI.post(jsonObject, url);
         } catch (Exception e) {
@@ -124,6 +133,9 @@ public class AccountDao implements Dao<Account> {
             jsonObject.put("coin", acc.getCoin());
             jsonObject.put("verificationCode", acc.getVerificationCode());
             jsonObject.put("uud", acc.getUud());
+            jsonObject.put("accountLevel", acc.getAccountLevel());
+            jsonObject.put("levelCap", acc.getLevelCap());
+            jsonObject.put("levelExp", acc.getLevelExp());
             jsonObject.put("idRole", acc.getIdRole());
             crudAPI.put(jsonObject, url + "/" + acc.getIdAccount());
         } catch (Exception e) {

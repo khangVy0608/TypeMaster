@@ -117,8 +117,8 @@ public class Level extends Account{
         this.mode = mode;
     }
 
-    public Level(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud, String idRole, String nameRole, String idLevel, String name, Integer numLike, Date createDate, Date updatedDate, String levelContent, Integer totalWords, String time, Difficulty difficulty, Mode mode) {
-        super(idAccount, username, password, email, fullName, dob, verificationCode, uud, idRole, nameRole);
+    public Level(String idAccount, String username, String password, String email, String fullName, Date dob, String verificationCode, String uud,Integer accountLevel,Integer levelCap,Integer levelExp, String idRole, String nameRole, String idLevel, String name, Integer numLike, Date createDate, Date updatedDate, String levelContent, Integer totalWords, String time, Difficulty difficulty, Mode mode) {
+        super(idAccount, username, password, email, fullName, dob, verificationCode, uud,accountLevel,levelCap,levelExp, idRole, nameRole);
         this.idLevel = idLevel;
         this.nameLevel = name;
         this.numLike = numLike;

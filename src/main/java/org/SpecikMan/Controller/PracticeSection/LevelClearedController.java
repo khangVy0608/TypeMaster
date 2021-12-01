@@ -85,7 +85,8 @@ public class LevelClearedController {
     private Label lbComboScore;
     @FXML
     private Label lbCoinEarned;
-
+    @FXML
+    private Label lbExp;
     public void initialize() {
         String[] data = Objects.requireNonNull(FileRW.Read(FilePath.getPlayResult())).split("-");
         lbWPS.setText(data[0]);
@@ -186,7 +187,22 @@ public class LevelClearedController {
                 logDao.add(log);
             }
         }
-        account.setCoin(account.getCoin()+Integer.parseInt(lbCoinEarned.getText()));
+        account.setCoin(account.getCoin() + Integer.parseInt(lbCoinEarned.getText()));
+        int currentLevel = account.getAccountLevel();
+        int currentExp = account.getLevelExp();
+        int expCap = account.getLevelCap();
+        int expGet = Integer.parseInt(lbCoinEarned.getText());
+        if (currentExp + expGet > expCap) {
+            expCap+=((currentExp + expGet)/500)*50;
+            currentLevel += (currentExp + expGet)/500;
+            currentExp =  (currentExp + expGet)%500;
+        } else {
+            currentExp+=expGet;
+        }
+        lbExp.setText(lbCoinEarned.getText()+" -> Lv."+currentLevel+" - "+currentExp+"/"+expCap);
+        account.setLevelExp(currentExp);
+        account.setAccountLevel(currentLevel);
+        account.setLevelCap(expCap);
         accountDao.update(account);
         BindDataToChart();
         BindDataToCombobox();

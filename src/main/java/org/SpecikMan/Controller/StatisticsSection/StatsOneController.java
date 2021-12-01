@@ -72,7 +72,7 @@ public class StatsOneController {
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         Calendar c = Calendar.getInstance();
         c.setTime(account.getCreateDate());
-        lbUsername.setText(account.getUsername());
+        lbUsername.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
         lbTotalDate.setText(account.getCountLoginDate() + "");
         lbCreateDay.setText(c.get(Calendar.DAY_OF_MONTH) + "");
         lbCreateMonth.setText(months[c.get(Calendar.MONTH)]);
