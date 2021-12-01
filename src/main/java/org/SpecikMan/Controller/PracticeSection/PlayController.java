@@ -93,6 +93,8 @@ public class PlayController {
     private AnchorPane apYour;
     @FXML
     private Label lbPassive;
+    @FXML
+    private Label lbActive;
     private static final String NOT_TYPED_PATH = FilePath.getNotTyped();
     private static final String TYPED_PATH = FilePath.getTYPED();
     private static final String ORIGINAL_PATH = FilePath.getORIGINAL();
@@ -115,23 +117,27 @@ public class PlayController {
     private String ddSecond4, ddMinute4;
     private Timer timer3;
     private int second3;
+    private Timer timerPerk;
+    private int secondPerk, minutePerk;
+    private String ddSecondPerk, ddMinutePerk;
     //Item vars
     private int shield = 0;//
     private boolean time1 = false;//
     private boolean time2 = false;//
     private boolean time3 = false;//
-    private boolean timeFlow = false;
     private boolean x2 = false;
+    private int x2Remain = 0;
     private boolean x3 = false;
+    private int x3Remain = 0;
     private boolean combo1 = false;//
     private boolean combo2 = false;//
     private boolean combo3 = false;//
     private boolean run1 = false;//
     private boolean run2 = false;//
     private boolean run3 = false;//
-    private boolean speed1 = false;
-    private boolean speed2 = false;
-    private boolean speed3 = false;
+    private boolean speed1 = false;//
+    private boolean speed2 = false;//
+    private boolean speed3 = false;//
     private boolean immune1 = false;
     private boolean immune2 = false;
     private boolean immune3 = false;
@@ -235,27 +241,23 @@ public class PlayController {
             }
             switch (chooseActive.getIdItem()) {
                 case "IT4": {
-                    immune1 = true;
+                    immune1 = true;//
                     break;
                 }
                 case "IT5": {
-                    immune2 = true;
+                    immune2 = true;//
                     break;
                 }
                 case "IT6": {
-                    immune3 = true;
+                    immune3 = true;//
                     break;
                 }
                 case "IT7": {
-                    stopwatch1 = true;
+                    stopwatch1 = true;//
                     break;
                 }
                 case "IT8": {
-                    stopwatch2 = true;
-                    break;
-                }
-                case "IT12": {
-                    timeFlow = true;
+                    stopwatch2 = true;//
                     break;
                 }
                 case "IT13": {
@@ -433,151 +435,411 @@ public class PlayController {
                 String input = event.getCharacter();
                 double total_minutes = (((double) second2 / 60) + minute2);
                 int total_words = Objects.requireNonNull(FileRW.Read(TYPED_PATH)).replaceAll("\\s+", "").length();
+                if (input.equals("~")) {
+                    lbActive.setStyle("-fx-text-fill: red;");
+                    if (immune1) {
+                        secondPerk = 3;
+                        CountDownTimerPerk();
+                        timerPerk.start();
+                        immune1 = false;
+                        lbActive.setText("Immune Lv1 is activated");
+                    }
+                    if (immune2) {
+                        secondPerk = 5;
+                        CountDownTimerPerk();
+                        timerPerk.start();
+                        immune2 = false;
+                        lbActive.setText("Immune Lv2 is activated");
+                    }
+                    if (immune3) {
+                        secondPerk = 7;
+                        CountDownTimerPerk();
+                        timerPerk.start();
+                        immune3 = false;
+                        lbActive.setText("Immune Lv3 is activated");
+                    }
+                    if (stopwatch1) {
+                        timer.stop();
+                        timer2.stop();
+                        secondPerk = 4;
+                        CountDownTimerPerk();
+                        timerPerk.start();
+                        stopwatch1 = false;
+                        lbActive.setText("Stopwatch Lv1 is activated");
+                    }
+                    if (stopwatch2) {
+                        timer.stop();
+                        timer2.stop();
+                        secondPerk = 7;
+                        CountDownTimerPerk();
+                        timerPerk.start();
+                        stopwatch2 = false;
+                        lbActive.setText("Stopwatch Lv2 is activated");
+                    }
+                    if (x2) {
+                        x2Remain = 20;
+                        x2 = false;
+                        lbActive.setText("X2 Correct is activated. Remaining:"+x2Remain);
+                    }
+                    if (x3) {
+                        x3Remain = 20;
+                        lbActive.setText("X2 Correct is activated. Remaining:"+x3Remain);
+                    }
+                }
                 if (!input.equals(" ")) {
                     switch (level.getMode().getNameMode()) {
                         case "Normal": {
                             if (btnPause.getText().equals("Pause")) {
-                                if (String.valueOf(notTyped[1]).equals("_")) {
-                                    if (String.valueOf(notTyped[0]).equals(input)) {
-                                        textflow.getChildren().clear();
-                                        notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                        typed = Arrays.copyOf(typed, typed.length + 1);
-                                        typed[typed.length - 1] = input.toCharArray()[0];
-                                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                        notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                        for (char i : typed) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        for (char i : notTyped) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        correct++;
-                                        total++;
-                                        combo++;
-                                        if (combo > maxCombo) {
-                                            maxCombo = combo;
-                                        }
-                                        if (combo % 100 == 0) {
-                                            lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                        }
-                                        comboScore +=combo * 50L;
-                                        lbCorrect.setText(String.valueOf(correct));
-                                        lbTotal.setText(String.valueOf(total));
-                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                        lbCombo.setText(String.valueOf(combo));
-                                        lbMaxCombo.setText(maxCombo + "");
-                                        long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
-                                        if(combo1){
-                                            if(combo%30==0){
-                                                score+=10000;
+                                if(!input.equals("~")){
+                                    if (String.valueOf(notTyped[1]).equals("_")) {
+                                        if (String.valueOf(notTyped[0]).equals(input)) {
+                                            textflow.getChildren().clear();
+                                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                            typed = Arrays.copyOf(typed, typed.length + 1);
+                                            typed[typed.length - 1] = input.toCharArray()[0];
+                                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                            for (char i : typed) {
+                                                Label tmp = new Label(String.valueOf(i));
+                                                tmp.setStyle("-fx-font-size: 17;");
+                                                textflow.getChildren().add(tmp);
                                             }
-                                        }
-                                        if(combo2){
-                                            if(combo%40==0){
-                                                score+=15000;
+                                            for (char i : notTyped) {
+                                                Label tmp = new Label(String.valueOf(i));
+                                                tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                textflow.getChildren().add(tmp);
                                             }
-                                        }
-                                        if(combo3){
-                                            if(combo%50==0){
-                                                score+=20000;
-                                            }
-                                        }
-                                        if(run3){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
-                                                score+=100000;
-                                            } else {
-                                                score-=50000;
-                                            }
-                                        }
-                                        if(run2){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
-                                                score+=75000;
-                                            } else {
-                                                score-=30000;
-                                            }
-                                        }
-                                        if(run1){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
-                                                score+=50000;
-                                            } else {
-                                                score-=25000;
-                                            }
-                                        }
-                                        if(speed1){
-                                            if(Double.parseDouble(lbWPM.getText())>50.0){
-                                                score = (score*107)/100;
-                                            } else {
-                                                score = (score*86)/100;
-                                            }
-                                        }
-                                        if(speed2){
-                                            if(Double.parseDouble(lbWPM.getText())>70.0){
-                                                score = (score*114)/100;
-                                            } else {
-                                                score = (score*72)/100;
-                                            }
-                                        }
-                                        if(speed3){
-                                            if(Double.parseDouble(lbWPM.getText())>90.0){
-                                                score = (score*120)/100;
-                                            } else {
-                                                score = (score*60)/100;
-                                            }
-                                        }
-                                        lbScore.setText(score + "");
-                                        showLeaderboard();
-                                        timer.stop();
-                                        timer2.stop();
-                                        transferData();
-                                        chartData();
-                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
-                                        if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            resetStatus();
-                                            btnRetry.setVisible(false);
-                                        } else {
-                                            DisposeForm.Dispose(lbScore);
-                                        }
-                                    } else {
-                                        if (shield == 0) {
-                                            wrong++;
+                                            correct++;
                                             total++;
-                                            combo = 0;
-                                            lbWrong.setText(String.valueOf(wrong));
+                                            combo++;
+                                            if (combo > maxCombo) {
+                                                maxCombo = combo;
+                                            }
+                                            if (combo % 100 == 0) {
+                                                lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                            }
+                                            comboScore += combo * 50L;
+                                            lbCorrect.setText(String.valueOf(correct));
                                             lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
                                             lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                            if(combo1){
-                                                score-=5000;
+                                            lbCombo.setText(String.valueOf(combo));
+                                            lbMaxCombo.setText(maxCombo + "");
+                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                            if (x2Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x2Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
                                             }
-                                            if(combo2){
-                                                score-=10000;
+                                            if (x3Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x3Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                            }
+                                            if (combo1) {
+                                                if (combo % 30 == 0) {
+                                                    score += 10000;
+                                                }
+                                            }
+                                            if (combo2) {
+                                                if (combo % 40 == 0) {
+                                                    score += 15000;
+                                                }
                                             }
                                             if(combo3){
-                                                score-=15000;
+                                                if(combo%50==0){
+                                                    score+=20000;
+                                                }
+                                            }
+                                            if(run3){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
+                                                    score+=100000;
+                                                } else {
+                                                    score-=50000;
+                                                }
+                                            }
+                                            if(run2){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
+                                                    score+=75000;
+                                                } else {
+                                                    score-=30000;
+                                                }
+                                            }
+                                            if(run1){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
+                                                    score+=50000;
+                                                } else {
+                                                    score-=25000;
+                                                }
+                                            }
+                                            if(speed1){
+                                                if(Double.parseDouble(lbWPM.getText())>50.0){
+                                                    score = (score*107)/100;
+                                                } else {
+                                                    score = (score*86)/100;
+                                                }
+                                            }
+                                            if(speed2){
+                                                if(Double.parseDouble(lbWPM.getText())>70.0){
+                                                    score = (score*114)/100;
+                                                } else {
+                                                    score = (score*72)/100;
+                                                }
+                                            }
+                                            if(speed3){
+                                                if(Double.parseDouble(lbWPM.getText())>90.0){
+                                                    score = (score*120)/100;
+                                                } else {
+                                                    score = (score*60)/100;
+                                                }
                                             }
                                             lbScore.setText(score + "");
                                             showLeaderboard();
+                                            timer.stop();
+                                            timer2.stop();
+                                            transferData();
+                                            chartData();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        }else {
-                                            shield-=1;
-                                            lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
+                                            LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
+                                            if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                resetStatus();
+                                                btnRetry.setVisible(false);
+                                            } else {
+                                                DisposeForm.Dispose(lbScore);
+                                            }
+                                        } else {
+                                            if (secondPerk == 0) {
+                                                if (shield == 0) {
+                                                    wrong++;
+                                                    total++;
+                                                    combo = 0;
+                                                    lbWrong.setText(String.valueOf(wrong));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                    if (combo1) {
+                                                        score -= 5000;
+                                                    }
+                                                    if (combo2) {
+                                                        score -= 10000;
+                                                    }
+                                                    if (combo3) {
+                                                        score -= 15000;
+                                                    }
+                                                    lbScore.setText(score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    shield -= 1;
+                                                    lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                }
+                                            }
                                         }
-                                    }
-                                } else {
-                                    if (notTyped[0] != notTyped[notTyped.length - 1]) {
-                                        if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                    } else {
+                                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    for (char i : notTyped) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0].split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            wrong++;
+                                                            total++;
+                                                            combo = 0;
+                                                            lbWrong.setText(String.valueOf(wrong));
+                                                            lbTotal.setText(String.valueOf(total));
+                                                            lbCombo.setText(String.valueOf(combo));
+                                                            lbMaxCombo.setText(maxCombo + "");
+                                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                            if (combo1) {
+                                                                score -= 5000;
+                                                            }
+                                                            if (combo2) {
+                                                                score -= 10000;
+                                                            }
+                                                            if (combo3) {
+                                                                score -= 15000;
+                                                            }
+                                                            lbScore.setText(score + "");
+                                                            showLeaderboard();
+                                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    for (char i : notTyped) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            wrong++;
+                                                            total++;
+                                                            combo = 0;
+                                                            lbWrong.setText(String.valueOf(wrong));
+                                                            lbTotal.setText(String.valueOf(total));
+                                                            lbCombo.setText(String.valueOf(combo));
+                                                            lbMaxCombo.setText(maxCombo + "");
+                                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                            if (combo1) {
+                                                                score -= 5000;
+                                                            }
+                                                            if (combo2) {
+                                                                score -= 10000;
+                                                            }
+                                                            if (combo3) {
+                                                                score -= 15000;
+                                                            }
+                                                            lbScore.setText(score + "");
+                                                            showLeaderboard();
+                                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
                                             if (String.valueOf(notTyped[0]).equals(input)) {
                                                 textflow.getChildren().clear();
                                                 notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
@@ -614,100 +876,24 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
+                                                if (x2Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x2Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                }
+                                                if (x3Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x3Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                }
+                                                if (combo1) {
+                                                    if (combo % 30 == 0) {
+                                                        score += 10000;
                                                     }
                                                 }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
-                                                    }
-                                                }
-                                                if(combo3){
-                                                    if(combo%50==0){
-                                                        score+=20000;
-                                                    }
-                                                }
-                                                lbScore.setText( score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0].split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            } else {
-                                                if (shield == 0) {
-                                                    wrong++;
-                                                    total++;
-                                                    combo = 0;
-                                                    lbWrong.setText(String.valueOf(wrong));
-                                                    lbTotal.setText(String.valueOf(total));
-                                                    lbCombo.setText(String.valueOf(combo));
-                                                    lbMaxCombo.setText(maxCombo + "");
-                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                    if(combo1){
-                                                        score-=5000;
-                                                    }
-                                                    if(combo2){
-                                                        score-=10000;
-                                                    }
-                                                    if(combo3){
-                                                        score-=15000;
-                                                    }
-                                                    lbScore.setText(score + "");
-                                                    showLeaderboard();
-                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                                }else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
-                                                }
-                                            }
-                                        } else {
-                                            if (String.valueOf(notTyped[0]).equals(input)) {
-                                                textflow.getChildren().clear();
-                                                notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
-                                                typed = Arrays.copyOf(typed, typed.length + 2);
-                                                typed[typed.length - 2] = input.toCharArray()[0];
-                                                typed[typed.length - 1] = " ".toCharArray()[0];
-                                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                                for (char i : typed) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                for (char i : notTyped) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                correct++;
-                                                total++;
-                                                combo++;
-                                                comboScore +=combo * 50L;
-                                                if (combo > maxCombo) {
-                                                    maxCombo = combo;
-                                                }
-                                                if (combo % 100 == 0) {
-                                                    lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                                }
-                                                lbCorrect.setText(String.valueOf(correct));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
-                                                    }
-                                                }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
+                                                if (combo2) {
+                                                    if (combo % 40 == 0) {
+                                                        score += 15000;
                                                     }
                                                 }
                                                 if(combo3){
@@ -719,123 +905,41 @@ public class PlayController {
                                                 showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
-                                                if (shield == 0) {
-                                                    wrong++;
-                                                    total++;
-                                                    combo = 0;
-                                                    lbWrong.setText(String.valueOf(wrong));
-                                                    lbTotal.setText(String.valueOf(total));
-                                                    lbCombo.setText(String.valueOf(combo));
-                                                    lbMaxCombo.setText(maxCombo + "");
-                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                    if(combo1){
-                                                        score-=5000;
+                                                if (secondPerk == 0) {
+                                                    if (shield == 0) {
+                                                        wrong++;
+                                                        total++;
+                                                        combo = 0;
+                                                        lbWrong.setText(String.valueOf(wrong));
+                                                        lbTotal.setText(String.valueOf(total));
+                                                        lbCombo.setText(String.valueOf(combo));
+                                                        lbMaxCombo.setText(maxCombo + "");
+                                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                        long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                        if (combo1) {
+                                                            score -= 5000;
+                                                        }
+                                                        if (combo2) {
+                                                            score -= 10000;
+                                                        }
+                                                        if (combo3) {
+                                                            score -= 15000;
+                                                        }
+                                                        lbScore.setText(score + "");
+                                                        showLeaderboard();
+                                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                    } else {
+                                                        shield -= 1;
+                                                        lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
                                                     }
-                                                    if(combo2){
-                                                        score-=10000;
-                                                    }
-                                                    if(combo3){
-                                                        score-=15000;
-                                                    }
-                                                    lbScore.setText(score + "");
-                                                    showLeaderboard();
-                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                                }else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
                                                 }
-                                            }
-                                        }
-                                    } else {
-                                        if (String.valueOf(notTyped[0]).equals(input)) {
-                                            textflow.getChildren().clear();
-                                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                            typed = Arrays.copyOf(typed, typed.length + 1);
-                                            typed[typed.length - 1] = input.toCharArray()[0];
-                                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                            for (char i : typed) {
-                                                Label tmp = new Label(String.valueOf(i));
-                                                tmp.setStyle("-fx-font-size: 17;");
-                                                textflow.getChildren().add(tmp);
-                                            }
-                                            for (char i : notTyped) {
-                                                Label tmp = new Label(String.valueOf(i));
-                                                tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                textflow.getChildren().add(tmp);
-                                            }
-                                            correct++;
-                                            total++;
-                                            combo++;
-                                            comboScore +=combo * 50L;
-                                            if (combo > maxCombo) {
-                                                maxCombo = combo;
-                                            }
-                                            if (combo % 100 == 0) {
-                                                lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                            }
-                                            lbCorrect.setText(String.valueOf(correct));
-                                            lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
-                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                            if(combo1){
-                                                if(combo%30==0){
-                                                    score+=10000;
-                                                }
-                                            }
-                                            if(combo2){
-                                                if(combo%40==0){
-                                                    score+=15000;
-                                                }
-                                            }
-                                            if(combo3){
-                                                if(combo%50==0){
-                                                    score+=20000;
-                                                }
-                                            }
-                                            lbScore.setText( score + "");
-                                            showLeaderboard();
-                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        } else {
-                                            if (shield == 0) {
-                                                wrong++;
-                                                total++;
-                                                combo = 0;
-                                                lbWrong.setText(String.valueOf(wrong));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                if(combo1){
-                                                    score-=5000;
-                                                }
-                                                if(combo2){
-                                                    score-=10000;
-                                                }
-                                                if(combo3){
-                                                    score-=15000;
-                                                }
-                                                lbScore.setText(score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            }else {
-                                                shield-=1;
-                                                lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
                                             }
                                         }
                                     }
                                 }
+
                             } else {
                                 char[] chars = Objects.requireNonNull(FileRW.Read(ORIGINAL_PATH)).toCharArray();
                                 textflow.getChildren().clear();
@@ -850,131 +954,310 @@ public class PlayController {
                         }
                         case "Instant Death": {
                             if (btnPause.getText().equals("Pause")) {
-                                if (String.valueOf(notTyped[1]).equals("_")) {
-                                    if (String.valueOf(notTyped[0]).equals(input)) {
-                                        textflow.getChildren().clear();
-                                        notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                        typed = Arrays.copyOf(typed, typed.length + 1);
-                                        typed[typed.length - 1] = input.toCharArray()[0];
-                                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                        notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                        for (char i : typed) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        for (char i : notTyped) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        correct++;
-                                        total++;
-                                        combo++;
-                                        comboScore +=combo * 50L;
-                                        if (combo > maxCombo) {
-                                            maxCombo = combo;
-                                        }
-                                        if (combo % 100 == 0) {
-                                            lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                        }
-                                        lbCorrect.setText(String.valueOf(correct));
-                                        lbTotal.setText(String.valueOf(total));
-                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                        lbCombo.setText(String.valueOf(combo));
-                                        lbMaxCombo.setText(maxCombo + "");
-                                        long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
-                                        if(combo1){
-                                            if(combo%30==0){
-                                                score+=10000;
+                                if(!input.equals("~")){
+                                    if (String.valueOf(notTyped[1]).equals("_")) {
+                                        if (String.valueOf(notTyped[0]).equals(input)) {
+                                            textflow.getChildren().clear();
+                                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                            typed = Arrays.copyOf(typed, typed.length + 1);
+                                            typed[typed.length - 1] = input.toCharArray()[0];
+                                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                            for (char i : typed) {
+                                                Label tmp = new Label(String.valueOf(i));
+                                                tmp.setStyle("-fx-font-size: 17;");
+                                                textflow.getChildren().add(tmp);
                                             }
-                                        }
-                                        if(combo2){
-                                            if(combo%40==0){
-                                                score+=15000;
+                                            for (char i : notTyped) {
+                                                Label tmp = new Label(String.valueOf(i));
+                                                tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                textflow.getChildren().add(tmp);
                                             }
-                                        }
-                                        if(combo3){
-                                            if(combo%50==0){
-                                                score+=20000;
+                                            correct++;
+                                            total++;
+                                            combo++;
+                                            comboScore +=combo * 50L;
+                                            if (combo > maxCombo) {
+                                                maxCombo = combo;
                                             }
-                                        }
-                                        if(run1){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
-                                                score+=100000;
-                                            } else {
-                                                score-=50000;
+                                            if (combo % 100 == 0) {
+                                                lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
                                             }
-                                        }
-                                        if(run2){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
-                                                score+=75000;
-                                            } else {
-                                                score-=30000;
+                                            lbCorrect.setText(String.valueOf(correct));
+                                            lbTotal.setText(String.valueOf(total));
+                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                            lbCombo.setText(String.valueOf(combo));
+                                            lbMaxCombo.setText(maxCombo + "");
+                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                            if (x2Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x2Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
                                             }
-                                        }
-                                        if(run3){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
-                                                score+=50000;
-                                            } else {
-                                                score-=25000;
+                                            if (x3Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x3Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
                                             }
-                                        }
-                                        if(speed1){
-                                            if(Double.parseDouble(lbWPM.getText())>50.0){
-                                                score = (score*107)/100;
-                                            } else {
-                                                score = (score*86)/100;
+                                            if (combo1) {
+                                                if (combo % 30 == 0) {
+                                                    score += 10000;
+                                                }
                                             }
-                                        }
-                                        if(speed2){
-                                            if(Double.parseDouble(lbWPM.getText())>70.0){
-                                                score = (score*114)/100;
-                                            } else {
-                                                score = (score*72)/100;
+                                            if (combo2) {
+                                                if (combo % 40 == 0) {
+                                                    score += 15000;
+                                                }
                                             }
-                                        }
-                                        if(speed3){
-                                            if(Double.parseDouble(lbWPM.getText())>90.0){
-                                                score = (score*120)/100;
-                                            } else {
-                                                score = (score*60)/100;
+                                            if(combo3){
+                                                if(combo%50==0){
+                                                    score+=20000;
+                                                }
                                             }
-                                        }
-                                        lbScore.setText( score + "");
-                                        showLeaderboard();
-                                        timer.stop();
-                                        timer2.stop();
-                                        transferData();
-                                        chartData();
-                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
-                                        if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            resetStatus();
-                                        } else {
-                                            DisposeForm.Dispose(lbScore);
-                                        }
-                                    } else {
-                                        if(shield==0) {
+                                            if(run1){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
+                                                    score+=100000;
+                                                } else {
+                                                    score-=50000;
+                                                }
+                                            }
+                                            if(run2){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
+                                                    score+=75000;
+                                                } else {
+                                                    score-=30000;
+                                                }
+                                            }
+                                            if(run3){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
+                                                    score+=50000;
+                                                } else {
+                                                    score-=25000;
+                                                }
+                                            }
+                                            if(speed1){
+                                                if(Double.parseDouble(lbWPM.getText())>50.0){
+                                                    score = (score*107)/100;
+                                                } else {
+                                                    score = (score*86)/100;
+                                                }
+                                            }
+                                            if(speed2){
+                                                if(Double.parseDouble(lbWPM.getText())>70.0){
+                                                    score = (score*114)/100;
+                                                } else {
+                                                    score = (score*72)/100;
+                                                }
+                                            }
+                                            if(speed3){
+                                                if(Double.parseDouble(lbWPM.getText())>90.0){
+                                                    score = (score*120)/100;
+                                                } else {
+                                                    score = (score*60)/100;
+                                                }
+                                            }
+                                            lbScore.setText( score + "");
+                                            showLeaderboard();
                                             timer.stop();
                                             timer2.stop();
-                                            LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                            transferData();
+                                            chartData();
+                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                            LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
                                             if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
                                                 resetStatus();
                                             } else {
                                                 DisposeForm.Dispose(lbScore);
                                             }
                                         } else {
-                                            shield-=1;
-                                            lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
+                                            if (secondPerk == 0) {
+                                                if (shield == 0) {
+                                                    timer.stop();
+                                                    timer2.stop();
+                                                    LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                                    if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                        resetStatus();
+                                                    } else {
+                                                        DisposeForm.Dispose(lbScore);
+                                                    }
+                                                } else {
+                                                    shield -= 1;
+                                                    lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                }
+                                            }
                                         }
-                                    }
-                                } else {
-                                    if (notTyped[0] != notTyped[notTyped.length - 1]) {
-                                        if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                    } else {
+                                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    for (char i : notTyped) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            timer.stop();
+                                                            timer2.stop();
+                                                            LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                                            if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                                resetStatus();
+                                                            } else {
+                                                                DisposeForm.Dispose(lbScore);
+                                                            }
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    for (char i : notTyped) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            timer.stop();
+                                                            timer2.stop();
+                                                            LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                                            if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                                resetStatus();
+                                                            } else {
+                                                                DisposeForm.Dispose(lbScore);
+                                                            }
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
                                             if (String.valueOf(notTyped[0]).equals(input)) {
                                                 textflow.getChildren().clear();
                                                 notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
@@ -1011,85 +1294,24 @@ public class PlayController {
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
                                                 long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
+                                                if (x2Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x2Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                }
+                                                if (x3Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x3Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                }
+                                                if (combo1) {
+                                                    if (combo % 30 == 0) {
+                                                        score += 10000;
                                                     }
                                                 }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
-                                                    }
-                                                }
-                                                if(combo3){
-                                                    if(combo%50==0){
-                                                        score+=20000;
-                                                    }
-                                                }
-                                                lbScore.setText( score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            } else {
-                                                if(shield==0) {
-                                                    timer.stop();
-                                                    timer2.stop();
-                                                    LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
-                                                    if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                        resetStatus();
-                                                    } else {
-                                                        DisposeForm.Dispose(lbScore);
-                                                    }
-                                                } else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
-                                                }
-                                            }
-                                        } else {
-                                            if (String.valueOf(notTyped[0]).equals(input)) {
-                                                textflow.getChildren().clear();
-                                                notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
-                                                typed = Arrays.copyOf(typed, typed.length + 2);
-                                                typed[typed.length - 2] = input.toCharArray()[0];
-                                                typed[typed.length - 1] = " ".toCharArray()[0];
-                                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                                for (char i : typed) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                for (char i : notTyped) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                correct++;
-                                                total++;
-                                                combo++;
-                                                comboScore +=combo * 50L;
-                                                if (combo > maxCombo) {
-                                                    maxCombo = combo;
-                                                }
-                                                if (combo % 100 == 0) {
-                                                    lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                                }
-                                                lbCorrect.setText(String.valueOf(correct));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
-                                                    }
-                                                }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
+                                                if (combo2) {
+                                                    if (combo % 40 == 0) {
+                                                        score += 15000;
                                                     }
                                                 }
                                                 if(combo3){
@@ -1101,89 +1323,21 @@ public class PlayController {
                                                 showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
-                                                if(shield==0) {
-                                                    timer.stop();
-                                                    timer2.stop();
-                                                    LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
-                                                    if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                        resetStatus();
+                                                if (secondPerk == 0) {
+                                                    if (shield == 0) {
+                                                        timer.stop();
+                                                        timer2.stop();
+                                                        LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
+                                                        if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                            resetStatus();
+                                                        } else {
+                                                            DisposeForm.Dispose(lbScore);
+                                                        }
                                                     } else {
-                                                        DisposeForm.Dispose(lbScore);
+                                                        shield -= 1;
+                                                        lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
                                                     }
-                                                } else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
                                                 }
-                                            }
-                                        }
-                                    } else {
-                                        if (String.valueOf(notTyped[0]).equals(input)) {
-                                            textflow.getChildren().clear();
-                                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                            typed = Arrays.copyOf(typed, typed.length + 1);
-                                            typed[typed.length - 1] = input.toCharArray()[0];
-                                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                            for (char i : typed) {
-                                                Label tmp = new Label(String.valueOf(i));
-                                                tmp.setStyle("-fx-font-size: 17;");
-                                                textflow.getChildren().add(tmp);
-                                            }
-                                            for (char i : notTyped) {
-                                                Label tmp = new Label(String.valueOf(i));
-                                                tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                textflow.getChildren().add(tmp);
-                                            }
-                                            correct++;
-                                            total++;
-                                            combo++;
-                                            comboScore +=combo * 50L;
-                                            if (combo > maxCombo) {
-                                                maxCombo = combo;
-                                            }
-                                            if (combo % 100 == 0) {
-                                                lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                            }
-                                            lbCorrect.setText(String.valueOf(correct));
-                                            lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
-                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                            if(combo1){
-                                                if(combo%30==0){
-                                                    score+=10000;
-                                                }
-                                            }
-                                            if(combo2){
-                                                if(combo%40==0){
-                                                    score+=15000;
-                                                }
-                                            }
-                                            if(combo3){
-                                                if(combo%50==0){
-                                                    score+=20000;
-                                                }
-                                            }
-                                            lbScore.setText( score + "");
-                                            showLeaderboard();
-                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        } else {
-                                            if(shield==0) {
-                                                timer.stop();
-                                                timer2.stop();
-                                                LoadForm.load("/fxml/PracticeFXMLs/Gameover.fxml", "Game Over", true);
-                                                if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                                    resetStatus();
-                                                } else {
-                                                    DisposeForm.Dispose(lbScore);
-                                                }
-                                            } else {
-                                                shield-=1;
-                                                lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
                                             }
                                         }
                                     }
@@ -1210,318 +1364,8 @@ public class PlayController {
                                 timer3.start();
                             }
                             if (btnPause.getText().equals("Pause")) {
-                                if (String.valueOf(notTyped[1]).equals("_")) {
-                                    if (String.valueOf(notTyped[0]).equals(input)) {
-                                        textflow.getChildren().clear();
-                                        notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                        typed = Arrays.copyOf(typed, typed.length + 1);
-                                        typed[typed.length - 1] = input.toCharArray()[0];
-                                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                        notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                        for (char i : typed) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        for (char i : notTyped) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        correct++;
-                                        total++;
-                                        combo++;
-                                        comboScore +=combo * 50L;
-                                        if (combo > maxCombo) {
-                                            maxCombo = combo;
-                                        }
-                                        if (combo % 100 == 0) {
-                                            lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                        }
-                                        lbCorrect.setText(String.valueOf(correct));
-                                        lbTotal.setText(String.valueOf(total));
-                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                        lbCombo.setText(String.valueOf(combo));
-                                        lbMaxCombo.setText(maxCombo + "");
-                                        long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
-                                        if(combo1){
-                                            if(combo%30==0){
-                                                score+=10000;
-                                            }
-                                        }
-                                        if(combo2){
-                                            if(combo%40==0){
-                                                score+=15000;
-                                            }
-                                        }
-                                        if(combo3){
-                                            if(combo%50==0){
-                                                score+=20000;
-                                            }
-                                        }
-                                        if(run1){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
-                                                score+=100000;
-                                            } else {
-                                                score-=50000;
-                                            }
-                                        }
-                                        if(run2){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
-                                                score+=75000;
-                                            } else {
-                                                score-=30000;
-                                            }
-                                        }
-                                        if(run3){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
-                                                score+=50000;
-                                            } else {
-                                                score-=25000;
-                                            }
-                                        }
-                                        if(speed1){
-                                            if(Double.parseDouble(lbWPM.getText())>50.0){
-                                                score = (score*107)/100;
-                                            } else {
-                                                score = (score*86)/100;
-                                            }
-                                        }
-                                        if(speed2){
-                                            if(Double.parseDouble(lbWPM.getText())>70.0){
-                                                score = (score*114)/100;
-                                            } else {
-                                                score = (score*72)/100;
-                                            }
-                                        }
-                                        if(speed3){
-                                            if(Double.parseDouble(lbWPM.getText())>90.0){
-                                                score = (score*120)/100;
-                                            } else {
-                                                score = (score*60)/100;
-                                            }
-                                        }
-                                        lbScore.setText( score + "");
-                                        showLeaderboard();
-                                        timer.stop();
-                                        timer2.stop();
-                                        transferData();
-                                        chartData();
-                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
-                                        if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            resetStatus();
-                                        } else {
-                                            DisposeForm.Dispose(lbScore);
-                                        }
-                                    } else {
-                                        if (shield == 0) {
-                                            wrong++;
-                                            total++;
-                                            combo = 0;
-                                            lbWrong.setText(String.valueOf(wrong));
-                                            lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
-                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                            if(combo1){
-                                                score-=5000;
-                                            }
-                                            if(combo2){
-                                                score-=10000;
-                                            }
-                                            if(combo3){
-                                                score-=15000;
-                                            }
-                                            lbScore.setText(score + "");
-                                            showLeaderboard();
-                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        } else {
-                                            shield-=1;
-                                            lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
-                                        }
-                                    }
-                                } else {
-                                    if (notTyped[0] != notTyped[notTyped.length - 1]) {
-                                        if (!String.valueOf(notTyped[1]).equals(" ")) {
-                                            if (String.valueOf(notTyped[0]).equals(input)) {
-                                                textflow.getChildren().clear();
-                                                notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                                typed = Arrays.copyOf(typed, typed.length + 1);
-                                                typed[typed.length - 1] = input.toCharArray()[0];
-                                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                                for (char i : typed) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                for (char i : notTyped) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                correct++;
-                                                total++;
-                                                combo++;
-                                                comboScore +=combo * 50L;
-                                                if (combo > maxCombo) {
-                                                    maxCombo = combo;
-                                                }
-                                                if (combo % 100 == 0) {
-                                                    lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                                }
-                                                lbCorrect.setText(String.valueOf(correct));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
-                                                    }
-                                                }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
-                                                    }
-                                                }
-                                                if(combo3){
-                                                    if(combo%50==0){
-                                                        score+=20000;
-                                                    }
-                                                }
-                                                lbScore.setText( score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            } else {
-                                                if (shield == 0) {
-                                                    wrong++;
-                                                    total++;
-                                                    combo = 0;
-                                                    lbWrong.setText(String.valueOf(wrong));
-                                                    lbTotal.setText(String.valueOf(total));
-                                                    lbCombo.setText(String.valueOf(combo));
-                                                    lbMaxCombo.setText(maxCombo + "");
-                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                    if(combo1){
-                                                        score-=5000;
-                                                    }
-                                                    if(combo2){
-                                                        score-=10000;
-                                                    }
-                                                    if(combo3){
-                                                        score-=15000;
-                                                    }
-                                                    lbScore.setText(score + "");
-                                                    showLeaderboard();
-                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                                } else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
-                                                }
-                                            }
-                                        } else {
-                                            if (String.valueOf(notTyped[0]).equals(input)) {
-                                                textflow.getChildren().clear();
-                                                notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
-                                                typed = Arrays.copyOf(typed, typed.length + 2);
-                                                typed[typed.length - 2] = input.toCharArray()[0];
-                                                typed[typed.length - 1] = " ".toCharArray()[0];
-                                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                                for (char i : typed) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                for (char i : notTyped) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                correct++;
-                                                total++;
-                                                combo++;
-                                                comboScore +=combo * 50L;
-                                                if (combo > maxCombo) {
-                                                    maxCombo = combo;
-                                                }
-                                                if (combo % 100 == 0) {
-                                                    lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                                }
-                                                lbCorrect.setText(String.valueOf(correct));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
-                                                    }
-                                                }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
-                                                    }
-                                                }
-                                                if(combo3){
-                                                    if(combo%50==0){
-                                                        score+=20000;
-                                                    }
-                                                }
-                                                lbScore.setText( score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            } else {
-                                                if (shield == 0) {
-                                                    wrong++;
-                                                    total++;
-                                                    combo = 0;
-                                                    lbWrong.setText(String.valueOf(wrong));
-                                                    lbTotal.setText(String.valueOf(total));
-                                                    lbCombo.setText(String.valueOf(combo));
-                                                    lbMaxCombo.setText(maxCombo + "");
-                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                    if(combo1){
-                                                        score-=5000;
-                                                    }
-                                                    if(combo2){
-                                                        score-=10000;
-                                                    }
-                                                    if(combo3){
-                                                        score-=15000;
-                                                    }
-                                                    lbScore.setText(score + "");
-                                                    showLeaderboard();
-                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                                } else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
-                                                }
-                                            }
-                                        }
-                                    } else {
+                                if(!input.equals("~")){
+                                    if (String.valueOf(notTyped[1]).equals("_")) {
                                         if (String.valueOf(notTyped[0]).equals(input)) {
                                             textflow.getChildren().clear();
                                             notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
@@ -1552,20 +1396,30 @@ public class PlayController {
                                             }
                                             lbCorrect.setText(String.valueOf(correct));
                                             lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
                                             lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
-                                            if(combo1){
-                                                if(combo%30==0){
-                                                    score+=10000;
+                                            lbCombo.setText(String.valueOf(combo));
+                                            lbMaxCombo.setText(maxCombo + "");
+                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                            if (x2Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x2Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                            }
+                                            if (x3Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x3Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                            }
+                                            if (combo1) {
+                                                if (combo % 30 == 0) {
+                                                    score += 10000;
                                                 }
                                             }
-                                            if(combo2){
-                                                if(combo%40==0){
-                                                    score+=15000;
+                                            if (combo2) {
+                                                if (combo % 40 == 0) {
+                                                    score += 15000;
                                                 }
                                             }
                                             if(combo3){
@@ -1573,37 +1427,387 @@ public class PlayController {
                                                     score+=20000;
                                                 }
                                             }
+                                            if(run1){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
+                                                    score+=100000;
+                                                } else {
+                                                    score-=50000;
+                                                }
+                                            }
+                                            if(run2){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
+                                                    score+=75000;
+                                                } else {
+                                                    score-=30000;
+                                                }
+                                            }
+                                            if(run3){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
+                                                    score+=50000;
+                                                } else {
+                                                    score-=25000;
+                                                }
+                                            }
+                                            if(speed1){
+                                                if(Double.parseDouble(lbWPM.getText())>50.0){
+                                                    score = (score*107)/100;
+                                                } else {
+                                                    score = (score*86)/100;
+                                                }
+                                            }
+                                            if(speed2){
+                                                if(Double.parseDouble(lbWPM.getText())>70.0){
+                                                    score = (score*114)/100;
+                                                } else {
+                                                    score = (score*72)/100;
+                                                }
+                                            }
+                                            if(speed3){
+                                                if(Double.parseDouble(lbWPM.getText())>90.0){
+                                                    score = (score*120)/100;
+                                                } else {
+                                                    score = (score*60)/100;
+                                                }
+                                            }
                                             lbScore.setText( score + "");
                                             showLeaderboard();
+                                            timer.stop();
+                                            timer2.stop();
+                                            transferData();
+                                            chartData();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                            LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
+                                            if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                resetStatus();
+                                            } else {
+                                                DisposeForm.Dispose(lbScore);
+                                            }
                                         } else {
-                                            if (shield == 0) {
-                                                wrong++;
+                                            if (secondPerk == 0) {
+                                                if (shield == 0) {
+                                                    wrong++;
+                                                    total++;
+                                                    combo = 0;
+                                                    lbWrong.setText(String.valueOf(wrong));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                    if (combo1) {
+                                                        score -= 5000;
+                                                    }
+                                                    if (combo2) {
+                                                        score -= 10000;
+                                                    }
+                                                    if (combo3) {
+                                                        score -= 15000;
+                                                    }
+                                                    lbScore.setText(score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    shield -= 1;
+                                                    lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    for (char i : notTyped) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            wrong++;
+                                                            total++;
+                                                            combo = 0;
+                                                            lbWrong.setText(String.valueOf(wrong));
+                                                            lbTotal.setText(String.valueOf(total));
+                                                            lbCombo.setText(String.valueOf(combo));
+                                                            lbMaxCombo.setText(maxCombo + "");
+                                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                            if (combo1) {
+                                                                score -= 5000;
+                                                            }
+                                                            if (combo2) {
+                                                                score -= 10000;
+                                                            }
+                                                            if (combo3) {
+                                                                score -= 15000;
+                                                            }
+                                                            lbScore.setText(score + "");
+                                                            showLeaderboard();
+                                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    for (char i : notTyped) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            wrong++;
+                                                            total++;
+                                                            combo = 0;
+                                                            lbWrong.setText(String.valueOf(wrong));
+                                                            lbTotal.setText(String.valueOf(total));
+                                                            lbCombo.setText(String.valueOf(combo));
+                                                            lbMaxCombo.setText(maxCombo + "");
+                                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                            if (combo1) {
+                                                                score -= 5000;
+                                                            }
+                                                            if (combo2) {
+                                                                score -= 10000;
+                                                            }
+                                                            if (combo3) {
+                                                                score -= 15000;
+                                                            }
+                                                            lbScore.setText(score + "");
+                                                            showLeaderboard();
+                                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (String.valueOf(notTyped[0]).equals(input)) {
+                                                textflow.getChildren().clear();
+                                                notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                                typed = Arrays.copyOf(typed, typed.length + 1);
+                                                typed[typed.length - 1] = input.toCharArray()[0];
+                                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                for (char i : typed) {
+                                                    Label tmp = new Label(String.valueOf(i));
+                                                    tmp.setStyle("-fx-font-size: 17;");
+                                                    textflow.getChildren().add(tmp);
+                                                }
+                                                for (char i : notTyped) {
+                                                    Label tmp = new Label(String.valueOf(i));
+                                                    tmp.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                    textflow.getChildren().add(tmp);
+                                                }
+                                                correct++;
                                                 total++;
-                                                combo = 0;
-                                                lbWrong.setText(String.valueOf(wrong));
+                                                combo++;
+                                                comboScore +=combo * 50L;
+                                                if (combo > maxCombo) {
+                                                    maxCombo = combo;
+                                                }
+                                                if (combo % 100 == 0) {
+                                                    lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                }
+                                                lbCorrect.setText(String.valueOf(correct));
                                                 lbTotal.setText(String.valueOf(total));
                                                 lbCombo.setText(String.valueOf(combo));
                                                 lbMaxCombo.setText(maxCombo + "");
                                                 lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                if(combo1){
-                                                    score-=5000;
+                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                if (x2Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x2Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
                                                 }
-                                                if(combo2){
-                                                    score-=10000;
+                                                if (x3Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x3Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                }
+                                                if (combo1) {
+                                                    if (combo % 30 == 0) {
+                                                        score += 10000;
+                                                    }
+                                                }
+                                                if (combo2) {
+                                                    if (combo % 40 == 0) {
+                                                        score += 15000;
+                                                    }
                                                 }
                                                 if(combo3){
-                                                    score-=15000;
+                                                    if(combo%50==0){
+                                                        score+=20000;
+                                                    }
                                                 }
-                                                lbScore.setText(score + "");
+                                                lbScore.setText( score + "");
                                                 showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
-                                                shield-=1;
-                                                lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
+                                                if (secondPerk == 0) {
+                                                    if (shield == 0) {
+                                                        wrong++;
+                                                        total++;
+                                                        combo = 0;
+                                                        lbWrong.setText(String.valueOf(wrong));
+                                                        lbTotal.setText(String.valueOf(total));
+                                                        lbCombo.setText(String.valueOf(combo));
+                                                        lbMaxCombo.setText(maxCombo + "");
+                                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                        long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                        if (combo1) {
+                                                            score -= 5000;
+                                                        }
+                                                        if (combo2) {
+                                                            score -= 10000;
+                                                        }
+                                                        if (combo3) {
+                                                            score -= 15000;
+                                                        }
+                                                        lbScore.setText(score + "");
+                                                        showLeaderboard();
+                                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                    } else {
+                                                        shield -= 1;
+                                                        lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -1622,153 +1826,374 @@ public class PlayController {
                         }
                         case "Hidden": {
                             if (btnPause.getText().equals("Pause")) {
-                                if (String.valueOf(notTyped[1]).equals("_")) {
-                                    if (String.valueOf(notTyped[0]).equals(input)) {
-                                        textflow.getChildren().clear();
-                                        notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                        typed = Arrays.copyOf(typed, typed.length + 1);
-                                        typed[typed.length - 1] = input.toCharArray()[0];
-                                        FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                        FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                        notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                        for (char i : typed) {
-                                            Label tmp = new Label(String.valueOf(i));
-                                            tmp.setStyle("-fx-font-size: 17;");
-                                            textflow.getChildren().add(tmp);
-                                        }
-                                        //
-                                        if (notTyped.length != 0) {
-                                            Label tmp2 = new Label(String.valueOf(notTyped[0]));
-                                            tmp2.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                            textflow.getChildren().add(tmp2);
-                                        }
-                                        //
-                                        for (int i = 1; i < notTyped.length; i++) {
-                                            Label tmp3 = new Label(String.valueOf(notTyped[i]));
-                                            tmp3.setStyle("-fx-font-size: 17;-fx-text-fill: #bed7ed;");
-                                            textflow.getChildren().add(tmp3);
-                                        }
-                                        correct++;
-                                        total++;
-                                        combo++;
-                                        comboScore +=combo * 50L;
-                                        if (combo > maxCombo) {
-                                            maxCombo = combo;
-                                        }
-                                        if (combo % 100 == 0) {
-                                            lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                        }
-                                        lbCorrect.setText(String.valueOf(correct));
-                                        lbTotal.setText(String.valueOf(total));
-                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                        lbCombo.setText(String.valueOf(combo));
-                                        lbMaxCombo.setText(maxCombo + "");
-                                        long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
-                                        if(combo1){
-                                            if(combo%30==0){
-                                                score+=10000;
+                                if(!input.equals("~")){
+                                    if (String.valueOf(notTyped[1]).equals("_")) {
+                                        if (String.valueOf(notTyped[0]).equals(input)) {
+                                            textflow.getChildren().clear();
+                                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                            typed = Arrays.copyOf(typed, typed.length + 1);
+                                            typed[typed.length - 1] = input.toCharArray()[0];
+                                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                            for (char i : typed) {
+                                                Label tmp = new Label(String.valueOf(i));
+                                                tmp.setStyle("-fx-font-size: 17;");
+                                                textflow.getChildren().add(tmp);
                                             }
-                                        }
-                                        if(combo2){
-                                            if(combo%40==0){
-                                                score+=15000;
+                                            //
+                                            if (notTyped.length != 0) {
+                                                Label tmp2 = new Label(String.valueOf(notTyped[0]));
+                                                tmp2.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                textflow.getChildren().add(tmp2);
                                             }
-                                        }
-                                        if(combo3){
-                                            if(combo%50==0){
-                                                score+=20000;
+                                            //
+                                            for (int i = 1; i < notTyped.length; i++) {
+                                                Label tmp3 = new Label(String.valueOf(notTyped[i]));
+                                                tmp3.setStyle("-fx-font-size: 17;-fx-text-fill: #bed7ed;");
+                                                textflow.getChildren().add(tmp3);
                                             }
-                                        }
-                                        if(run1){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
-                                                score+=100000;
-                                            } else {
-                                                score-=50000;
-                                            }
-                                        }
-                                        if(run2){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
-                                                score+=75000;
-                                            } else {
-                                                score-=30000;
-                                            }
-                                        }
-                                        if(run3){
-                                            if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
-                                                score+=50000;
-                                            } else {
-                                                score-=25000;
-                                            }
-                                        }
-                                        if(speed1){
-                                            if(Double.parseDouble(lbWPM.getText())>50.0){
-                                                score = (score*107)/100;
-                                            } else {
-                                                score = (score*86)/100;
-                                            }
-                                        }
-                                        if(speed2){
-                                            if(Double.parseDouble(lbWPM.getText())>70.0){
-                                                score = (score*114)/100;
-                                            } else {
-                                                score = (score*72)/100;
-                                            }
-                                        }
-                                        if(speed3){
-                                            if(Double.parseDouble(lbWPM.getText())>90.0){
-                                                score = (score*120)/100;
-                                            } else {
-                                                score = (score*60)/100;
-                                            }
-                                        }
-                                        lbScore.setText( score + "");
-                                        showLeaderboard();
-                                        timer.stop();
-                                        timer2.stop();
-                                        transferData();
-                                        chartData();
-                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
-                                        if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
-                                            resetStatus();
-                                        } else {
-                                            DisposeForm.Dispose(lbScore);
-                                        }
-                                    } else {
-                                        if (shield == 0) {
-                                            wrong++;
+                                            correct++;
                                             total++;
-                                            combo = 0;
-                                            lbWrong.setText(String.valueOf(wrong));
+                                            combo++;
+                                            comboScore +=combo * 50L;
+                                            if (combo > maxCombo) {
+                                                maxCombo = combo;
+                                            }
+                                            if (combo % 100 == 0) {
+                                                lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                            }
+                                            lbCorrect.setText(String.valueOf(correct));
                                             lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
                                             lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
                                             lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                             lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                            if(combo1){
-                                                score-=5000;
+                                            lbCombo.setText(String.valueOf(combo));
+                                            lbMaxCombo.setText(maxCombo + "");
+                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                            if (x2Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x2Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
                                             }
-                                            if(combo2){
-                                                score-=10000;
+                                            if (x3Remain != 0) {
+                                                score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) + (Integer.parseInt(lbAccuracy.getText().split("%")[0]) * (total * 500) / 100);
+                                                x3Remain--;
+                                                lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                            }
+                                            if (combo1) {
+                                                if (combo % 30 == 0) {
+                                                    score += 10000;
+                                                }
+                                            }
+                                            if (combo2) {
+                                                if (combo % 40 == 0) {
+                                                    score += 15000;
+                                                }
                                             }
                                             if(combo3){
-                                                score-=15000;
+                                                if(combo%50==0){
+                                                    score+=20000;
+                                                }
                                             }
-                                            lbScore.setText(score + "");
+                                            if(run1){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])==100){
+                                                    score+=100000;
+                                                } else {
+                                                    score-=50000;
+                                                }
+                                            }
+                                            if(run2){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=95){
+                                                    score+=75000;
+                                                } else {
+                                                    score-=30000;
+                                                }
+                                            }
+                                            if(run3){
+                                                if(Integer.valueOf(lbAccuracy.getText().split("%")[0])>=90){
+                                                    score+=50000;
+                                                } else {
+                                                    score-=25000;
+                                                }
+                                            }
+                                            if(speed1){
+                                                if(Double.parseDouble(lbWPM.getText())>50.0){
+                                                    score = (score*107)/100;
+                                                } else {
+                                                    score = (score*86)/100;
+                                                }
+                                            }
+                                            if(speed2){
+                                                if(Double.parseDouble(lbWPM.getText())>70.0){
+                                                    score = (score*114)/100;
+                                                } else {
+                                                    score = (score*72)/100;
+                                                }
+                                            }
+                                            if(speed3){
+                                                if(Double.parseDouble(lbWPM.getText())>90.0){
+                                                    score = (score*120)/100;
+                                                } else {
+                                                    score = (score*60)/100;
+                                                }
+                                            }
+                                            lbScore.setText( score + "");
                                             showLeaderboard();
+                                            timer.stop();
+                                            timer2.stop();
+                                            transferData();
+                                            chartData();
                                             lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                            LoadForm.load("/fxml/PracticeFXMLs/LevelCleared.fxml", "Level Cleared", true);
+                                            if (Objects.equals(FileRW.Read(FilePath.getRetryOrMenu()), "retry")) {
+                                                resetStatus();
+                                            } else {
+                                                DisposeForm.Dispose(lbScore);
+                                            }
                                         } else {
-                                            shield-=1;
-                                            lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
+                                            if (secondPerk == 0) {
+                                                if (shield == 0) {
+                                                    wrong++;
+                                                    total++;
+                                                    combo = 0;
+                                                    lbWrong.setText(String.valueOf(wrong));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                    if (combo1) {
+                                                        score -= 5000;
+                                                    }
+                                                    if (combo2) {
+                                                        score -= 10000;
+                                                    }
+                                                    if (combo3) {
+                                                        score -= 15000;
+                                                    }
+                                                    lbScore.setText(score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    shield -= 1;
+                                                    lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                }
+                                            }
                                         }
-                                    }
-                                } else {
-                                    if (notTyped[0] != notTyped[notTyped.length - 1]) {
-                                        if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                    } else {
+                                        if (notTyped[0] != notTyped[notTyped.length - 1]) {
+                                            if (!String.valueOf(notTyped[1]).equals(" ")) {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 1);
+                                                    typed[typed.length - 1] = input.toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    if (notTyped.length != 0) {
+                                                        Label tmp2 = new Label(String.valueOf(notTyped[0]));
+                                                        tmp2.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp2);
+                                                    }
+                                                    //
+                                                    for (int i = 1; i < notTyped.length; i++) {
+                                                        Label tmp3 = new Label(String.valueOf(notTyped[i]));
+                                                        tmp3.setStyle("-fx-font-size: 17;-fx-text-fill: #bed7ed;");
+                                                        textflow.getChildren().add(tmp3);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            wrong++;
+                                                            total++;
+                                                            combo = 0;
+                                                            lbWrong.setText(String.valueOf(wrong));
+                                                            lbTotal.setText(String.valueOf(total));
+                                                            lbCombo.setText(String.valueOf(combo));
+                                                            lbMaxCombo.setText(maxCombo + "");
+                                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                            if (combo1) {
+                                                                score -= 5000;
+                                                            }
+                                                            if (combo2) {
+                                                                score -= 10000;
+                                                            }
+                                                            if (combo3) {
+                                                                score -= 15000;
+                                                            }
+                                                            lbScore.setText(score + "");
+                                                            showLeaderboard();
+                                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                if (String.valueOf(notTyped[0]).equals(input)) {
+                                                    textflow.getChildren().clear();
+                                                    notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
+                                                    typed = Arrays.copyOf(typed, typed.length + 2);
+                                                    typed[typed.length - 2] = input.toCharArray()[0];
+                                                    typed[typed.length - 1] = " ".toCharArray()[0];
+                                                    FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
+                                                    FileRW.Write(TYPED_PATH, String.valueOf(typed));
+                                                    notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
+                                                    for (char i : typed) {
+                                                        Label tmp = new Label(String.valueOf(i));
+                                                        tmp.setStyle("-fx-font-size: 17;");
+                                                        textflow.getChildren().add(tmp);
+                                                    }
+                                                    if (notTyped.length != 0) {
+                                                        Label tmp2 = new Label(String.valueOf(notTyped[0]));
+                                                        tmp2.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
+                                                        textflow.getChildren().add(tmp2);
+                                                    }
+                                                    //
+                                                    for (int i = 1; i < notTyped.length; i++) {
+                                                        Label tmp3 = new Label(String.valueOf(notTyped[i]));
+                                                        tmp3.setStyle("-fx-font-size: 17;-fx-text-fill: #bed7ed;");
+                                                        textflow.getChildren().add(tmp3);
+                                                    }
+                                                    correct++;
+                                                    total++;
+                                                    combo++;
+                                                    comboScore +=combo * 50L;
+                                                    if (combo > maxCombo) {
+                                                        maxCombo = combo;
+                                                    }
+                                                    if (combo % 100 == 0) {
+                                                        lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
+                                                    }
+                                                    lbCorrect.setText(String.valueOf(correct));
+                                                    lbTotal.setText(String.valueOf(total));
+                                                    lbCombo.setText(String.valueOf(combo));
+                                                    lbMaxCombo.setText(maxCombo + "");
+                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                    long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    if (x2Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x2Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                    }
+                                                    if (x3Remain != 0) {
+                                                        score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                        x3Remain--;
+                                                        lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                    }
+                                                    if (combo1) {
+                                                        if (combo % 30 == 0) {
+                                                            score += 10000;
+                                                        }
+                                                    }
+                                                    if (combo2) {
+                                                        if (combo % 40 == 0) {
+                                                            score += 15000;
+                                                        }
+                                                    }
+                                                    if(combo3){
+                                                        if(combo%50==0){
+                                                            score+=20000;
+                                                        }
+                                                    }
+                                                    lbScore.setText( score + "");
+                                                    showLeaderboard();
+                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                } else {
+                                                    if (secondPerk == 0) {
+                                                        if (shield == 0) {
+                                                            wrong++;
+                                                            total++;
+                                                            combo = 0;
+                                                            lbWrong.setText(String.valueOf(wrong));
+                                                            lbTotal.setText(String.valueOf(total));
+                                                            lbCombo.setText(String.valueOf(combo));
+                                                            lbMaxCombo.setText(maxCombo + "");
+                                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                            long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                            if (combo1) {
+                                                                score -= 5000;
+                                                            }
+                                                            if (combo2) {
+                                                                score -= 10000;
+                                                            }
+                                                            if (combo3) {
+                                                                score -= 15000;
+                                                            }
+                                                            lbScore.setText(score + "");
+                                                            showLeaderboard();
+                                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                        } else {
+                                                            shield -= 1;
+                                                            lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
                                             if (String.valueOf(notTyped[0]).equals(input)) {
                                                 textflow.getChildren().clear();
                                                 notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
@@ -1810,107 +2235,25 @@ public class PlayController {
                                                 lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
                                                 lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
                                                 lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) ;
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
+                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                if (x2Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (2 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x2Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x2Remain);
+                                                }
+                                                if (x3Remain != 0) {
+                                                    score = Long.parseLong(lbScore.getText()) + (3 * 500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50);
+                                                    x3Remain--;
+                                                    lbActive.setText(lbActive.getText().substring(0,lbActive.getText().length()-1)+x3Remain);
+                                                }
+                                                if (combo1) {
+                                                    if (combo % 30 == 0) {
+                                                        score += 10000;
                                                     }
                                                 }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
-                                                    }
-                                                }
-                                                if(combo3){
-                                                    if(combo%50==0){
-                                                        score+=20000;
-                                                    }
-                                                }
-                                                lbScore.setText( score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            } else {
-                                                if (shield == 0) {
-                                                    wrong++;
-                                                    total++;
-                                                    combo = 0;
-                                                    lbWrong.setText(String.valueOf(wrong));
-                                                    lbTotal.setText(String.valueOf(total));
-                                                    lbCombo.setText(String.valueOf(combo));
-                                                    lbMaxCombo.setText(maxCombo + "");
-                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                    if(combo1){
-                                                        score-=5000;
-                                                    }
-                                                    if(combo2){
-                                                        score-=10000;
-                                                    }
-                                                    if(combo3){
-                                                        score-=15000;
-                                                    }
-                                                    lbScore.setText(score + "");
-                                                    showLeaderboard();
-                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                                } else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
-                                                }
-                                            }
-                                        } else {
-                                            if (String.valueOf(notTyped[0]).equals(input)) {
-                                                textflow.getChildren().clear();
-                                                notTyped = Arrays.copyOfRange(notTyped, 2, notTyped.length);
-                                                typed = Arrays.copyOf(typed, typed.length + 2);
-                                                typed[typed.length - 2] = input.toCharArray()[0];
-                                                typed[typed.length - 1] = " ".toCharArray()[0];
-                                                FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                                FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                                notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                                for (char i : typed) {
-                                                    Label tmp = new Label(String.valueOf(i));
-                                                    tmp.setStyle("-fx-font-size: 17;");
-                                                    textflow.getChildren().add(tmp);
-                                                }
-                                                if (notTyped.length != 0) {
-                                                    Label tmp2 = new Label(String.valueOf(notTyped[0]));
-                                                    tmp2.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                    textflow.getChildren().add(tmp2);
-                                                }
-                                                //
-                                                for (int i = 1; i < notTyped.length; i++) {
-                                                    Label tmp3 = new Label(String.valueOf(notTyped[i]));
-                                                    tmp3.setStyle("-fx-font-size: 17;-fx-text-fill: #bed7ed;");
-                                                    textflow.getChildren().add(tmp3);
-                                                }
-                                                correct++;
-                                                total++;
-                                                combo++;
-                                                comboScore +=combo * 50L;
-                                                if (combo > maxCombo) {
-                                                    maxCombo = combo;
-                                                }
-                                                if (combo % 100 == 0) {
-                                                    lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                                }
-                                                lbCorrect.setText(String.valueOf(correct));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) ;
-                                                if(combo1){
-                                                    if(combo%30==0){
-                                                        score+=10000;
-                                                    }
-                                                }
-                                                if(combo2){
-                                                    if(combo%40==0){
-                                                        score+=15000;
+                                                if (combo2) {
+                                                    if (combo % 40 == 0) {
+                                                        score += 15000;
                                                     }
                                                 }
                                                 if(combo3){
@@ -1922,125 +2265,36 @@ public class PlayController {
                                                 showLeaderboard();
                                                 lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
                                             } else {
-                                                if (shield == 0) {
-                                                    wrong++;
-                                                    total++;
-                                                    combo = 0;
-                                                    lbWrong.setText(String.valueOf(wrong));
-                                                    lbTotal.setText(String.valueOf(total));
-                                                    lbCombo.setText(String.valueOf(combo));
-                                                    lbMaxCombo.setText(maxCombo + "");
-                                                    lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                    lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                    lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                    long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                    if(combo1){
-                                                        score-=5000;
+                                                if (secondPerk == 0) {
+                                                    if (shield == 0) {
+                                                        wrong++;
+                                                        total++;
+                                                        combo = 0;
+                                                        lbWrong.setText(String.valueOf(wrong));
+                                                        lbTotal.setText(String.valueOf(total));
+                                                        lbCombo.setText(String.valueOf(combo));
+                                                        lbMaxCombo.setText(maxCombo + "");
+                                                        lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
+                                                        lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
+                                                        lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
+                                                        long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
+                                                        if (combo1) {
+                                                            score -= 5000;
+                                                        }
+                                                        if (combo2) {
+                                                            score -= 10000;
+                                                        }
+                                                        if (combo3) {
+                                                            score -= 15000;
+                                                        }
+                                                        lbScore.setText(score + "");
+                                                        showLeaderboard();
+                                                        lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
+                                                    } else {
+                                                        shield -= 1;
+                                                        lbPassive.setText(lbPassive.getText().substring(0, lbPassive.getText().length() - 1) + shield);
                                                     }
-                                                    if(combo2){
-                                                        score-=10000;
-                                                    }
-                                                    if(combo3){
-                                                        score-=15000;
-                                                    }
-                                                    lbScore.setText(score + "");
-                                                    showLeaderboard();
-                                                    lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                                } else {
-                                                    shield-=1;
-                                                    lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
                                                 }
-                                            }
-                                        }
-                                    } else {
-                                        if (String.valueOf(notTyped[0]).equals(input)) {
-                                            textflow.getChildren().clear();
-                                            notTyped = Arrays.copyOfRange(notTyped, 1, notTyped.length);
-                                            typed = Arrays.copyOf(typed, typed.length + 1);
-                                            typed[typed.length - 1] = input.toCharArray()[0];
-                                            FileRW.Write(NOT_TYPED_PATH, String.valueOf(notTyped));
-                                            FileRW.Write(TYPED_PATH, String.valueOf(typed));
-                                            notTyped = Arrays.copyOfRange(notTyped, 0, notTyped.length - 1);
-                                            for (char i : typed) {
-                                                Label tmp = new Label(String.valueOf(i));
-                                                tmp.setStyle("-fx-font-size: 17;");
-                                                textflow.getChildren().add(tmp);
-                                            }
-                                            if (notTyped.length != 0) {
-                                                Label tmp2 = new Label(String.valueOf(notTyped[0]));
-                                                tmp2.setStyle("-fx-font-size: 17;-fx-text-fill: gray;");
-                                                textflow.getChildren().add(tmp2);
-                                            }
-                                            //
-                                            for (int i = 1; i < notTyped.length; i++) {
-                                                Label tmp3 = new Label(String.valueOf(notTyped[i]));
-                                                tmp3.setStyle("-fx-font-size: 17;-fx-text-fill: #bed7ed;");
-                                                textflow.getChildren().add(tmp3);
-                                            }
-                                            correct++;
-                                            total++;
-                                            combo++;
-                                            comboScore +=combo * 50L;
-                                            if (combo > maxCombo) {
-                                                maxCombo = combo;
-                                            }
-                                            if (combo % 100 == 0) {
-                                                lbXMulti.setText(Integer.parseInt(lbXMulti.getText().split("x")[0]) + 1 + "x");
-                                            }
-                                            lbCorrect.setText(String.valueOf(correct));
-                                            lbTotal.setText(String.valueOf(total));
-                                            lbCombo.setText(String.valueOf(combo));
-                                            lbMaxCombo.setText(maxCombo + "");
-                                            lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                            lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                            lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                            long score = Long.parseLong(lbScore.getText()) + (500 * Integer.parseInt(lbXMulti.getText().split("x")[0])) + (combo * 50) ;
-                                            if(combo1){
-                                                if(combo%30==0){
-                                                    score+=10000;
-                                                }
-                                            }
-                                            if(combo2){
-                                                if(combo%40==0){
-                                                    score+=15000;
-                                                }
-                                            }
-                                            if(combo3){
-                                                if(combo%50==0){
-                                                    score+=20000;
-                                                }
-                                            }
-                                            lbScore.setText( score + "");
-                                            showLeaderboard();
-                                            lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                        } else {
-                                            if (shield == 0) {
-                                                wrong++;
-                                                total++;
-                                                combo = 0;
-                                                lbWrong.setText(String.valueOf(wrong));
-                                                lbTotal.setText(String.valueOf(total));
-                                                lbCombo.setText(String.valueOf(combo));
-                                                lbMaxCombo.setText(maxCombo + "");
-                                                lbAccuracy.setText(BigDecimal.valueOf(Math.round((double) correct / (double) total * 100)).stripTrailingZeros().toPlainString() + "%");
-                                                lbWPM.setText(BigDecimal.valueOf(Math.round(((double) total_words / 5) / total_minutes)).stripTrailingZeros().toPlainString());
-                                                lbWPS.setText(String.valueOf(Math.round((((double) total_words / 5) / (total_minutes * 60)) * 100.0) / 100.0));
-                                                long score = Long.parseLong(lbScore.getText()) - (500) + (combo * 50);
-                                                if(combo1){
-                                                    score-=5000;
-                                                }
-                                                if(combo2){
-                                                    score-=10000;
-                                                }
-                                                if(combo3){
-                                                    score-=15000;
-                                                }
-                                                lbScore.setText(score + "");
-                                                showLeaderboard();
-                                                lbAccuracyScore.setText(BigDecimal.valueOf((total * 500L) * Integer.parseInt(lbAccuracy.getText().split("%")[0]) / 100).stripTrailingZeros().toPlainString());
-                                            } else {
-                                                shield-=1;
-                                                lbPassive.setText(lbPassive.getText().substring(0,lbPassive.getText().length()-1) + shield);
                                             }
                                         }
                                     }
@@ -2101,17 +2355,21 @@ public class PlayController {
                     second+=3;
                     time1 = false;
                 }
-                if(time2){
-                    second+=5;
+                if (time2) {
+                    second += 5;
                     time2 = false;
                 }
-                if(time3){
-                    second+=7;
+                if (time3) {
+                    second += 7;
                     time3 = false;
                 }
-                if(second>60){
-                    second-=60;
-                    minute+=1;
+                if (second == 60) {
+                    minute += 1;
+                    second = 0;
+                }
+                if (second > 60) {
+                    second -= 60;
+                    minute += 1;
                 }
                 lbScore.setText(((minute * 60) + second) * 1000 + "");
                 lbTimeScore.setText(((minute * 60) + second) * 1000 + "");
@@ -2194,10 +2452,26 @@ public class PlayController {
         }));
     }
 
+    public void CountDownTimerPerk() {
+        timerPerk = new Timer(1000, e -> Platform.runLater(() -> {
+            //javaFX operations should go here
+            secondPerk--;
+            if (secondPerk == 0) {
+                timerPerk.stop();
+                if (timer.isRunning() == false) {
+                    timer.start();
+                }
+                if (timer2.isRunning() == false) {
+                    timer2.start();
+                }
+            }
+        }));
+    }
+
     public void transferData() {
         String data = lbWPS.getText() + "-" + lbWPM.getText() + "-" + lbCorrect.getText() + "-" + lbWrong.getText() + "-" + lbTotal.getText() + "-"
-                + lbCombo.getText() + "-" + maxCombo + "-" + lbAccuracy.getText() + "-" + ddMinute + ":" + ddSecond + "-" + ddMinute2 + ":" + ddSecond2 + "-" + lbScore.getText() + "-" + lbUsername.getText() + "-" + lbLevelName.getText() +"-"+ lbXMulti.getText()
-                +"-"+comboScore;
+                + lbCombo.getText() + "-" + maxCombo + "-" + lbAccuracy.getText() + "-" + ddMinute + ":" + ddSecond + "-" + ddMinute2 + ":" + ddSecond2 + "-" + lbScore.getText() + "-" + lbUsername.getText() + "-" + lbLevelName.getText() + "-" + lbXMulti.getText()
+                + "-" + comboScore;
         FileRW.Write(FilePath.getPlayResult(), data);
     }
 
@@ -2305,7 +2579,6 @@ public class PlayController {
         time1 = false;
         time2 = false;
         time3 = false;
-        timeFlow = false;
         x2 = false;
         x3 = false;
         combo1 = false;
