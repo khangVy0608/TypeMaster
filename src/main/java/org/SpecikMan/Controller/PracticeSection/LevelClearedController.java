@@ -187,17 +187,19 @@ public class LevelClearedController {
                 logDao.add(log);
             }
         }
-        account.setCoin(account.getCoin() + Integer.parseInt(lbCoinEarned.getText()));
         int currentLevel = account.getAccountLevel();
         int currentExp = account.getLevelExp();
         int expCap = account.getLevelCap();
         int expGet = Integer.parseInt(lbCoinEarned.getText());
         if (currentExp + expGet > expCap) {
+            account.setCoin(account.getCoin() + Integer.parseInt(lbCoinEarned.getText())+expCap);
+            lbCoinEarned.setText((Integer.parseInt(lbCoinEarned.getText())+expCap)+"(+"+expCap+" Lv.Up)");
             expCap+=((currentExp + expGet)/500)*50;
             currentLevel += (currentExp + expGet)/500;
             currentExp =  (currentExp + expGet)%500;
         } else {
             currentExp+=expGet;
+            account.setCoin(account.getCoin() + Integer.parseInt(lbCoinEarned.getText()));
         }
         lbExp.setText(lbCoinEarned.getText()+" -> Lv."+currentLevel+" - "+currentExp+"/"+expCap);
         account.setLevelExp(currentExp);

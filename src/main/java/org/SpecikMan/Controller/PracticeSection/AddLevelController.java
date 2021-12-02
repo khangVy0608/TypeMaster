@@ -99,7 +99,6 @@ public class AddLevelController {
         ModeDao modeDao = new ModeDao();
         ObservableList<Difficulty> diffs = FXCollections.observableList(difficultyDao.getAll());
         ObservableList<Mode> modes = FXCollections.observableList(modeDao.getAll());
-        modes.removeIf(e->e.getIdMode().equals("MD5"));
         cbbDifficulty.setItems(diffs);
         cbbMode.setItems(modes);
     }
