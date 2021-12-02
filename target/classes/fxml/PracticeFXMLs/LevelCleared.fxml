@@ -168,7 +168,7 @@
             <Font name="System Bold" size="34.0" />
          </font>
       </Label>
-      <Label fx:id="lbTotalScore" alignment="CENTER" layoutX="185.0" layoutY="529.0" prefHeight="64.0" prefWidth="306.0" text="3000000">
+      <Label fx:id="lbTotalScore" alignment="CENTER" layoutX="231.0" layoutY="529.0" prefHeight="74.0" prefWidth="270.0" text="3000000">
          <font>
             <Font name="System Bold Italic" size="50.0" />
          </font>
@@ -209,7 +209,7 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <LineChart fx:id="lineChart" layoutX="722.0" layoutY="8.0" prefHeight="705.0" prefWidth="760.0" title="RESULT CHART" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="722.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="8.0">
+      <LineChart fx:id="lineChart" layoutX="736.0" layoutY="8.0" prefHeight="705.0" prefWidth="746.0" title="RESULT CHART" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="736.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="8.0">
         <xAxis>
           <NumberAxis label="second(s)" prefWidth="603.0" side="BOTTOM" />
         </xAxis>
@@ -258,16 +258,11 @@
             <Font name="System Bold Italic" size="38.0" />
          </font>
       </Label>
-      <Label fx:id="lbCoinEarned" alignment="CENTER" layoutX="303.0" layoutY="701.0" prefHeight="74.0" prefWidth="162.0" text="3000">
+      <Label fx:id="lbCoinEarned" alignment="TOP_LEFT" layoutX="322.0" layoutY="705.0" prefHeight="74.0" prefWidth="416.0" text="3000">
          <font>
-            <Font name="System Bold Italic" size="50.0" />
+            <Font name="System Bold Italic" size="46.0" />
          </font>
       </Label>
-      <ImageView fitHeight="50.0" fitWidth="53.0" layoutX="449.0" layoutY="713.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../image/ShopItem/coin.png" />
-         </image>
-      </ImageView>
       <Label layoutX="139.0" layoutY="440.0" text="Total+Perks">
          <font>
             <Font name="System Italic" size="23.0" />
@@ -288,9 +283,9 @@
             <Font name="System Bold Italic" size="38.0" />
          </font>
       </Label>
-      <Label fx:id="lbExp" alignment="CENTER" layoutX="224.0" layoutY="612.0" prefHeight="74.0" prefWidth="526.0" text="3000">
+      <Label fx:id="lbExp" alignment="TOP_LEFT" layoutX="232.0" layoutY="614.0" prefHeight="74.0" prefWidth="536.0" text="3000">
          <font>
-            <Font name="System Bold Italic" size="50.0" />
+            <Font name="System Bold Italic" size="46.0" />
          </font>
       </Label>
    </children>
