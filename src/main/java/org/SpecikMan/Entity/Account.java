@@ -21,6 +21,7 @@ public class Account extends Role {
     private Integer levelCap;
     private Integer levelExp;
     private String uud;
+    private Rank rank;
     //region get-set
 
     public String getIdAccount() {
@@ -160,8 +161,16 @@ public class Account extends Role {
     public Account() {
     }
 
-    public Account(String idAccount, String username, String password, String email, Date createDate,Date latestLogin,Integer countLoginDate ,String pathImage, String fullName, Date dob,Boolean gender,Integer coin, String verificationCode,String uud,Integer accountLevel,Integer levelCap
-                   ,Integer levelExp,String idRole, String nameRole) {
+    public Rank getRank() {
+        return rank;
+    }
+
+    public void setRank(Rank rank) {
+        this.rank = rank;
+    }
+
+    public Account(String idAccount, String username, String password, String email, Date createDate, Date latestLogin, Integer countLoginDate , String pathImage, String fullName, Date dob, Boolean gender, Integer coin, String verificationCode, String uud, Integer accountLevel, Integer levelCap
+                   , Integer levelExp, String idRole, String nameRole, Rank rank) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -180,11 +189,12 @@ public class Account extends Role {
         this.accountLevel = accountLevel;
         this.levelCap = levelCap;
         this.levelExp = levelExp;
+        this.rank = rank;
     }
 
 
     public Account(String idAccount, String username, String password, String email,String fullName, Date dob, String verificationCode,String uud,Integer accountLevel,Integer levelCap
-            ,Integer levelExp,String idRole, String nameRole) {
+            ,Integer levelExp,String idRole, String nameRole,Rank rank) {
         super(idRole, nameRole);
         this.idAccount = idAccount;
         this.username = username;
@@ -197,6 +207,7 @@ public class Account extends Role {
         this.accountLevel = accountLevel;
         this.levelCap = levelCap;
         this.levelExp = levelExp;
+        this.rank = rank;
     }
     public Account(String idAccount,String username) {
         this.idAccount = idAccount;

@@ -214,7 +214,7 @@
           <NumberAxis label="second(s)" prefWidth="603.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis label="value" prefHeight="557.0" prefWidth="41.0" side="LEFT" />
+          <NumberAxis label="value" prefHeight="607.0" prefWidth="56.0" side="LEFT" />
         </yAxis>
       </LineChart>
       <ComboBox fx:id="cbbChartElement" layoutX="766.0" layoutY="738.0" prefHeight="26.0" prefWidth="373.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />

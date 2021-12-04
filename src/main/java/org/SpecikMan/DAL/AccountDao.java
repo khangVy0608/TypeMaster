@@ -2,6 +2,7 @@ package org.SpecikMan.DAL;
 
 
 import org.SpecikMan.Entity.Account;
+import org.SpecikMan.Entity.Rank;
 import org.SpecikMan.Entity.apiURL;
 import org.SpecikMan.Tools.crudAPI;
 import org.json.JSONArray;
@@ -44,7 +45,15 @@ public class AccountDao implements Dao<Account> {
                         obj.getString("levelCap").equals("null")?null:Integer.valueOf(obj.getString("levelCap")),
                         obj.getString("levelExp").equals("null")?null:Integer.valueOf(obj.getString("levelExp")),
                         obj.getString("idRole").equals("null") ? null : obj.getString("idRole"),
-                        obj.getString("nameRole").equals("null") ? null : obj.getString("nameRole")
+                        obj.getString("nameRole").equals("null") ? null : obj.getString("nameRole"),
+                        new Rank(
+                                obj.getString("idRank").equals("null") ? null : obj.getString("idRank"),
+                                obj.getString("rankName").equals("null") ? null : obj.getString("rankName"),
+                                obj.getString("reward").equals("null") ? null : Integer.parseInt(obj.getString("reward")),
+                                obj.getString("imagePath").equals("null") ? null : obj.getString("imagePath"),
+                                obj.getString("promote").equals("null") ? null : Integer.parseInt(obj.getString("promote")),
+                                obj.getString("demote").equals("null") ? null : Integer.parseInt(obj.getString("demote"))
+                        )
                 ));
             }
             return accounts;
@@ -79,7 +88,15 @@ public class AccountDao implements Dao<Account> {
                         obj.getString("levelCap").equals("null")?null:Integer.valueOf(obj.getString("levelCap")),
                         obj.getString("levelExp").equals("null")?null:Integer.valueOf(obj.getString("levelExp")),
                         obj.getString("idRole").equals("null") ? null : obj.getString("idRole"),
-                        obj.getString("nameRole").equals("null") ? null : obj.getString("nameRole")
+                        obj.getString("nameRole").equals("null") ? null : obj.getString("nameRole"),
+                        new Rank(
+                                obj.getString("idRank").equals("null") ? null : obj.getString("idRank"),
+                                obj.getString("rankName").equals("null") ? null : obj.getString("rankName"),
+                                obj.getString("reward").equals("null") ? null : Integer.parseInt(obj.getString("reward")),
+                                obj.getString("imagePath").equals("null") ? null : obj.getString("imagePath"),
+                                obj.getString("promote").equals("null") ? null : Integer.parseInt(obj.getString("promote")),
+                                obj.getString("demote").equals("null") ? null : Integer.parseInt(obj.getString("demote"))
+                        )
                 ));
             }
             return accounts.get(0);
@@ -110,6 +127,7 @@ public class AccountDao implements Dao<Account> {
             jsonObject.put("levelCap", acc.getLevelCap());
             jsonObject.put("levelExp", acc.getLevelExp());
             jsonObject.put("idRole", acc.getIdRole());
+            jsonObject.put("idRank", acc.getRank().getIdRank());
             crudAPI.post(jsonObject, url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,6 +155,7 @@ public class AccountDao implements Dao<Account> {
             jsonObject.put("levelCap", acc.getLevelCap());
             jsonObject.put("levelExp", acc.getLevelExp());
             jsonObject.put("idRole", acc.getIdRole());
+            jsonObject.put("idRank", acc.getRank().getIdRank());
             crudAPI.put(jsonObject, url + "/" + acc.getIdAccount());
         } catch (Exception e) {
             e.printStackTrace();
