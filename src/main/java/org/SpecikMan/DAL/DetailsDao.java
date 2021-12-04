@@ -38,6 +38,10 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
                         obj.getString("levelExp") == "null" ? null : Integer.valueOf(obj.getString("levelExp")),
                         obj.getString("idRole") == "null" ? null : obj.getString("idRole"),
                         null,
+                        new Rank(
+                                obj.getString("idRank").equals("null") ? null : obj.getString("idRank"),
+                                null,null,null,null,null
+                        ),
                         obj.getString("idLevelDetails") == "null" ? null : obj.getString("idLevelDetails"),
                         obj.getString("score") == "null" ? null : obj.getLong("score"),
                         obj.getString("timeLeft") == "null" ? null : obj.getString("timeLeft"),
@@ -98,6 +102,10 @@ public class DetailsDao implements Dao<AccountLevelDetails> {
                         obj.getString("levelExp") == "null" ? null : Integer.valueOf(obj.getString("levelExp")),
                         obj.getString("idRole") == "null" ? null : obj.getString("idRole"),
                         null,
+                        new Rank(
+                                obj.getString("idRank").equals("null") ? null : obj.getString("idRank"),
+                                null,null,null,null,null
+                        ),
                         obj.getString("idLevelDetails") == "null" ? null : obj.getString("idLevelDetails"),
                         obj.getString("score") == "null" ? null : obj.getLong("score"),
                         obj.getString("timeLeft") == "null" ? null : obj.getString("timeLeft"),
