@@ -1,6 +1,5 @@
 package org.SpecikMan.DAL;
 
-import org.SpecikMan.DB.DBConnection;
 import org.SpecikMan.Entity.Difficulty;
 import org.SpecikMan.Entity.Mode;
 import org.SpecikMan.Entity.apiURL;

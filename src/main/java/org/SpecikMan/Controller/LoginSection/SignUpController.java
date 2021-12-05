@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Entity.Rank;
 import org.SpecikMan.Tools.*;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
@@ -69,6 +70,7 @@ public class SignUpController {
                 acc.setAccountLevel(1);
                 acc.setLevelCap(500);
                 acc.setLevelExp(0);
+                acc.setRank(new Rank("RK1",null,null,null,null,null));
                 accountDao.add(acc);
                 ShowAlert.show("Notice","Sign Up successfully");
                 LoadForm.load("/fxml/Home.fxml","TypeMaster",false);
