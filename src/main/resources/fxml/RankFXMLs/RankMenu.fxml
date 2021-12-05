@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="795.0" prefWidth="1538.0" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.RankSection.RankMenuController">
+   <children>
+      <ImageView fx:id="ivRank" fitHeight="133.0" fitWidth="121.0" layoutX="1412.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/diamond.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbRankName" layoutX="1190.0" layoutY="3.0" prefHeight="68.0" prefWidth="204.0" text="Diamond">
+         <font>
+            <Font name="System Bold Italic" size="46.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="ivUser" fitHeight="109.0" fitWidth="107.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/General.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbUsername" layoutX="117.0" layoutY="14.0" prefHeight="46.0" prefWidth="282.0" text="Username - Lv.150">
+         <font>
+            <Font name="System Bold Italic" size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="117.0" layoutY="63.0" prefHeight="46.0" prefWidth="294.0" text="No.10/15 - Promote">
+         <font>
+            <Font name="System Bold Italic" size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="128.0" prefHeight="59.0" prefWidth="396.0" text="Complete 3 rounds to compete with other players" wrapText="true">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Line endX="36.59999084472656" layoutX="106.0" layoutY="208.0" startX="-106.00001525878906" />
+      <Label layoutX="149.0" layoutY="192.0" text="Round 1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Line endX="81.5" layoutX="338.0" layoutY="208.0" startX="-105.20002746582031" />
+      <Label layoutX="8.0" layoutY="257.0" text="Total Letters:">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="8.0" layoutY="222.0" text="Time:">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbLetters1" layoutX="148.0" layoutY="257.0" text="325">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbScore1" layoutX="167.0" layoutY="291.0" prefHeight="38.0" prefWidth="121.0" text="30000000" textFill="RED">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="8.0" layoutY="292.0" text="Current Score:">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTime1" layoutX="74.0" layoutY="222.0" text="03:00">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="304.0" layoutY="226.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
+      <Label fx:id="lbDatePlayed1" layoutX="149.0" layoutY="329.0" text="2020/12/12">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="6.0" layoutY="330.0" text="Date Played:">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Line endX="36.59999084472656" layoutX="109.0" layoutY="383.0" startX="-109.0" />
+      <Label layoutX="152.0" layoutY="367.0" text="Round 2">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Line endX="78.49996948242188" layoutX="341.0" layoutY="383.0" startX="-105.20002746582031" />
+      <Label layoutX="11.0" layoutY="432.0" text="Total Letters:">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="11.0" layoutY="397.0" text="Time:">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbLetters2" layoutX="151.0" layoutY="432.0" text="325">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbScore2" layoutX="170.0" layoutY="466.0" prefHeight="38.0" prefWidth="121.0" text="30000000" textFill="RED">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="11.0" layoutY="467.0" text="Current Score:">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTime2" layoutX="77.0" layoutY="397.0" text="03:00">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="303.0" layoutY="401.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
+      <Label fx:id="lbDatePlayed2" layoutX="152.0" layoutY="504.0" text="2020/12/12">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="9.0" layoutY="505.0" text="Date Played:">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Line endX="36.59999084472656" layoutX="112.0" layoutY="557.0" startX="-112.0" />
+      <Label layoutX="155.0" layoutY="541.0" text="Round 3">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Line endX="76.49996948242188" layoutX="344.0" layoutY="557.0" startX="-105.20002746582031" />
+      <Label layoutX="10.0" layoutY="606.0" text="Total Letters:">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="571.0" text="Time:">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbLetters3" layoutX="150.0" layoutY="606.0" text="325">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbScore3" layoutX="169.0" layoutY="640.0" prefHeight="38.0" prefWidth="121.0" text="30000000" textFill="RED">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="641.0" text="Current Score:">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTime3" layoutX="76.0" layoutY="571.0" text="03:00">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="304.0" layoutY="575.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
+      <Label fx:id="lbDatePlayed3" layoutX="151.0" layoutY="678.0" text="2020/12/12">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="8.0" layoutY="679.0" text="Date Played:">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="734.0" text="Total Score:">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font></Label>
+      <Label fx:id="lbTotalScore" layoutX="182.0" layoutY="723.0" text="30000000">
+         <font>
+            <Font name="System Bold" size="46.0" />
+         </font>
+      </Label>
+      <Line endX="-76.00003051757812" endY="619.0" layoutX="496.0" layoutY="176.0" startX="-76.0" startY="-176.0" />
+      <Label fx:id="lbTitle" layoutX="545.0" layoutY="3.0" text="Diamond Ranking Leaderboard">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="428.0" layoutY="49.0" text="Promote:" textFill="#059e00">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1128.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/coin.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="1241.0" layoutY="102.0" text="15/15">
+         <font>
+            <Font name="System Bold Italic" size="35.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="36.0" fitWidth="35.0" layoutX="1352.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/images.png" />
+         </image>
+      </ImageView>
+      <Line endX="24.89990234375" endY="608.0" layoutX="1150.0" layoutY="187.0" startX="24.89990234375" startY="-187.0" />
+      <Line endX="167.0" endY="-184.50711059570312" layoutX="1371.0" layoutY="343.0" startX="44.4998779296875" startY="-184.50711059570312" />
+      <Label layoutX="1310.0" layoutY="143.0" text="All Players">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Line endX="16.5" layoutX="1287.0" layoutY="157.0" startX="-111.60009765625" />
+      <ScrollPane layoutX="1179.0" layoutY="175.0" prefHeight="358.0" prefWidth="356.0" style="-fx-background-color: #ffffff;">
+         <content>
+            <VBox prefHeight="357.0" prefWidth="358.0" />
+         </content>
+      </ScrollPane>
+      <Line endX="165.0" endY="-184.507080078125" layoutX="1373.0" layoutY="733.0" startX="85.492919921875" startY="-184.507080078125" />
+      <Label layoutX="1267.0" layoutY="533.0" text="Round Leaderboard">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Line endX="-27.30712890625" layoutX="1289.0" layoutY="547.0" startX="-113.60009765625" />
+      <ScrollPane layoutX="1179.0" layoutY="560.0" prefHeight="197.0" prefWidth="356.0" style="-fx-background-color: #ffffff;">
+         <content>
+            <VBox prefHeight="200.0" prefWidth="355.0" />
+         </content>
+      </ScrollPane>
+      <ComboBox layoutX="1179.0" layoutY="765.0" prefHeight="26.0" prefWidth="356.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+      <ScrollPane layoutX="426.0" layoutY="106.0" prefHeight="172.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
+         <content>
+            <VBox prefHeight="174.0" prefWidth="748.0" />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="426.0" layoutY="333.0" prefHeight="248.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
+         <content>
+            <VBox prefHeight="247.0" prefWidth="746.0" />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="426.0" layoutY="633.0" prefHeight="160.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
+         <content>
+            <VBox prefHeight="157.0" prefWidth="747.0" />
+         </content>
+      </ScrollPane>
+      <Label fx:id="lbPromote" layoutX="586.0" layoutY="49.0" text="No.1 -&gt; No.7" textFill="#059e00">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="1197.0" layoutY="68.0" text="Reward:">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="1352.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/coin.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbRankReward" layoutX="1292.0" layoutY="68.0" text="3000">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbPromoteReward" layoutX="1043.0" layoutY="49.0" text="3500" textFill="#059e00">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="430.0" layoutY="284.0" text="Retain:" textFill="#c9900a">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1130.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/coin.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbRetain" layoutX="553.0" layoutY="284.0" text="No.1 -&gt; No.7" textFill="#c9900a">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbRetainReward" layoutX="1045.0" layoutY="284.0" text="3000" textFill="#c9900a">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="430.0" layoutY="580.0" text="Demote:" textFill="RED">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1130.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/coin.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbDemote" layoutX="581.0" layoutY="580.0" text="No.1 -&gt; No.7" textFill="RED">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbDemoteReward" layoutX="1045.0" layoutY="580.0" text="2500" textFill="RED">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

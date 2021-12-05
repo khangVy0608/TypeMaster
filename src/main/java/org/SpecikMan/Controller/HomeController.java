@@ -18,10 +18,15 @@ public class HomeController
     private Button btnPlay;
     @FXML
     private Label lbUsername;
+    @FXML
+    private Button btnRank;
     public void initialize(){
         AccountDao accountDao = new AccountDao();
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         lbUsername.setText("Welcome back , "+account.getUsername());
+        btnRank.setOnMouseClicked(e->{
+            LoadForm.load("/fxml/RankFXMLs/RankMenu.fxml","Rank Menu",false);
+        });
     }
 
 

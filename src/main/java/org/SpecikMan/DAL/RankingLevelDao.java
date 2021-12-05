@@ -26,7 +26,11 @@ public class RankingLevelDao implements Dao<RankingLevel> {
                         obj.getString("fromRankPeriod").equals("null") ? null : Date.valueOf(obj.getString("fromRankPeriod")),
                         obj.getString("toRankPeriod").equals("null") ? null : Date.valueOf(obj.getString("toRankPeriod")),
                         obj.getString("levelContent1").equals("null") ? null : obj.getString("levelContent1"),
-                        obj.getString("levelContent2").equals("null") ? null : obj.getString("levelContent2")
+                        obj.getString("levelContent2").equals("null") ? null : obj.getString("levelContent2"),
+                        obj.getString("levelContent3").equals("null") ? null : obj.getString("levelContent3"),
+                        obj.getString("time1").equals("null") ? null : obj.getString("time1"),
+                        obj.getString("time2").equals("null") ? null : obj.getString("time2"),
+                        obj.getString("time3").equals("null") ? null : obj.getString("time3")
                 ));
             }
             return levels;
@@ -49,7 +53,11 @@ public class RankingLevelDao implements Dao<RankingLevel> {
                         obj.getString("fromRankPeriod").equals("null") ? null : Date.valueOf(obj.getString("fromRankPeriod")),
                         obj.getString("toRankPeriod").equals("null") ? null : Date.valueOf(obj.getString("toRankPeriod")),
                         obj.getString("levelContent1").equals("null") ? null : obj.getString("levelContent1"),
-                        obj.getString("levelContent2").equals("null") ? null : obj.getString("levelContent2")
+                        obj.getString("levelContent2").equals("null") ? null : obj.getString("levelContent2"),
+                        obj.getString("levelContent3").equals("null") ? null : obj.getString("levelContent3"),
+                        obj.getString("time1").equals("null") ? null : obj.getString("time1"),
+                        obj.getString("time2").equals("null") ? null : obj.getString("time2"),
+                        obj.getString("time3").equals("null") ? null : obj.getString("time3")
                 ));
             }
             return levels.get(0);
@@ -69,6 +77,10 @@ public class RankingLevelDao implements Dao<RankingLevel> {
             jsonObject.put("toRankPeriod", rl.getToRankPeriod());
             jsonObject.put("levelContent1", rl.getLevelContent1());
             jsonObject.put("levelContent2", rl.getLevelContent2());
+            jsonObject.put("levelContent3", rl.getLevelContent3());
+            jsonObject.put("time1", rl.getTime1());
+            jsonObject.put("time2", rl.getTime2());
+            jsonObject.put("time3", rl.getTime3());
             crudAPI.post(jsonObject, url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +97,10 @@ public class RankingLevelDao implements Dao<RankingLevel> {
             jsonObject.put("toRankPeriod", rl.getToRankPeriod());
             jsonObject.put("levelContent1", rl.getLevelContent1());
             jsonObject.put("levelContent2", rl.getLevelContent2());
+            jsonObject.put("levelContent3", rl.getLevelContent3());
+            jsonObject.put("time1", rl.getTime1());
+            jsonObject.put("time2", rl.getTime2());
+            jsonObject.put("time3", rl.getTime3());
             crudAPI.put(jsonObject, url + "/" + rl.getIdRankingLevel());
         } catch (Exception e) {
             e.printStackTrace();

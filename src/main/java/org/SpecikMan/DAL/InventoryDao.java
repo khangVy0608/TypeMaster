@@ -1,6 +1,5 @@
 package org.SpecikMan.DAL;
 
-import org.SpecikMan.DB.DBConnection;
 import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.Inventory;
 import org.SpecikMan.Entity.Shop;

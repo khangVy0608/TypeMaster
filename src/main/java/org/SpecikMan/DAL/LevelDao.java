@@ -2,7 +2,6 @@ package org.SpecikMan.DAL;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.InputMethodEvent;
-import org.SpecikMan.DB.DBConnection;
 import org.SpecikMan.Entity.*;
 import org.SpecikMan.Tools.crudAPI;
 import org.json.JSONArray;

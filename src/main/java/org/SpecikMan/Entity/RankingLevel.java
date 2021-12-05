@@ -9,6 +9,10 @@ public class RankingLevel {
     private Date toRankPeriod;
     private String levelContent1;
     private String levelContent2;
+    private String levelContent3;
+    private String time1;
+    private String time2;
+    private String time3;
 
     public String getIdRankingLevel() {
         return idRankingLevel;
@@ -58,15 +62,52 @@ public class RankingLevel {
         this.levelContent2 = levelContent2;
     }
 
+    public String getLevelContent3() {
+        return levelContent3;
+    }
+
+    public void setLevelContent3(String levelContent3) {
+        this.levelContent3 = levelContent3;
+    }
+
+    public String getTime1() {
+        return time1;
+    }
+
+    public void setTime1(String time1) {
+        this.time1 = time1;
+    }
+
+    public String getTime2() {
+        return time2;
+    }
+
+    public void setTime2(String time2) {
+        this.time2 = time2;
+    }
+
+    public String getTime3() {
+        return time3;
+    }
+
+    public void setTime3(String time3) {
+        this.time3 = time3;
+    }
+
     public RankingLevel() {
     }
 
-    public RankingLevel(String idRankingLevel, Date createDate, Date fromRankPeriod, Date toRankPeriod, String levelContent1, String levelContent2) {
+    public RankingLevel(String idRankingLevel, Date createDate, Date fromRankPeriod, Date toRankPeriod, String levelContent1, String levelContent2, String levelContent3,String time1,
+                        String time2,String time3) {
         this.idRankingLevel = idRankingLevel;
         this.createDate = createDate;
         this.fromRankPeriod = fromRankPeriod;
         this.toRankPeriod = toRankPeriod;
         this.levelContent1 = levelContent1;
         this.levelContent2 = levelContent2;
+        this.levelContent3 = levelContent3;
+        this.time1 = time1;
+        this.time2 = time2;
+        this.time3 = time3;
     }
 }
