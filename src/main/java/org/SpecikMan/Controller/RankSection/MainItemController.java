@@ -32,7 +32,7 @@ public class MainItemController {
     }
 
     public void transferData(
-            String idAccount, Integer no, Long score, String status
+            String idAccount, Integer no, Long score, Long score1,Long score2,Long score3
     ) {
         AccountDao accountDao = new AccountDao();
         Account acc = accountDao.get(idAccount);
@@ -40,7 +40,7 @@ public class MainItemController {
         ivImage.setImage(i);
         lbUsername.setText(acc.getUsername() + " - Lv." + acc.getAccountLevel());
         lbNo.setText("#" + no);
-        lbScore.setText(score +" - "+ status);
+        lbScore.setText(score1+"+"+score2+"+"+score3+"->"+score);
         id = idAccount;
     }
 }

@@ -40,7 +40,11 @@ public class AllPlayersController {
         ivImage.setImage(i);
         lbUsername.setText(acc.getUsername() + " - Lv." + acc.getAccountLevel());
         lbNo.setText("#" + no);
-        lbScore.setText(score +" - "+ status);
+        if(status == ""){
+            lbScore.setText(score+"");
+        } else {
+            lbScore.setText(score +" - "+ status);
+        }
         id = idAccount;
     }
 }

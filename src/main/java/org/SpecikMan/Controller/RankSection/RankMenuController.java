@@ -22,6 +22,7 @@ import org.SpecikMan.Tools.GenerateID;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -83,6 +84,24 @@ public class RankMenuController {
     private Label lbCurrentPlayers;
     @FXML
     private Label lbPosition;
+    @FXML
+    private Label lbPromoteAvr;
+    @FXML
+    private Label lbPromoteLowest;
+    @FXML
+    private Label lbPromoteTotal;
+    @FXML
+    private Label lbRetainAvr;
+    @FXML
+    private Label lbRetainLowest;
+    @FXML
+    private Label lbRetainTotal;
+    @FXML
+    private Label lbDemoteAvr;
+    @FXML
+    private Label lbDemoteLowest;
+    @FXML
+    private Label lbDemoteTotal;
 
     @FXML
     private ComboBox cbbRound;
@@ -113,7 +132,8 @@ public class RankMenuController {
     private VBox vbRetain;
     @FXML
     private VBox vbDemote;
-
+    private int rangeStart = 0;
+    private int rangeEnd = 0;
     public void initialize() {
         try {
             AccountDao accountDao = new AccountDao();
@@ -300,6 +320,7 @@ public class RankMenuController {
                     return false;
                 }
             }).collect(Collectors.toList());
+            Group gr = grDao.get(FileRW.Read(FilePath.getUserGroup()));
             lbCurrentPlayers.setText(grs.size() + "/15");
             //
             spAllPlayers.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -321,14 +342,15 @@ public class RankMenuController {
                     Account acc = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
                     String status = "";
                     AtomicInteger h = new AtomicInteger(); // any mutable integer wrapper
+                    int finalI = i;
                     int pos = (accs.stream()
                             .peek(v -> h.incrementAndGet())
-                            .anyMatch(user -> user.getIdAccount().equals(acc.getIdAccount())) ? // your predicate
+                            .anyMatch(user -> user.getIdAccount().equals(accs.get(finalI).getIdAccount())) ? // your predicate
                             h.get() - 1 : -1) + 1;
-                    if (pos > acc.getRank().getDemote()) {
+                    if (pos >= gr.getRank().getDemote()) {
                         lbPosition.setText("No." + pos + "/15 - Demote");
                         status = "Demote";
-                    } else if (pos < acc.getRank().getDemote() && pos > acc.getRank().getPromote()) {
+                    } else if (pos < gr.getRank().getDemote() && pos > gr.getRank().getPromote()) {
                         lbPosition.setText("No." + pos + "/15 - Retain");
                         status = "Retain";
                     } else {
@@ -428,6 +450,7 @@ public class RankMenuController {
             vbPromote.getChildren().clear();
             AccountDao accountDao = new AccountDao();
             GroupDao grDao = new GroupDao();
+            Group gr = grDao.get(FileRW.Read(FilePath.getUserGroup()));
             List<Group> grs = grDao.getAll().stream().filter(e -> {
                 if (e.getIdGroup().equals(FileRW.Read(FilePath.getUserGroup()))) {
                     return true;
@@ -446,9 +469,10 @@ public class RankMenuController {
                 for (Group i : grs) {
                     accs.add(accountDao.get(i.getIdAccount()));
                 }
+                if(gr.getRank().getRankName().equals("God")){
+                    grs.clear();
+                }
                 if (accs.size() >= acc.getRank().getPromote()) {
-                    System.out.println("go in");
-                    System.out.println(acc.getRank().getPromote());
                     accs = accs.subList(0, acc.getRank().getPromote());
                 }
                 Node[] nodes = new Node[accs.size()];
@@ -457,22 +481,29 @@ public class RankMenuController {
                     loader.setLocation(RankMenuController.class.getResource("/fxml/RankFXMLs/Main_item.fxml"));
                     nodes[i] = loader.load();
                     MainItemController ctrl = loader.getController();
-
-                    String status = "";
-                    AtomicInteger h = new AtomicInteger(); // any mutable integer wrapper
-                    int pos = (accs.stream()
-                            .peek(v -> h.incrementAndGet())
-                            .anyMatch(user -> user.getIdAccount().equals(acc.getIdAccount())) ? // your predicate
-                            h.get() - 1 : -1) + 1;
-                    if (pos > acc.getRank().getDemote()) {
-                        status = "Demote";
-                    } else if (pos < acc.getRank().getDemote() && pos > acc.getRank().getPromote()) {
-                        status = "Retain";
-                    } else {
-                        status = "Promote";
-                    }
-                    ctrl.transferData(accs.get(i).getIdAccount(), i + 1, grs.get(i).getTotalScore(), status);
+                    ctrl.transferData(accs.get(i).getIdAccount(), i + 1, grs.get(i).getTotalScore(), grs.get(i).getScore1(),grs.get(i).getScore2(),grs.get(i).getScore3());
                     vbPromote.getChildren().add(nodes[i]);
+                }
+                if(accs.size()>0){
+                    if (grs.size() >= gr.getRank().getPromote()) {
+                        grs = grs.subList(0, gr.getRank().getPromote());
+                    }
+                    long lowest = 0L;
+                    long avr = 0L;
+                    double total = 0.0;
+                    lowest = grs.get(grs.size()-1).getTotalScore();
+                    for(Group i: grs){
+                        avr+=i.getTotalScore();
+                    }
+                    avr/=grs.size();
+                    total = BigDecimal.valueOf((double)Math.round((double)grs.size()/(double)15.0)*(double)100.0).doubleValue();
+                    lbPromoteAvr.setText(avr+"");
+                    lbPromoteLowest.setText(lowest+"");
+                    lbPromoteTotal.setText(total+"%");
+                }else {
+                    lbPromoteAvr.setText("---");
+                    lbPromoteLowest.setText("----");
+                    lbPromoteTotal.setText("---");
                 }
             } else {
                 vbPromote.getChildren().clear();
@@ -487,6 +518,7 @@ public class RankMenuController {
             vbRetain.getChildren().clear();
             AccountDao accountDao = new AccountDao();
             GroupDao grDao = new GroupDao();
+            Group gr = grDao.get(FileRW.Read(FilePath.getUserGroup()));
             List<Group> grs = grDao.getAll().stream().filter(e -> {
                 if (e.getIdGroup().equals(FileRW.Read(FilePath.getUserGroup()))) {
                     return true;
@@ -505,8 +537,10 @@ public class RankMenuController {
                 for (Group i : grs) {
                     accs.add(accountDao.get(i.getIdAccount()));
                 }
-                if (accs.size() > acc.getRank().getDemote()) {
-                    System.out.println("go in");
+                if(accs.size()<=gr.getRank().getPromote()){
+                    accs.clear();
+                }
+                if(accs.size()>gr.getRank().getPromote()){
                     accs = accs.subList(acc.getRank().getPromote(), acc.getRank().getDemote()-1);
                 }
                 Node[] nodes = new Node[accs.size()];
@@ -515,22 +549,30 @@ public class RankMenuController {
                     loader.setLocation(RankMenuController.class.getResource("/fxml/RankFXMLs/Main_item.fxml"));
                     nodes[i] = loader.load();
                     MainItemController ctrl = loader.getController();
-
-                    String status = "";
-                    AtomicInteger h = new AtomicInteger(); // any mutable integer wrapper
-                    int pos = (accs.stream()
-                            .peek(v -> h.incrementAndGet())
-                            .anyMatch(user -> user.getIdAccount().equals(acc.getIdAccount())) ? // your predicate
-                            h.get() - 1 : -1) + 1;
-                    if (pos > acc.getRank().getDemote()) {
-                        status = "Demote";
-                    } else if (pos < acc.getRank().getDemote() && pos > acc.getRank().getPromote()) {
-                        status = "Retain";
-                    } else {
-                        status = "Promote";
-                    }
-                    ctrl.transferData(accs.get(i).getIdAccount(), i + accs.get(i).getRank().getPromote() - 1, grs.get(i).getTotalScore(), status);
+                    ctrl.transferData(accs.get(i).getIdAccount(), i + accs.get(i).getRank().getPromote()+1, grs.get(i).getTotalScore(),
+                            grs.get(i).getScore1(),grs.get(i).getScore2(),grs.get(i).getScore3() );
                     vbRetain.getChildren().add(nodes[i]);
+                }
+                if(accs.size() > 0){
+                    if (grs.size() >= gr.getRank().getPromote()) {
+                        grs = grs.subList(gr.getRank().getPromote(), gr.getRank().getDemote()-1);
+                    }
+                    long lowest = 0L;
+                    long avr = 0L;
+                    double total = 0;
+                    lowest = grs.get(grs.size()-1).getTotalScore();
+                    for(Group i: grs){
+                        avr+=i.getTotalScore();
+                    }
+                    avr/=grs.size();
+                    total = BigDecimal.valueOf((double)Math.round((double)grs.size()/(double)15.0)*(double)100.0).doubleValue();
+                    lbRetainAvr.setText(avr+"");
+                    lbRetainLowest.setText(lowest+"");
+                    lbRetainTotal.setText(total+"%");
+                } else {
+                    lbRetainAvr.setText("---");
+                    lbRetainLowest.setText("---");
+                    lbRetainTotal.setText("---");
                 }
             } else {
                 vbRetain.getChildren().clear();
@@ -545,6 +587,7 @@ public class RankMenuController {
             vbDemote.getChildren().clear();
             AccountDao accountDao = new AccountDao();
             GroupDao grDao = new GroupDao();
+            Group gr = grDao.get(FileRW.Read(FilePath.getUserGroup()));
             List<Group> grs = grDao.getAll().stream().filter(e -> {
                 if (e.getIdGroup().equals(FileRW.Read(FilePath.getUserGroup()))) {
                     return true;
@@ -563,8 +606,10 @@ public class RankMenuController {
                 for (Group i : grs) {
                     accs.add(accountDao.get(i.getIdAccount()));
                 }
-                if (accs.size() >= acc.getRank().getDemote()) {
-                    System.out.println("go in");
+                if(gr.getRank().getRankName().equals("Bronze")){
+                    accs.clear();
+                }
+                if(accs.size()>=gr.getRank().getDemote()){
                     accs = accs.subList(acc.getRank().getDemote()-1, accs.size());
                 }
                 Node[] nodes = new Node[accs.size()];
@@ -573,22 +618,30 @@ public class RankMenuController {
                     loader.setLocation(RankMenuController.class.getResource("/fxml/RankFXMLs/Main_item.fxml"));
                     nodes[i] = loader.load();
                     MainItemController ctrl = loader.getController();
-
-                    String status = "";
-                    AtomicInteger h = new AtomicInteger(); // any mutable integer wrapper
-                    int pos = (accs.stream()
-                            .peek(v -> h.incrementAndGet())
-                            .anyMatch(user -> user.getIdAccount().equals(acc.getIdAccount())) ? // your predicate
-                            h.get() - 1 : -1) + 1;
-                    if (pos > acc.getRank().getDemote()) {
-                        status = "Demote";
-                    } else if (pos < acc.getRank().getDemote() && pos > acc.getRank().getPromote()) {
-                        status = "Retain";
-                    } else {
-                        status = "Promote";
-                    }
-                    ctrl.transferData(accs.get(i).getIdAccount(), i + accs.get(i).getRank().getDemote() - 4, grs.get(i).getTotalScore(), status);
+                    ctrl.transferData(accs.get(i).getIdAccount(), i + accs.get(i).getRank().getDemote(), grs.get(i).getTotalScore(),
+                            grs.get(i).getScore1(),grs.get(i).getScore2(),grs.get(i).getScore3());
                     vbDemote.getChildren().add(nodes[i]);
+                }
+                if(accs.size()>0){
+                    if (grs.size() >= gr.getRank().getPromote()) {
+                        grs = grs.subList(gr.getRank().getDemote()-1, grs.size());
+                    }
+                    long lowest = 0L;
+                    long avr = 0L;
+                    double total = 0;
+                    lowest = grs.get(grs.size()-1).getTotalScore();
+                    for(Group i: grs){
+                        avr+=i.getTotalScore();
+                    }
+                    avr/=grs.size();
+                    total = BigDecimal.valueOf((double)Math.round((double)grs.size()/(double)15.0)*(double)100.0).doubleValue();
+                    lbDemoteAvr.setText(avr+"");
+                    lbDemoteLowest.setText(lowest+"");
+                    lbDemoteTotal.setText(total+"%");
+                } else {
+                    lbDemoteAvr.setText("---");
+                    lbDemoteLowest.setText("---");
+                    lbDemoteTotal.setText("---");
                 }
             } else {
                 vbDemote.getChildren().clear();
@@ -597,5 +650,4 @@ public class RankMenuController {
             e.printStackTrace();
         }
     }
-    //TODO:Fix later
 }

@@ -18,7 +18,7 @@
             <Image url="@../../image/diamond.png" />
          </image>
       </ImageView>
-      <Label fx:id="lbRankName" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1190.0" layoutY="3.0" prefHeight="68.0" prefWidth="204.0" text="Diamond">
+      <Label fx:id="lbRankName" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1190.0" layoutY="3.0" prefHeight="68.0" prefWidth="204.0" text="Gold">
          <font>
             <Font name="System Bold Italic" size="46.0" />
          </font>
@@ -212,7 +212,7 @@
             <Image url="@../../image/ShopItem/coin.png" />
          </image>
       </ImageView>
-      <Label fx:id="lbCurrentPlayers" layoutX="1241.0" layoutY="102.0" text="15/15">
+      <Label fx:id="lbCurrentPlayers" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="1241.0" layoutY="102.0" prefHeight="51.0" prefWidth="107.0" text="0/15">
          <font>
             <Font name="System Bold Italic" size="35.0" />
          </font>
@@ -253,14 +253,14 @@
             <VBox fx:id="vbPromote" prefHeight="174.0" prefWidth="514.0" />
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="spRetain" layoutX="426.0" layoutY="333.0" prefHeight="228.0" prefWidth="514.0" style="-fx-background-color: #ffffff;">
+      <ScrollPane fx:id="spRetain" layoutX="426.0" layoutY="333.0" prefHeight="230.0" prefWidth="514.0" style="-fx-background-color: #ffffff;">
          <content>
             <VBox fx:id="vbRetain" prefHeight="229.0" prefWidth="514.0" />
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="spDemote" layoutX="426.0" layoutY="621.0" prefHeight="172.0" prefWidth="514.0" style="-fx-background-color: #ffffff;">
+      <ScrollPane fx:id="spDemote" layoutX="426.0" layoutY="613.0" prefHeight="180.0" prefWidth="514.0" style="-fx-background-color: #ffffff;">
          <content>
-            <VBox fx:id="vbDemote" prefHeight="172.0" prefWidth="514.0" />
+            <VBox fx:id="vbDemote" prefHeight="178.0" prefWidth="514.0" />
          </content>
       </ScrollPane>
       <Label fx:id="lbPromote" layoutX="586.0" layoutY="49.0" text="No.1 -&gt; No.7" textFill="#059e00">
@@ -303,137 +303,122 @@
             <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label fx:id="lbRetainReward" layoutX="1045.0" layoutY="284.0" text="3000" textFill="#c9900a">
+      <Label fx:id="lbRetainReward" alignment="TOP_RIGHT" layoutX="1045.0" layoutY="284.0" text="3000" textFill="#c9900a">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="430.0" layoutY="571.0" text="Demote:" textFill="RED">
+      <Label layoutX="430.0" layoutY="567.0" text="Demote:" textFill="RED">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1130.0" layoutY="578.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1130.0" layoutY="574.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../image/ShopItem/coin.png" />
          </image>
       </ImageView>
-      <Label fx:id="lbDemote" layoutX="581.0" layoutY="571.0" text="No.1 -&gt; No.7" textFill="RED">
+      <Label fx:id="lbDemote" layoutX="581.0" layoutY="567.0" text="No.1 -&gt; No.7" textFill="RED">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label fx:id="lbDemoteReward" layoutX="1045.0" layoutY="571.0" text="2500" textFill="RED">
+      <Label fx:id="lbDemoteReward" alignment="TOP_RIGHT" layoutX="1045.0" layoutY="567.0" text="2500" textFill="RED">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Line endX="-86.29998779296875" endY="99.0928955078125" layoutX="1037.0" layoutY="173.0" startX="-86.29998779296875" startY="-64.90711212158203" />
-      <Line endX="-86.29998779296875" endY="163.89288330078125" layoutX="1037.0" layoutY="397.0" startX="-86.29998779296875" startY="-61.70709228515625" />
-      <Line endX="-86.29998779296875" endY="441.0928955078125" layoutX="1037.0" layoutY="183.0" startX="-86.29998779296875" startY="605.8928833007812" />
-      <Label layoutX="991.0" layoutY="102.0" text="Promote Players">
+      <Line endX="-76.70001220703125" endY="115.69290161132812" layoutX="1022.0" layoutY="158.0" startX="-76.70001220703125" startY="-49.90711212158203" />
+      <Line endX="-76.70001220703125" endY="196.29290771484375" layoutX="1022.0" layoutY="363.0" startX="-76.70001220703125" startY="-26.9071044921875" />
+      <Line endX="-76.70001220703125" endY="123.29290771484375" layoutX="1022.0" layoutY="664.0" startX="-76.70001220703125" startY="-49.90711212158203" />
+      <Label alignment="TOP_RIGHT" layoutX="989.0" layoutY="94.0" text="Average Score">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers1" alignment="TOP_CENTER" layoutX="1020.0" layoutY="132.0" prefHeight="38.0" prefWidth="71.0" text="1/7">
+      <Label fx:id="lbPromoteAvr" alignment="TOP_CENTER" layoutX="989.0" layoutY="129.0" prefHeight="32.0" prefWidth="141.0" text="3000000">
          <font>
-            <Font name="System Bold Italic" size="26.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <ImageView fitHeight="36.0" fitWidth="35.0" layoutX="1082.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../image/images.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="1007.0" layoutY="171.0" text="Lowest Score">
+      <Label layoutX="995.0" layoutY="159.0" text="Lowest Score">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers11" alignment="TOP_CENTER" layoutX="1000.0" layoutY="201.0" prefHeight="38.0" prefWidth="137.0" text="3000000">
+      <Label fx:id="lbPromoteLowest" alignment="TOP_CENTER" layoutX="990.0" layoutY="194.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
          <font>
-            <Font name="System Bold Italic" size="26.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="965.0" layoutY="237.0" text="Total %:">
+      <Label layoutX="963.0" layoutY="237.0" text="Total %:">
          <font>
-            <Font name="System Bold" size="27.0" />
+            <Font size="27.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers111" alignment="TOP_CENTER" layoutX="1064.0" layoutY="233.0" prefHeight="38.0" prefWidth="107.0" text="100%">
+      <Label fx:id="lbPromoteTotal" layoutX="1074.0" layoutY="231.0" text="100%">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="1002.0" layoutY="333.0" text="Retain Players">
+      <Label layoutX="989.0" layoutY="353.0" text="Average Score">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers12" alignment="TOP_CENTER" layoutX="1020.0" layoutY="371.0" prefHeight="38.0" prefWidth="71.0" text="1/7">
+      <Label fx:id="lbRetainAvr" alignment="TOP_CENTER" layoutX="988.0" layoutY="388.0" prefHeight="32.0" prefWidth="142.0" text="3000000">
          <font>
-            <Font name="System Bold Italic" size="26.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <ImageView fitHeight="36.0" fitWidth="35.0" layoutX="1082.0" layoutY="373.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../image/images.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="1002.0" layoutY="424.0" text="Lowest Score">
+      <Label layoutX="995.0" layoutY="418.0" text="Lowest Score">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers112" alignment="TOP_CENTER" layoutX="996.0" layoutY="459.0" prefHeight="38.0" prefWidth="137.0" text="3000000">
+      <Label fx:id="lbRetainLowest" alignment="TOP_CENTER" layoutX="990.0" layoutY="453.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
          <font>
-            <Font name="System Bold Italic" size="26.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="965.0" layoutY="522.0" text="Total %:">
+      <Label layoutX="963.0" layoutY="496.0" text="Total %:">
          <font>
-            <Font name="System Bold" size="27.0" />
+            <Font size="27.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers1111" alignment="TOP_CENTER" layoutX="1063.0" layoutY="518.0" prefHeight="38.0" prefWidth="107.0" text="100%">
+      <Label fx:id="lbRetainTotal" layoutX="1074.0" layoutY="490.0" text="100%">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="987.0" layoutY="616.0" text="Demote Players">
+      <Label layoutX="989.0" layoutY="614.0" text="Average Score">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers13" alignment="TOP_CENTER" layoutX="1010.0" layoutY="648.0" prefHeight="38.0" prefWidth="71.0" text="1/7">
+      <Label fx:id="lbDemoteAvr" alignment="TOP_CENTER" layoutX="990.0" layoutY="649.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
          <font>
-            <Font name="System Bold Italic" size="26.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <ImageView fitHeight="36.0" fitWidth="35.0" layoutX="1072.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../image/images.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="997.0" layoutY="687.0" text="Lowest Score">
+      <Label layoutX="995.0" layoutY="683.0" text="Lowest Score">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers113" alignment="TOP_CENTER" layoutX="990.0" layoutY="717.0" prefHeight="38.0" prefWidth="137.0" text="3000000">
+      <Label fx:id="lbDemoteLowest" alignment="TOP_CENTER" layoutX="992.0" layoutY="718.0" prefHeight="32.0" prefWidth="129.0" text="3000000">
          <font>
-            <Font name="System Bold Italic" size="26.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="966.0" layoutY="758.0" text="Total %:">
+      <Label layoutX="963.0" layoutY="750.0" text="Total %:">
          <font>
-            <Font name="System Bold" size="27.0" />
+            <Font size="27.0" />
          </font>
       </Label>
-      <Label fx:id="lbCurrentPlayers1112" alignment="TOP_CENTER" layoutX="1065.0" layoutY="754.0" prefHeight="38.0" prefWidth="107.0" text="100%">
+      <Label fx:id="lbDemoteTotal" layoutX="1074.0" layoutY="744.0" text="100%">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
    </children>
