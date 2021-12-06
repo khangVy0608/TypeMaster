@@ -7,6 +7,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import org.SpecikMan.DAL.AccountDao;
@@ -72,6 +73,7 @@ public class StatsOneController {
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         Calendar c = Calendar.getInstance();
         c.setTime(account.getCreateDate());
+        imRanksViewProfile.setImage(new Image(account.getRank().getImagePath()));
         lbUsername.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
         lbTotalDate.setText(account.getCountLoginDate() + "");
         lbCreateDay.setText(c.get(Calendar.DAY_OF_MONTH) + "");

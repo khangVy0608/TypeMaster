@@ -2,6 +2,7 @@ package org.SpecikMan.Controller.PracticeSection;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.DetailLogDao;
@@ -97,6 +98,7 @@ public class ViewProfileController {
                 logs.add(i);
             }
         }
+        imRanksViewProfile.setImage(new Image(account.getRank().getImagePath()));
         if(logs.isEmpty()&&details.isEmpty()){
             Calendar c = Calendar.getInstance();
             lbUsername.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
