@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import org.SpecikMan.DAL.AccountDao;
@@ -114,6 +115,7 @@ public class GeneralController {
         Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
         Calendar c = Calendar.getInstance();
         c.setTime(account.getCreateDate());
+        imRanks.setImage(new Image(account.getRank().getImagePath()));
         lbTitleUserName.setText(account.getUsername());
         lbUserName.setText(account.getUsername() + " Lv."+account.getAccountLevel()+" - "+account.getLevelExp()+"/"+account.getLevelCap());
         lbTotalDate.setText(account.getCountLoginDate() + "");

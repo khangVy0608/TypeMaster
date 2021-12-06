@@ -11,6 +11,8 @@ public class FilePath {
     private static String PLAY_RESULT = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\PlayResult.txt";
     private static String RETRY_OR_MENU = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\RetryOrMenu.txt";
     private static String CHART_DATA = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\chartData.txt";
+    private static String USER_GROUP = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\Group.txt";
+
 
     public static String getChartData() {
         return CHART_DATA;
@@ -50,6 +52,10 @@ public class FilePath {
 
     public static String getRetryOrMenu() {
         return RETRY_OR_MENU;
+    }
+
+    public static String getUserGroup(){
+        return USER_GROUP;
     }
 
     public FilePath() {
