@@ -19,7 +19,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lbScore" layoutX="119.0" layoutY="36.0" text="30000000 - Promote">
+      <Label fx:id="lbScore" layoutX="115.0" layoutY="36.0" text="3000000+3000000+3000000-&gt;30000000">
          <font>
             <Font name="System Italic" size="17.0" />
          </font>
