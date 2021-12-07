@@ -111,4 +111,11 @@ public class Group extends Account{
 
     public Group() {
     }
+    public Group(String idAccount,String username,Long score,Long score1,Long score2,Long score3){
+        super(idAccount,username);
+        this.totalScore = score;
+        this.score1 = score1;
+        this.score2 = score2;
+        this.score3 = score3;
+    }
 }

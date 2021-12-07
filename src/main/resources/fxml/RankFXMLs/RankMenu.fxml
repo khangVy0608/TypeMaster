@@ -80,7 +80,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="304.0" layoutY="226.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
+      <Button fx:id="btnPlay1" layoutX="304.0" layoutY="226.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
       <Label fx:id="lbDatePlayed1" layoutX="149.0" layoutY="329.0" text="2020/12/12">
          <font>
             <Font name="System Bold" size="26.0" />
@@ -128,7 +128,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="303.0" layoutY="401.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
+      <Button fx:id="btnPlay2" layoutX="303.0" layoutY="401.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
       <Label fx:id="lbDatePlayed2" layoutX="152.0" layoutY="504.0" text="2020/12/12">
          <font>
             <Font name="System Bold" size="26.0" />
@@ -176,7 +176,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="304.0" layoutY="575.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
+      <Button fx:id="btnPlay3" layoutX="304.0" layoutY="575.0" mnemonicParsing="false" prefHeight="132.0" prefWidth="106.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Play" />
       <Label fx:id="lbDatePlayed3" layoutX="151.0" layoutY="678.0" text="2020/12/12">
          <font>
             <Font name="System Bold" size="26.0" />
@@ -336,29 +336,19 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbPromoteAvr" alignment="TOP_CENTER" layoutX="989.0" layoutY="129.0" prefHeight="32.0" prefWidth="141.0" text="3000000">
+      <Label fx:id="lbPromoteAvr" alignment="TOP_CENTER" layoutX="989.0" layoutY="124.0" prefHeight="32.0" prefWidth="141.0" text="3000000">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="995.0" layoutY="159.0" text="Lowest Score">
+      <Label layoutX="995.0" layoutY="150.0" text="Lowest Score">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbPromoteLowest" alignment="TOP_CENTER" layoutX="990.0" layoutY="194.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
+      <Label fx:id="lbPromoteLowest" alignment="TOP_CENTER" layoutX="990.0" layoutY="181.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
          <font>
             <Font name="System Bold" size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="963.0" layoutY="237.0" text="Total %:">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Label fx:id="lbPromoteTotal" layoutX="1074.0" layoutY="231.0" text="100%">
-         <font>
-            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
       <Label layoutX="989.0" layoutY="353.0" text="Average Score">
@@ -381,44 +371,54 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="963.0" layoutY="496.0" text="Total %:">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Label fx:id="lbRetainTotal" layoutX="1074.0" layoutY="490.0" text="100%">
-         <font>
-            <Font name="System Bold" size="35.0" />
-         </font>
-      </Label>
-      <Label layoutX="989.0" layoutY="614.0" text="Average Score">
+      <Label layoutX="989.0" layoutY="607.0" text="Average Score">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbDemoteAvr" alignment="TOP_CENTER" layoutX="990.0" layoutY="649.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
+      <Label fx:id="lbDemoteAvr" alignment="TOP_CENTER" layoutX="990.0" layoutY="637.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="995.0" layoutY="683.0" text="Lowest Score">
+      <Label layoutX="996.0" layoutY="662.0" text="Lowest Score">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbDemoteLowest" alignment="TOP_CENTER" layoutX="992.0" layoutY="718.0" prefHeight="32.0" prefWidth="129.0" text="3000000">
+      <Label fx:id="lbDemoteLowest" alignment="TOP_CENTER" layoutX="993.0" layoutY="691.0" prefHeight="32.0" prefWidth="129.0" text="3000000">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="963.0" layoutY="750.0" text="Total %:">
+      <Label layoutX="989.0" layoutY="210.0" text="Highest Score">
          <font>
-            <Font size="27.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lbDemoteTotal" layoutX="1074.0" layoutY="744.0" text="100%">
+      <Label fx:id="lbPromoteHighest" alignment="TOP_CENTER" layoutX="989.0" layoutY="242.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
          <font>
-            <Font name="System Bold" size="35.0" />
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="990.0" layoutY="484.0" text="Highest Score">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbRetainHighest" alignment="TOP_CENTER" layoutX="990.0" layoutY="516.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="989.0" layoutY="718.0" text="Highest Score">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbDemoteHighest" alignment="TOP_CENTER" layoutX="989.0" layoutY="749.0" prefHeight="32.0" prefWidth="140.0" text="3000000">
+         <font>
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
    </children>

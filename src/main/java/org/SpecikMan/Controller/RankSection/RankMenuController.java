@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -19,7 +20,9 @@ import org.SpecikMan.Entity.Group;
 import org.SpecikMan.Entity.RankingLevel;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.GenerateID;
+import org.SpecikMan.Tools.LoadForm;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -89,19 +92,19 @@ public class RankMenuController {
     @FXML
     private Label lbPromoteLowest;
     @FXML
-    private Label lbPromoteTotal;
+    private Label lbPromoteHighest;
     @FXML
     private Label lbRetainAvr;
     @FXML
     private Label lbRetainLowest;
     @FXML
-    private Label lbRetainTotal;
+    private Label lbRetainHighest;
     @FXML
     private Label lbDemoteAvr;
     @FXML
     private Label lbDemoteLowest;
     @FXML
-    private Label lbDemoteTotal;
+    private Label lbDemoteHighest;
 
     @FXML
     private ComboBox cbbRound;
@@ -132,8 +135,111 @@ public class RankMenuController {
     private VBox vbRetain;
     @FXML
     private VBox vbDemote;
+
+    @FXML
+    private Button btnPlay1;
+    @FXML
+    private Button btnPlay2;
+    @FXML
+    private Button btnPlay3;
+
     private int rangeStart = 0;
     private int rangeEnd = 0;
+    public void resetStatus(){
+        try {
+            AccountDao accountDao = new AccountDao();
+            Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
+            //
+            lbUsername.setText(account.getUsername() + " - " + "Lv." + account.getAccountLevel());
+            lbRankName.setText(account.getRank().getRankName());
+            lbRankReward.setText(account.getRank().getReward() + "");
+            lbTitle.setText(account.getRank().getRankName() + " Ranking Leaderboard");
+            if (account.getRank().getRankName().equals("God")) {
+                lbPromote.setText("No.-- -> No.--");
+                lbPromoteReward.setText("--");
+            } else {
+                lbPromote.setText("No.1 -> No." + account.getRank().getPromote());
+                lbPromoteReward.setText((account.getRank().getReward() + 500) + "");
+            }
+            lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote() - 1));
+            lbRetainReward.setText(account.getRank().getReward() + "");
+            if (account.getRank().getRankName().equals("Bronze")) {
+                lbDemote.setText("No.-- -> No.--");
+                lbDemoteReward.setText("--");
+            } else {
+                lbDemote.setText("No." + account.getRank().getDemote() + " -> No.15");
+                lbDemoteReward.setText((account.getRank().getReward() - 500) + "");
+            }
+            //
+            Image imageUser = new Image(new FileInputStream(account.getPathImage()));
+            Image imageRank = new Image(new FileInputStream(account.getRank().getImagePath()));
+            ivUser.setImage(imageUser);
+            ivRank.setImage(imageRank);
+            //
+            RankingLevelDao rlDao = new RankingLevelDao();
+            GroupDao grDao = new GroupDao();
+            boolean hasGroup = false;
+            List<Group> groupRank = grDao.getByRank(account.getRank().getIdRank());
+            for(Group i: groupRank){//Check user has group or not
+                String key = i.getIdGroup();
+                Group userGr = null;
+                for(Group j: grDao.getAll()){
+                    if(j.getIdGroup().equals(key) && j.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))){
+                        userGr = j;
+                    }
+                }
+                if(userGr!=null){//user already has group
+                    displayGroup(userGr);
+                    FileRW.Write(FilePath.getUserGroup(), key);
+                    hasGroup = true;
+                    break;
+                }
+            }
+            if(hasGroup==false){//user not have group
+                if(groupRank.isEmpty()){
+                    addNewGroup(GenerateID.genGroup());
+                } else {
+                    for (Group i : groupRank) {
+                        String key = i.getIdGroup();
+                        List<Group> grs = new ArrayList<>();
+                        for (Group j : grDao.getAll()) {
+                            if (j.getIdGroup().equals(key)) {
+                                grs.add(j);
+                            }
+                        }
+                        if (grs.size() < 15) {
+                            addNewGroup(key);
+                            FileRW.Write(FilePath.getUserGroup(), key);
+                            break;
+                        }
+                        if (i.equals(groupRank.get(groupRank.size() - 1))) {
+                            String id = GenerateID.genGroup();
+                            addNewGroup(id);
+                            FileRW.Write(FilePath.getUserGroup(), id);
+                            break;
+                        }
+                    }
+                }
+            }
+            RankingLevel rl = getCurrentRankingLevel();
+            if (rl != null) {
+                lbTime1.setText(rl.getTime1());
+                lbTime2.setText(rl.getTime2());
+                lbTime3.setText(rl.getTime3());
+                lbLetters1.setText(rl.getLevelContent1().toCharArray().length + "");
+                lbLetters2.setText(rl.getLevelContent2().toCharArray().length + "");
+                lbLetters3.setText(rl.getLevelContent3().toCharArray().length + "");
+            }
+            ShowAllPlayers();
+            ShowPlayerByRound(1);
+            cbbRound.getSelectionModel().select("Round 1");
+            ShowPromote();
+            ShowRetain();
+            ShowDemote();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void initialize() {
         try {
             AccountDao accountDao = new AccountDao();
@@ -243,6 +349,25 @@ public class RankMenuController {
             ShowPromote();
             ShowRetain();
             ShowDemote();
+
+            btnPlay1.setOnMouseClicked(e->{
+                FileRW.Write(FilePath.getRound(),"1");
+                FileRW.Write(FilePath.getOriginalRank(),rl.getLevelContent1()+"_");
+                LoadForm.load("/fxml/RankFXMLs/Play.fxml","Play Rank",true);
+                resetStatus();
+            });
+            btnPlay2.setOnMouseClicked(e->{
+                FileRW.Write(FilePath.getRound(),"2");
+                FileRW.Write(FilePath.getOriginalRank(),rl.getLevelContent2()+"_");
+                LoadForm.load("/fxml/RankFXMLs/Play.fxml","Play Rank",true);
+                resetStatus();
+            });
+            btnPlay3.setOnMouseClicked(e->{
+                FileRW.Write(FilePath.getRound(),"3");
+                FileRW.Write(FilePath.getOriginalRank(),rl.getLevelContent3()+"_");
+                LoadForm.load("/fxml/RankFXMLs/Play.fxml","Play Rank",true);
+                resetStatus();
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -475,6 +600,9 @@ public class RankMenuController {
                 if (accs.size() >= acc.getRank().getPromote()) {
                     accs = accs.subList(0, acc.getRank().getPromote());
                 }
+                if (grs.size() >= gr.getRank().getPromote()) {
+                    grs = grs.subList(0, gr.getRank().getPromote());
+                }
                 Node[] nodes = new Node[accs.size()];
                 for (int i = 0; i < nodes.length; i++) {
                     FXMLLoader loader = new FXMLLoader();
@@ -485,25 +613,22 @@ public class RankMenuController {
                     vbPromote.getChildren().add(nodes[i]);
                 }
                 if(accs.size()>0){
-                    if (grs.size() >= gr.getRank().getPromote()) {
-                        grs = grs.subList(0, gr.getRank().getPromote());
-                    }
                     long lowest = 0L;
                     long avr = 0L;
-                    double total = 0.0;
+                    long highest = 0L;
+                    highest = grs.get(0).getTotalScore();
                     lowest = grs.get(grs.size()-1).getTotalScore();
                     for(Group i: grs){
                         avr+=i.getTotalScore();
                     }
                     avr/=grs.size();
-                    total = BigDecimal.valueOf((double)Math.round((double)grs.size()/(double)15.0)*(double)100.0).doubleValue();
                     lbPromoteAvr.setText(avr+"");
                     lbPromoteLowest.setText(lowest+"");
-                    lbPromoteTotal.setText(total+"%");
+                    lbPromoteHighest.setText(highest+"");
                 }else {
                     lbPromoteAvr.setText("---");
                     lbPromoteLowest.setText("----");
-                    lbPromoteTotal.setText("---");
+                    lbPromoteHighest.setText("---");
                 }
             } else {
                 vbPromote.getChildren().clear();
@@ -543,6 +668,9 @@ public class RankMenuController {
                 if(accs.size()>gr.getRank().getPromote()){
                     accs = accs.subList(acc.getRank().getPromote(), acc.getRank().getDemote()-1);
                 }
+                if (grs.size() >= gr.getRank().getPromote()) {
+                    grs = grs.subList(gr.getRank().getPromote(), gr.getRank().getDemote()-1);
+                }
                 Node[] nodes = new Node[accs.size()];
                 for (int i = 0; i < nodes.length; i++) {
                     FXMLLoader loader = new FXMLLoader();
@@ -554,25 +682,22 @@ public class RankMenuController {
                     vbRetain.getChildren().add(nodes[i]);
                 }
                 if(accs.size() > 0){
-                    if (grs.size() >= gr.getRank().getPromote()) {
-                        grs = grs.subList(gr.getRank().getPromote(), gr.getRank().getDemote()-1);
-                    }
                     long lowest = 0L;
                     long avr = 0L;
-                    double total = 0;
+                    long highest = 0L;
+                    highest = grs.get(0).getTotalScore();
                     lowest = grs.get(grs.size()-1).getTotalScore();
                     for(Group i: grs){
                         avr+=i.getTotalScore();
                     }
                     avr/=grs.size();
-                    total = BigDecimal.valueOf((double)Math.round((double)grs.size()/(double)15.0)*(double)100.0).doubleValue();
                     lbRetainAvr.setText(avr+"");
                     lbRetainLowest.setText(lowest+"");
-                    lbRetainTotal.setText(total+"%");
+                    lbRetainHighest.setText(highest+"");
                 } else {
                     lbRetainAvr.setText("---");
                     lbRetainLowest.setText("---");
-                    lbRetainTotal.setText("---");
+                    lbRetainHighest.setText("---");
                 }
             } else {
                 vbRetain.getChildren().clear();
@@ -612,6 +737,9 @@ public class RankMenuController {
                 if(accs.size()>=gr.getRank().getDemote()){
                     accs = accs.subList(acc.getRank().getDemote()-1, accs.size());
                 }
+                if (grs.size() >= gr.getRank().getPromote()) {
+                    grs = grs.subList(gr.getRank().getDemote()-1, grs.size());
+                }
                 Node[] nodes = new Node[accs.size()];
                 for (int i = 0; i < nodes.length; i++) {
                     FXMLLoader loader = new FXMLLoader();
@@ -623,25 +751,22 @@ public class RankMenuController {
                     vbDemote.getChildren().add(nodes[i]);
                 }
                 if(accs.size()>0){
-                    if (grs.size() >= gr.getRank().getPromote()) {
-                        grs = grs.subList(gr.getRank().getDemote()-1, grs.size());
-                    }
                     long lowest = 0L;
                     long avr = 0L;
-                    double total = 0;
+                    long highest = 0L;
+                    highest = grs.get(0).getTotalScore();
                     lowest = grs.get(grs.size()-1).getTotalScore();
                     for(Group i: grs){
                         avr+=i.getTotalScore();
                     }
                     avr/=grs.size();
-                    total = BigDecimal.valueOf((double)Math.round((double)grs.size()/(double)15.0)*(double)100.0).doubleValue();
                     lbDemoteAvr.setText(avr+"");
                     lbDemoteLowest.setText(lowest+"");
-                    lbDemoteTotal.setText(total+"%");
+                    lbDemoteHighest.setText(highest+"");
                 } else {
                     lbDemoteAvr.setText("---");
                     lbDemoteLowest.setText("---");
-                    lbDemoteTotal.setText("---");
+                    lbDemoteHighest.setText("---");
                 }
             } else {
                 vbDemote.getChildren().clear();
