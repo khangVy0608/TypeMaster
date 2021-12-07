@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="793.0" prefWidth="1493.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.RankSection.LevelClearedController">
+   <children>
+      <Label fx:id="lbTitle" layoutX="16.0" layoutY="28.0" text="Level Cleared" textFill="#215963">
+         <font>
+            <Font name="System Bold Italic" size="38.0" />
+         </font>
+      </Label>
+      <Label layoutX="241.0" layoutY="178.0" text="Result">
+         <font>
+            <Font name="System Bold Italic" size="37.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="87.0" text="Round:">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="135.0" text="Player:">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Line endX="508.0" endY="-1.52587890625E-5" layoutX="214.0" layoutY="178.0" startX="-199.59999084472656" startY="-1.52587890625E-5" />
+      <Label layoutX="28.0" layoutY="365.0" text="WPM">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="279.0" text="WPS">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="232.0" text="Speed" textFill="#3495c9">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView glyphName="BOLT" layoutX="12.0" layoutY="264.0" size="30" text="" wrappingWidth="16.2000732421875">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </FontAwesomeIconView>
+      <Label layoutX="148.0" layoutY="233.0" text="Correctness" textFill="#3495c9">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView glyphName="CHECK" layoutX="117.0" layoutY="262.0" size="30" text="" />
+      <Label layoutX="341.0" layoutY="234.0" text="Time" textFill="#3495c9">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Line endX="9.400009155273438" endY="180.80001831054688" layoutX="101.0" layoutY="248.0" startX="9.400009155273438" startY="-2.399993896484375" />
+      <Line endX="9.4000244140625" endY="175.20001220703125" layoutX="285.0" layoutY="252.0" startX="9.4000244140625" startY="-4.8000030517578125" />
+      <Label layoutX="149.0" layoutY="274.0" text="Correct:">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="152.0" layoutY="317.0" prefHeight="32.0" prefWidth="85.0" text="Wrong:">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="118.0" layoutY="359.0" text="Total:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="463.0" layoutY="282.0" text="Combo:">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="120.0" layoutY="403.0" text="Accuracy:">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="317.0" layoutY="275.0" text="Time Left">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="310.0" layoutY="365.0" text="Time Used">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="480.0" text="Score:">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="538.0" text="Total Score:">
+         <font>
+            <Font name="System Bold Italic" size="38.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbWPS" alignment="CENTER" layoutX="4.0" layoutY="315.0" prefHeight="43.0" prefWidth="108.0" text="0" textFill="#8a9c00">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbWPM" alignment="CENTER" layoutX="26.0" layoutY="397.0" prefHeight="26.0" prefWidth="55.0" text="0" textFill="#8a9c00">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbCombo" alignment="CENTER" layoutX="546.0" layoutY="274.0" prefHeight="43.0" prefWidth="67.0" text="1000" textFill="#e72084">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbCorrect" alignment="CENTER" layoutX="224.0" layoutY="268.0" prefHeight="43.0" prefWidth="67.0" text="1000" textFill="#1ae47c">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbWrong" alignment="CENTER" layoutX="225.0" layoutY="311.0" prefHeight="43.0" prefWidth="66.0" text="0" textFill="#fc2824">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTotal" alignment="CENTER" layoutX="185.0" layoutY="352.0" prefHeight="46.0" prefWidth="107.0" text="0">
+         <font>
+            <Font name="System Bold" size="31.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbAccuracy" alignment="CENTER" layoutX="215.0" layoutY="397.0" prefHeight="43.0" prefWidth="76.0" text="100%">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTimeLeft" alignment="CENTER" layoutX="306.0" layoutY="315.0" prefHeight="26.0" prefWidth="115.0" text="00:00" textFill="#fc2824">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTimeUsed" alignment="CENTER" layoutX="313.0" layoutY="395.0" prefHeight="26.0" prefWidth="95.0" text="00:00">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbCorrectnessScore" alignment="CENTER" layoutX="111.0" layoutY="474.0" prefHeight="50.0" prefWidth="176.0" text="0">
+         <font>
+            <Font name="System Bold" size="34.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTimeScore" alignment="CENTER" layoutX="295.0" layoutY="474.0" prefHeight="50.0" prefWidth="132.0" text="0">
+         <font>
+            <Font name="System Bold" size="34.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTotalScore" alignment="CENTER" layoutX="231.0" layoutY="529.0" prefHeight="74.0" prefWidth="270.0" text="3000000">
+         <font>
+            <Font name="System Bold Italic" size="50.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbLevelName" layoutX="114.0" layoutY="87.0" text="Level name">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbPlayerName" layoutX="107.0" layoutY="135.0" text="Player name">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnMenu" layoutX="1179.0" layoutY="724.0" mnemonicParsing="false" onMouseClicked="#btnMenuClicked" prefHeight="54.0" prefWidth="299.0" styleClass="blue-btn" stylesheets="@../../css/Login_Register.css" text="Menu">
+         <graphic>
+            <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" />
+         </graphic>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Label layoutX="435.0" layoutY="338.0" text="Max Combo:">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbMax" alignment="CENTER" layoutX="558.0" layoutY="330.0" prefHeight="43.0" prefWidth="76.0" text="1000" textFill="#e72084">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <LineChart fx:id="lineChart" layoutX="736.0" layoutY="8.0" prefHeight="705.0" prefWidth="746.0" title="RESULT CHART" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="736.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="8.0">
+        <xAxis>
+          <NumberAxis label="second(s)" prefWidth="603.0" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="value" prefHeight="607.0" prefWidth="56.0" side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <ComboBox fx:id="cbbChartElement" layoutX="766.0" layoutY="738.0" prefHeight="26.0" prefWidth="373.0" styleClass="tf_box" stylesheets="@../../css/Login_Register.css" />
+      <ImageView fitHeight="30.0" fitWidth="33.0" layoutX="303.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/TimeFlow.png" />
+         </image>
+      </ImageView>
+      <FontAwesomeIconView glyphName="CHECK" layoutX="118.0" layoutY="300.0" size="25" text="" />
+      <FontAwesomeIconView glyphName="CLOSE" layoutX="121.0" layoutY="341.0" size="25" />
+      <Line endX="9.4000244140625" endY="173.60000610351562" layoutX="415.0" layoutY="253.0" startX="9.4000244140625" startY="-4.8000030517578125" />
+      <FontAwesomeIconView glyphName="CHAIN" layoutX="435.0" layoutY="262.0" size="30" />
+      <Label layoutX="470.0" layoutY="233.0" text="Combo" textFill="#3495c9">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView glyphName="CHAIN" layoutX="437.0" layoutY="310.0" size="25" />
+      <Label layoutX="435.0" layoutY="399.0" text="xMultiplier:">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbxMulti" alignment="CENTER" layoutX="542.0" layoutY="393.0" prefHeight="43.0" prefWidth="76.0" text="1000" textFill="#d97c02">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbComboScore" alignment="CENTER" layoutX="441.0" layoutY="475.0" prefHeight="50.0" prefWidth="176.0" text="0">
+         <font>
+            <Font name="System Bold" size="34.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="74.0" fitWidth="86.0" layoutX="12.0" layoutY="705.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/ShopItem/coin.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="92.0" layoutY="712.0" text="Coin Earned:">
+         <font>
+            <Font name="System Bold Italic" size="38.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbCoinEarned" alignment="TOP_LEFT" layoutX="322.0" layoutY="705.0" prefHeight="74.0" prefWidth="416.0" text="3000">
+         <font>
+            <Font name="System Bold Italic" size="46.0" />
+         </font>
+      </Label>
+      <Label layoutX="139.0" layoutY="440.0" text="Total+Perks">
+         <font>
+            <Font name="System Italic" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="335.0" layoutY="440.0" text="Total">
+         <font>
+            <Font name="System Italic" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="504.0" layoutY="440.0" text="Total">
+         <font>
+            <Font name="System Italic" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="622.0" text="Exp Earned:">
+         <font>
+            <Font name="System Bold Italic" size="38.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbExp" alignment="TOP_LEFT" layoutX="232.0" layoutY="614.0" prefHeight="74.0" prefWidth="536.0" text="3000">
+         <font>
+            <Font name="System Bold Italic" size="46.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

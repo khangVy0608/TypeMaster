@@ -12,7 +12,12 @@ public class FilePath {
     private static String RETRY_OR_MENU = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\RetryOrMenu.txt";
     private static String CHART_DATA = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\PracticeDatas\\chartData.txt";
     private static String USER_GROUP = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\Group.txt";
-
+    private static String ROUND = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\Round.txt";
+    private static String NOT_TYPED_RANK = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\notTyped.txt";
+    private static String ORIGINAL_RANK = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\origin.txt";
+    private static String TYPED_RANK = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\typed.txt";
+    private static String PLAY_RESULT_RANK = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\PlayResult.txt";
+    private static String CHART_DATA_RANK = "D:\\Learning\\TypeMaster\\src\\main\\java\\org\\SpecikMan\\data\\RankDatas\\chartData.txt";
 
     public static String getChartData() {
         return CHART_DATA;
@@ -56,6 +61,28 @@ public class FilePath {
 
     public static String getUserGroup(){
         return USER_GROUP;
+    }
+
+    public static String getRound(){ return ROUND; }
+
+    public static String getNotTypedRank() {
+        return NOT_TYPED_RANK;
+    }
+
+    public static String getOriginalRank() {
+        return ORIGINAL_RANK;
+    }
+
+    public static String getTypedRank() {
+        return TYPED_RANK;
+    }
+
+    public static String getPlayResultRank() {
+        return PLAY_RESULT_RANK;
+    }
+
+    public static String getChartDataRank() {
+        return CHART_DATA_RANK;
     }
 
     public FilePath() {
