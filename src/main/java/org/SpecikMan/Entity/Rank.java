@@ -40,4 +40,7 @@ public class Rank {
         this.promote = promote;
         this.demote = demote;
     }
+    public Rank(String idRank){
+        this.idRank = idRank;
+    }
 }

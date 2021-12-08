@@ -14,18 +14,14 @@ import javafx.scene.layout.VBox;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.DAL.GroupDao;
 import org.SpecikMan.DAL.RankingLevelDao;
-import org.SpecikMan.Entity.Account;
-import org.SpecikMan.Entity.FilePath;
-import org.SpecikMan.Entity.Group;
-import org.SpecikMan.Entity.RankingLevel;
+import org.SpecikMan.Entity.*;
 import org.SpecikMan.Tools.FileRW;
 import org.SpecikMan.Tools.GenerateID;
 import org.SpecikMan.Tools.LoadForm;
+import org.SpecikMan.Tools.ShowAlert;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -161,12 +157,13 @@ public class RankMenuController {
                 lbPromote.setText("No.1 -> No." + account.getRank().getPromote());
                 lbPromoteReward.setText((account.getRank().getReward() + 500) + "");
             }
-            lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote() - 1));
             lbRetainReward.setText(account.getRank().getReward() + "");
             if (account.getRank().getRankName().equals("Bronze")) {
+                lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote()));
                 lbDemote.setText("No.-- -> No.--");
                 lbDemoteReward.setText("--");
             } else {
+                lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote() - 1));
                 lbDemote.setText("No." + account.getRank().getDemote() + " -> No.15");
                 lbDemoteReward.setText((account.getRank().getReward() - 500) + "");
             }
@@ -243,8 +240,110 @@ public class RankMenuController {
     public void initialize() {
         try {
             AccountDao accountDao = new AccountDao();
+            GroupDao groupDao = new GroupDao();
             Account account = accountDao.get(FileRW.Read(FilePath.getLoginAcc()));
-            //
+            Group gr = null;
+            for (Group i : groupDao.getAll()) {
+                if (i.getIdAccount().equals(account.getIdAccount())) {
+                    gr = i;
+                }
+            }
+            if (gr != null) {
+                if (getCurrentRankingLevel().getIdRankingLevel().equals(gr.getRankingLevel().getIdRankingLevel()) == false) {
+                    List<Group> grsCheck = new ArrayList<>();
+                    for (Group i : groupDao.getAll()) {
+                        if (i.getIdGroup().equals(gr.getIdGroup())) {
+                            grsCheck.add(i);
+                        }
+                    }
+                    ShowAlert.show("Reward", "You earned " + gr.getRank().getReward() + " coins from " + gr.getRank().getRankName() + "rewards");
+                    account.setCoin(account.getCoin() + gr.getRank().getReward());
+                    grsCheck.sort(Comparator.comparingLong(Group::getTotalScore).reversed());
+                    AtomicInteger h = new AtomicInteger(); // any mutable integer wrapper
+                    Group finalGr = gr;
+                    int pos = (grsCheck.stream()
+                            .peek(v -> h.incrementAndGet())
+                            .anyMatch(user -> user.getIdAccount(
+                            ).equals(finalGr.getIdAccount())) ? // your predicate
+                            h.get() - 1 : -1) + 1;
+                    if (pos >= gr.getRank().getDemote()) {
+                        switch (account.getRank().getRankName()) {
+                            case "Bronze": {
+                                break;
+                            }
+                            case "Silver": {
+                                account.setRank(new Rank("RK1"));
+                                break;
+                            }
+                            case "Gold": {
+                                account.setRank(new Rank("RK2"));
+                                break;
+                            }
+                            case "Platinum": {
+                                account.setRank(new Rank("RK3"));
+                                break;
+                            }
+                            case "Diamond": {
+                                account.setRank(new Rank("RK4"));
+                                break;
+                            }
+                            case "God": {
+                                account.setRank(new Rank("RK5"));
+                                break;
+                            }
+                        }
+                    } else if (pos < gr.getRank().getDemote() && pos > gr.getRank().getPromote()) {
+                        switch (account.getRank().getRankName()) {
+                            case "Bronze": {
+                                break;
+                            }
+                            case "Silver": {
+                                break;
+                            }
+                            case "Gold": {
+                                break;
+                            }
+                            case "Platinum": {
+                                break;
+                            }
+                            case "Diamond": {
+                                break;
+                            }
+                            case "God": {
+                                break;
+                            }
+                        }
+                    } else {
+                        switch (account.getRank().getRankName()) {
+                            case "Bronze": {
+                                account.setRank(new Rank("RK2"));
+                                break;
+                            }
+                            case "Silver": {
+                                account.setRank(new Rank("RK3"));
+                                break;
+                            }
+                            case "Gold": {
+                                account.setRank(new Rank("RK4"));
+                                break;
+                            }
+                            case "Platinum": {
+                                account.setRank(new Rank("RK5"));
+                                break;
+                            }
+                            case "Diamond": {
+                                account.setRank(new Rank("RK6"));
+                                break;
+                            }
+                            case "God": {
+                                break;
+                            }
+                        }
+                    }
+                    accountDao.update(account);
+                    groupDao.delete(gr);
+                }
+            }
             lbUsername.setText(account.getUsername() + " - " + "Lv." + account.getAccountLevel());
             lbRankName.setText(account.getRank().getRankName());
             lbRankReward.setText(account.getRank().getReward() + "");
@@ -256,12 +355,13 @@ public class RankMenuController {
                 lbPromote.setText("No.1 -> No." + account.getRank().getPromote());
                 lbPromoteReward.setText((account.getRank().getReward() + 500) + "");
             }
-            lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote() - 1));
             lbRetainReward.setText(account.getRank().getReward() + "");
             if (account.getRank().getRankName().equals("Bronze")) {
+                lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote()));
                 lbDemote.setText("No.-- -> No.--");
                 lbDemoteReward.setText("--");
             } else {
+                lbRetain.setText("No." + (account.getRank().getPromote() + 1) + " -> No." + (account.getRank().getDemote() - 1));
                 lbDemote.setText("No." + account.getRank().getDemote() + " -> No.15");
                 lbDemoteReward.setText((account.getRank().getReward() - 500) + "");
             }
@@ -275,23 +375,23 @@ public class RankMenuController {
             GroupDao grDao = new GroupDao();
             boolean hasGroup = false;
             List<Group> groupRank = grDao.getByRank(account.getRank().getIdRank());
-            for(Group i: groupRank){//Check user has group or not
+            for (Group i : groupRank) {//Check user has group or not
                 String key = i.getIdGroup();
                 Group userGr = null;
-                for(Group j: grDao.getAll()){
-                    if(j.getIdGroup().equals(key) && j.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))){
+                for (Group j : grDao.getAll()) {
+                    if (j.getIdGroup().equals(key) && j.getIdAccount().equals(FileRW.Read(FilePath.getLoginAcc()))) {
                         userGr = j;
                     }
                 }
-                if(userGr!=null){//user already has group
+                if (userGr != null) {//user already has group
                     displayGroup(userGr);
                     FileRW.Write(FilePath.getUserGroup(), key);
                     hasGroup = true;
                     break;
                 }
             }
-            if(hasGroup==false){//user not have group
-                if(groupRank.isEmpty()){
+            if (hasGroup == false) {//user not have group
+                if (groupRank.isEmpty()) {
                     addNewGroup(GenerateID.genGroup());
                 } else {
                     for (Group i : groupRank) {
@@ -350,22 +450,22 @@ public class RankMenuController {
             ShowRetain();
             ShowDemote();
 
-            btnPlay1.setOnMouseClicked(e->{
-                FileRW.Write(FilePath.getRound(),"1");
-                FileRW.Write(FilePath.getOriginalRank(),rl.getLevelContent1()+"_");
-                LoadForm.load("/fxml/RankFXMLs/Play.fxml","Play Rank",true);
+            btnPlay1.setOnMouseClicked(e -> {
+                FileRW.Write(FilePath.getRound(), "1");
+                FileRW.Write(FilePath.getOriginalRank(), rl.getLevelContent1() + "_");
+                LoadForm.load("/fxml/RankFXMLs/Play.fxml", "Play Rank", true);
                 resetStatus();
             });
-            btnPlay2.setOnMouseClicked(e->{
-                FileRW.Write(FilePath.getRound(),"2");
-                FileRW.Write(FilePath.getOriginalRank(),rl.getLevelContent2()+"_");
-                LoadForm.load("/fxml/RankFXMLs/Play.fxml","Play Rank",true);
+            btnPlay2.setOnMouseClicked(e -> {
+                FileRW.Write(FilePath.getRound(), "2");
+                FileRW.Write(FilePath.getOriginalRank(), rl.getLevelContent2() + "_");
+                LoadForm.load("/fxml/RankFXMLs/Play.fxml", "Play Rank", true);
                 resetStatus();
             });
-            btnPlay3.setOnMouseClicked(e->{
-                FileRW.Write(FilePath.getRound(),"3");
-                FileRW.Write(FilePath.getOriginalRank(),rl.getLevelContent3()+"_");
-                LoadForm.load("/fxml/RankFXMLs/Play.fxml","Play Rank",true);
+            btnPlay3.setOnMouseClicked(e -> {
+                FileRW.Write(FilePath.getRound(), "3");
+                FileRW.Write(FilePath.getOriginalRank(), rl.getLevelContent3() + "_");
+                LoadForm.load("/fxml/RankFXMLs/Play.fxml", "Play Rank", true);
                 resetStatus();
             });
         } catch (IOException e) {
@@ -470,17 +570,24 @@ public class RankMenuController {
                     int finalI = i;
                     int pos = (accs.stream()
                             .peek(v -> h.incrementAndGet())
-                            .anyMatch(user -> user.getIdAccount().equals(accs.get(finalI).getIdAccount())) ? // your predicate
+                            .anyMatch(user -> user.getIdAccount(
+                            ).equals(accs.get(finalI).getIdAccount())) ? // your predicate
                             h.get() - 1 : -1) + 1;
                     if (pos >= gr.getRank().getDemote()) {
-                        lbPosition.setText("No." + pos + "/15 - Demote");
                         status = "Demote";
                     } else if (pos < gr.getRank().getDemote() && pos > gr.getRank().getPromote()) {
-                        lbPosition.setText("No." + pos + "/15 - Retain");
                         status = "Retain";
                     } else {
-                        lbPosition.setText("No." + pos + "/15 - Promote");
                         status = "Promote";
+                    }
+                    if (accs.get(pos - 1).getIdAccount().equals(acc.getIdAccount())) {
+                        if (pos >= gr.getRank().getDemote()) {
+                            lbPosition.setText("No." + pos + "/15 - Demote");
+                        } else if (pos < gr.getRank().getDemote() && pos > gr.getRank().getPromote()) {
+                            lbPosition.setText("No." + pos + "/15 - Retain");
+                        } else {
+                            lbPosition.setText("No." + pos + "/15 - Promote");
+                        }
                     }
                     ctrl.transferData(accs.get(i).getIdAccount(), i + 1, grs.get(i).getTotalScore(), status);
                     vbAllPlayers.getChildren().add(nodes[i]);
@@ -662,14 +769,26 @@ public class RankMenuController {
                 for (Group i : grs) {
                     accs.add(accountDao.get(i.getIdAccount()));
                 }
-                if(accs.size()<=gr.getRank().getPromote()){
+                if (accs.size() <= gr.getRank().getPromote()) {
                     accs.clear();
                 }
-                if(accs.size()>gr.getRank().getPromote()){
-                    accs = accs.subList(acc.getRank().getPromote(), acc.getRank().getDemote()-1);
+                if (gr.getRank().getRankName().equals("Bronze")) {
+                    accs = accs.subList(acc.getRank().getPromote(), accs.size());
+                } else if (gr.getRank().getRankName().equals("God")) {
+                    accs = accs.subList(0, acc.getRank().getDemote() - 1);
+                } else if (accs.size() > gr.getRank().getPromote() && accs.size() < gr.getRank().getDemote()) {
+                    accs = accs.subList(acc.getRank().getPromote(), accs.size());
+                } else {
+                    accs = accs.subList(acc.getRank().getPromote(), acc.getRank().getDemote() - 1);
                 }
-                if (grs.size() >= gr.getRank().getPromote()) {
-                    grs = grs.subList(gr.getRank().getPromote(), gr.getRank().getDemote()-1);
+                if (gr.getRank().getRankName().equals("Bronze")) {
+                    grs = grs.subList(gr.getRank().getPromote(), grs.size());
+                } else if (gr.getRank().getRankName().equals("God")) {
+                    grs = grs.subList(0, gr.getRank().getDemote() - 1);
+                } else if (grs.size() > gr.getRank().getPromote() && grs.size() < gr.getRank().getDemote()) {
+                    grs = grs.subList(gr.getRank().getPromote(), grs.size());
+                } else {
+                    grs = grs.subList(gr.getRank().getPromote(), gr.getRank().getDemote() - 1);
                 }
                 Node[] nodes = new Node[accs.size()];
                 for (int i = 0; i < nodes.length; i++) {
@@ -731,13 +850,22 @@ public class RankMenuController {
                 for (Group i : grs) {
                     accs.add(accountDao.get(i.getIdAccount()));
                 }
-                if(gr.getRank().getRankName().equals("Bronze")){
+                if (gr.getRank().getRankName().equals("Bronze")) {
                     accs.clear();
-                }
-                if(accs.size()>=gr.getRank().getDemote()){
+                } else if (gr.getRank().getRankName().equals("God")) {
+                    accs = accs.subList(acc.getRank().getDemote()-1, accs.size());
+                } else if (accs.size()<gr.getRank().getDemote()) {
+                    accs.clear();
+                } else {
                     accs = accs.subList(acc.getRank().getDemote()-1, accs.size());
                 }
-                if (grs.size() >= gr.getRank().getPromote()) {
+                if (gr.getRank().getRankName().equals("Bronze")) {
+                    grs.clear();
+                } else if (gr.getRank().getRankName().equals("God")) {
+                    grs = grs.subList(gr.getRank().getDemote()-1, grs.size());
+                } else if (grs.size() < gr.getRank().getDemote()) {
+                    grs.clear();
+                } else {
                     grs = grs.subList(gr.getRank().getDemote()-1, grs.size());
                 }
                 Node[] nodes = new Node[accs.size()];
