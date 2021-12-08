@@ -157,7 +157,7 @@ public class GroupDao implements Dao<Group> {
     @Override
     public void delete(Group gr) {
         try {
-            crudAPI.delete(url + "/" + gr.getIdGroup());
+            crudAPI.delete(url + "/" + gr.getIdGroup()+"/"+gr.getIdAccount());
         } catch (Exception e) {
             e.printStackTrace();
         }
