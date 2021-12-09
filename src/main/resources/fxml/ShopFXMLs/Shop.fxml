@@ -168,12 +168,7 @@
                   <Font name="System Italic" size="30.0" />
                </font>
             </Label>
-            <Button fx:id="btnTry" layoutX="301.0" layoutY="661.0" mnemonicParsing="false" onMouseClicked="#btnTryClicked" prefHeight="40.0" prefWidth="242.0" style="-fx-background-color: #82deff;" text="Try">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnReset" layoutX="301.0" layoutY="705.0" mnemonicParsing="false" onMouseClicked="#btnResetClicked" prefHeight="75.0" prefWidth="102.0" style="-fx-background-color: #ff8a8a;" text="Reset">
+            <Button fx:id="btnReset" layoutX="301.0" layoutY="672.0" mnemonicParsing="false" onMouseClicked="#btnResetClicked" prefHeight="108.0" prefWidth="102.0" style="-fx-background-color: #ff8a8a;" text="Reset">
                <graphic>
                   <FontAwesomeIconView glyphName="REFRESH" />
                </graphic>
@@ -181,7 +176,7 @@
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button fx:id="btnPurchase" layoutX="406.0" layoutY="705.0" mnemonicParsing="false" onMouseClicked="#btnPurchaseClicked" prefHeight="75.0" prefWidth="138.0" style="-fx-background-color: #9cff75;" text="Purchase">
+            <Button fx:id="btnPurchase" layoutX="406.0" layoutY="671.0" mnemonicParsing="false" onMouseClicked="#btnPurchaseClicked" prefHeight="109.0" prefWidth="138.0" style="-fx-background-color: #9cff75;" text="Purchase">
                <graphic>
                   <FontAwesomeIconView glyphName="CHECK" />
                </graphic>

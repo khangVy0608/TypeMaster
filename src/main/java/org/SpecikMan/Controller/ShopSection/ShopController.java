@@ -179,9 +179,15 @@ public class ShopController {
             lbAmount.setText(Integer.parseInt(lbAmount.getText())-1+"");
             lbMinusCoin.setText((Integer.parseInt(lbMinusCoin.getText().split("-")[0])-Integer.parseInt(lbCostEach.getText()))+"");
             lbCostTotal.setText(lbMinusCoin.getText());
+        } else if(Integer.parseInt(lbAmount.getText())==1){
+            lbAmount.setText(Integer.parseInt(lbAmount.getText())-1+"");
+            lbMinusCoin.setText("0");
+            lbMinusCoin.setVisible(false);
+            lbMinus.setVisible(false);
+            lbCostTotal.setText(lbMinusCoin.getText());
         } else {
             lbAmount.setText("0");
-            lbMinusCoin.setText((Integer.parseInt(lbMinusCoin.getText().split("-")[0])-Integer.parseInt(lbCostEach.getText()))+"");
+            lbMinusCoin.setText("0");
             lbCostTotal.setText(lbMinusCoin.getText());
             lbMinusCoin.setVisible(false);
             lbMinus.setVisible(false);
@@ -201,13 +207,9 @@ public class ShopController {
     }
 
     @FXML
-    void btnTryClicked() {
-    }
-
-    @FXML
     void btnResetClicked() {
         lbAmount.setText("0");
-        lbMinusCoin.setText((Integer.parseInt(lbMinusCoin.getText().split("-")[0])-Integer.parseInt(lbCostEach.getText()))+"");
+        lbMinusCoin.setText("0");
         lbCostTotal.setText(lbMinusCoin.getText());
         lbMinusCoin.setVisible(false);
         lbMinus.setVisible(false);
@@ -232,7 +234,7 @@ public class ShopController {
                 inventory.setIdInventory(GenerateID.genInventory());
                 inventory.setIdAccount(FileRW.Read(FilePath.getLoginAcc()));
                 inventory.setItem(new Shop(idItem));
-                inventory.setCurrentlyHave(1);
+                inventory.setCurrentlyHave(Integer.parseInt(lbAmount.getText()));
                 inventory.setTimeUsed(0);
                 inventoryDao.add(inventory);
             } else {
