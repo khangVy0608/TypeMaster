@@ -76,7 +76,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button contentDisplay="TOP" disable="true" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" text="Inventory" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#btnInventoryClicked" prefHeight="181.0" prefWidth="242.0" text="Inventory" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <graphic>
                   <FontAwesomeIconView fill="#2d75e8" glyphName="EXCHANGE" size="50" />
                </graphic>

@@ -48,5 +48,9 @@ public class HomeController
         LoadFormTransparent.load("/fxml/LoginFXMLs/Login_Register.fxml");
         DisposeForm.Dispose(lbUsername);
     }
+    @FXML
+    void btnInventoryClicked(){
+        LoadForm.load("/fxml/InventoryFXMLs/Inventory.fxml","Inventory",false);
+    }
 
 }
