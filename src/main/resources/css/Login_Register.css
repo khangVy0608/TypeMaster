@@ -32,3 +32,16 @@
     -fx-background-radius: 5px;
     -fx-text-fill: #ffffff;
 }
+.effect{
+    -fx-background-color: linear-gradient(to left,#795AF3 ,#3929E0);
+}
+.hover:hover
+{
+    -fx-background-color :linear-gradient(to top left, #D4CEE3, #41951C);
+    -fx-background-radius :  30 30 30 30;
+}
+.pressed:pressed
+{
+    -fx-background-color :linear-gradient(to top left, #41951C, #D4CEE3);
+    -fx-background-radius :  30 30 30 30;
+}

@@ -27,7 +27,7 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnBack" layoutX="1041.0" layoutY="95.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="163.0" ripplerFill="WHITE" style="-fx-background-color: #473E98;" text="BACK" textFill="WHITE">
+            <JFXButton fx:id="btnBack" layoutX="1041.0" layoutY="95.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#btnBackClicked" prefHeight="30.0" prefWidth="163.0" ripplerFill="WHITE" style="-fx-background-color: #473E98;" text="BACK" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
