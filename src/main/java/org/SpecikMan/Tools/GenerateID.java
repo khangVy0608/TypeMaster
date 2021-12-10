@@ -17,6 +17,7 @@ public class GenerateID {
     private static final DetailLogDao logDao = new DetailLogDao();
     private static final InventoryDao inventoryDao = new InventoryDao();
     private static final GroupDao grDao = new GroupDao();
+    private static final FeedbackDao fbDao = new FeedbackDao();
     public static String genAccount() {
         List<Account> accounts = accountDao.getAll();
         if (accounts.isEmpty()) {
@@ -115,6 +116,17 @@ public class GenerateID {
             grs.forEach(element -> nums.add(Integer.valueOf(element.getIdGroup().replaceAll("[^0-9]", ""))));
             Collections.sort(nums);
             return "GR"+(nums.get(nums.size()-1)+1);
+        }
+    }
+    public static String genFB() {
+        List<Feedback> fbs = fbDao.getAll();
+        if (fbs.isEmpty()) {
+            return "FB1";
+        } else {
+            List<Integer> nums = new ArrayList<>();
+            fbs.forEach(element -> nums.add(Integer.valueOf(element.getIdFeedback().replaceAll("[^0-9]", ""))));
+            Collections.sort(nums);
+            return "FB"+(nums.get(nums.size()-1)+1);
         }
     }
 }

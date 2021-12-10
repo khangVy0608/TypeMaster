@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import org.SpecikMan.DAL.AccountDao;
 import org.SpecikMan.Entity.Account;
 import org.SpecikMan.Entity.FilePath;
+import org.SpecikMan.Tools.DisposeForm;
 import org.SpecikMan.Tools.FileRW;
 
 import java.io.FileInputStream;
@@ -115,5 +116,9 @@ public class HomeUserController {
         Node[] nodes = new Node[1];
         nodes[0] = FXMLLoader.load(getClass().getResource("/fxml/StatisticsFXMLs/StatsOne.fxml"));
         pnl_scroll.getChildren().add(nodes[0]);
+    }
+    @FXML
+    void btnBackClicked(){
+        DisposeForm.Dispose(lbFullname);
     }
 }

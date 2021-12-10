@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -28,28 +29,25 @@
             <BorderPane.margin>
                <Insets />
             </BorderPane.margin>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#onBtnAllClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="All">
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#onBtnAllClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" text="All">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold Italic" size="17.0" />
+               </font>
                <graphic>
                   <FontAwesomeIconView glyphName="GLOBE" size="15" />
                </graphic>
-               <font>
-                  <Font name="System Bold Italic" size="17.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnRecentPlayedClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Recent Played Levels">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnRecentPlayedClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" text="Recent Played Levels">
                <font>
                   <Font name="System Bold Italic" size="17.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="HISTORY" size="17" />
+                  <FontAwesomeIconView glyphName="HISTORY" size="15" />
                </graphic>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
+            </JFXButton>
             <Label text="Modes">
                <font>
                   <Font name="System Italic" size="15.0" />
@@ -58,38 +56,35 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="btnNormal" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Normal">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnInstantDeathClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Instant Death">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnInstantDeath" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnInstantDeathClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Instant Death">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnBlackoutClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Blackout">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnBlackout" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnBlackoutClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Blackout">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnDeathTokenClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Hidden">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnDeathToken" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDeathTokenClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hidden">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
+            </JFXButton>
             <Label text="Levels">
                <font>
                   <Font name="System Italic" size="15.0" />
@@ -98,30 +93,30 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="btnYourLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnYourLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Your Levels">
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnYourLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Your Levels">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnOtherPlayersLevel" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnOtherPlayerLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Other Player Levels">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnOtherPlayerLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Other Player Levels">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnDefaultLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDefaultLevelClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Default Levels">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnDefaultLevelClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Default Levels">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
+            </JFXButton>
             <Label text="Difficulties">
                <font>
                   <Font name="System Italic" size="15.0" />
@@ -130,21 +125,24 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="btnDiffEasy" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDiffEasyClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Easy" textAlignment="CENTER">
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnDiffEasyClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Easy">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
-               <graphic>
-                  <FontAwesomeIconView glyphName="STAR" wrappingWidth="57.79998970031738" />
-               </graphic>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnDiffNormal" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDiffNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Normal">
+               <graphic>
+                  <FontAwesomeIconView glyphName="STAR" wrappingWidth="57.79998970031738" />
+               </graphic>
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnDiffNormalClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Normal">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
                <graphic>
                   <Pane prefHeight="27.0" prefWidth="58.0">
                      <children>
@@ -153,14 +151,14 @@
                      </children>
                   </Pane>
                </graphic>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="btnDiffHard" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnDiffHardClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Hard">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnDiffHardClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" text="Hard">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
                <graphic>
                   <Pane prefHeight="27.0" prefWidth="59.0">
                      <children>
@@ -170,11 +168,19 @@
                      </children>
                   </Pane>
                </graphic>
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnLikeLevelsClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" text="Liked Levels">
+               <font>
+                  <Font name="System Bold Italic" size="17.0" />
+               </font>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnLikeLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Liked Levels">
+               <graphic>
+                  <FontAwesomeIconView glyphName="HEART" size="17" />
+               </graphic>
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnHighestLikedLevelsClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" text="Highest Liked Levels">
                <font>
                   <Font name="System Bold Italic" size="17.0" />
                </font>
@@ -184,29 +190,18 @@
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnHighestLikedLevels" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnHighestLikedLevelsClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Highest Liked Levels">
+            </JFXButton>
+            <JFXButton alignment="TOP_LEFT" onMouseClicked="#btnBackClicked" prefHeight="26.0" prefWidth="238.0" style="-fx-background-color: #c7c7c7;" text="Back">
                <font>
                   <Font name="System Bold Italic" size="17.0" />
                </font>
-               <graphic>
-                  <FontAwesomeIconView glyphName="HEART" size="17" />
-               </graphic>
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="btnBack" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#btnBackClicked" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #c7c7c7;" stylesheets="@../../css/dashboard.css" text="Back">
-               <font>
-                  <Font name="System Bold Italic" size="17.0" />
-               </font>
                <graphic>
                   <FontAwesomeIconView glyphName="ANGLE_DOUBLE_LEFT" size="25" />
                </graphic>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
+            </JFXButton>
          </VBox>
       </left>
       <center>
@@ -221,16 +216,16 @@
                                  <Insets left="5.0" top="5.0" />
                               </HBox.margin>
                            </TextField>
-                           <Button fx:id="btnFind" mnemonicParsing="false" onMouseClicked="#btnFindClicked" style="-fx-background-color: #c7c7c7;" text="Find" textFill="#ff3636">
+                           <JFXButton onMouseClicked="#btnFindClicked" style="-fx-background-color: #c7c7c7;" text="Find" textFill="#ff3636">
                               <HBox.margin>
                                  <Insets left="5.0" top="5.0" />
                               </HBox.margin>
-                           </Button>
-                           <Button fx:id="btnAddLevel" mnemonicParsing="false" onMouseClicked="#btnAddLevelClicked" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #c7c7c7;" text="Add Level" textFill="#ff3636">
+                           </JFXButton>
+                           <JFXButton onMouseClicked="#btnAddLevelClicked" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #c7c7c7;" text="Add Level" textFill="#ff3636">
                               <HBox.margin>
                                  <Insets left="5.0" top="5.0" />
                               </HBox.margin>
-                           </Button>
+                           </JFXButton>
                         </children>
                      </HBox>
                      <BorderPane prefHeight="690.0" prefWidth="298.0">
@@ -261,14 +256,6 @@
          <Button fx:id="btnLike" layoutX="503.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#btnLikeClicked" prefHeight="31.0" prefWidth="82.0" text="Like">
             <graphic>
                <FontAwesomeIconView glyphName="HEART" />
-            </graphic>
-         </Button>
-         <Button fx:id="btnPlay" layoutX="458.0" layoutY="84.0" mnemonicParsing="false" onMouseClicked="#btnPlayClicked" prefHeight="30.0" prefWidth="128.0" style="-fx-background-color: #4498e9;" text="Play">
-            <font>
-               <Font name="System Bold" size="14.0" />
-            </font>
-            <graphic>
-               <FontAwesomeIconView glyphName="PLAY" wrappingWidth="11.0" />
             </graphic>
          </Button>
          <Label layoutX="46.0" layoutY="114.0" text="Details">
@@ -402,6 +389,14 @@
                <Font name="System Bold Italic" size="12.0" />
             </font>
          </Label>
+         <JFXButton layoutX="458.0" layoutY="86.0" onMouseClicked="#btnPlayClicked" prefHeight="30.0" prefWidth="128.0" style="-fx-background-color: #4498e9;" text="Play">
+            <graphic>
+               <FontAwesomeIconView glyphName="PLAY" wrappingWidth="11.0" />
+            </graphic>
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </JFXButton>
       </children>
    </Pane>
 </AnchorPane>

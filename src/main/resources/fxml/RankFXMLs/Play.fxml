@@ -20,7 +20,7 @@
          <children>
             <Pane layoutX="590.0" layoutY="-1.0" prefHeight="82.0" prefWidth="948.0" style="-fx-background-radius: 20 20 0 0;" styleClass="linear-grad" stylesheets="@../../css/play.css">
                <children>
-                  <Label fx:id="lbUsername" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="681.0" layoutY="12.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="178.0" text="khangkhangkhang" textAlignment="CENTER">
+                  <Label fx:id="lbUsername" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="681.0" layoutY="12.0" prefHeight="30.0" prefWidth="178.0" text="khangkhangkhang" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

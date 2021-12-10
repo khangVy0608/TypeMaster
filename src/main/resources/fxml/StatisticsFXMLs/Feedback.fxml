@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="599.0" prefWidth="749.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.StatisticsSection.FeedbackController">
+<AnchorPane id="AnchorPane" prefHeight="599.0" prefWidth="749.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.SpecikMan.Controller.StatisticsSection.FeedbackController">
    <children>
       <Pane layoutX="4.0" prefHeight="593.0" prefWidth="837.0" style="-fx-background-color: #fff;">
          <children>
@@ -28,31 +27,13 @@
                </font>
             </Label>
             <Separator layoutX="708.0" layoutY="19.0" orientation="VERTICAL" prefHeight="64.0" prefWidth="0.0" />
-            <Label layoutX="125.0" layoutY="133.0" text="Họ và Tên " textFill="#3175cd">
+            <Label layoutX="35.0" layoutY="104.0" text="Detail:" textFill="#3175cd">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="125.0" layoutY="186.0" text="Email" textFill="#3175cd">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="125.0" layoutY="242.0" text="Chủ Đề" textFill="#3175cd">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="125.0" layoutY="312.0" text="Nội Dung" textFill="#3175cd">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txthovaten" disable="true" layoutX="256.0" layoutY="132.0" prefHeight="29.0" prefWidth="441.0" />
-            <TextField fx:id="txtemail" disable="true" layoutX="256.0" layoutY="185.0" prefHeight="29.0" prefWidth="441.0" />
-            <TextField fx:id="txtchude" layoutX="256.0" layoutY="241.0" prefHeight="29.0" prefWidth="441.0" />
-            <TextArea fx:id="txtnoidung" layoutX="256.0" layoutY="312.0" prefHeight="148.0" prefWidth="441.0" />
-            <Button fx:id="btngui" layoutX="337.0" layoutY="497.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Gửi" textFill="#242425">
+            <TextArea fx:id="taDetail" layoutX="35.0" layoutY="141.0" prefHeight="346.0" prefWidth="763.0" />
+            <Button layoutX="337.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#btnSendClicked" prefHeight="44.0" prefWidth="172.0" text="Send" textFill="#242425">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
